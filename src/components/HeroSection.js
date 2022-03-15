@@ -42,7 +42,7 @@ function HeroSection({
                   {description}
                 </p>
                 <Link to='/'>
-                  <Button buttonSize='btn--wide' buttonColor='blue'>
+                  <Button buttonSize='btn--wide' buttonColor='primary'>
                     {buttonLabel}
                   </Button>
                 </Link>
@@ -50,7 +50,10 @@ function HeroSection({
             </div>
             <div className='col'>
               <div className='home__hero-img-wrapper'>
-                <img src={img} alt={alt} className='home__hero-img' />
+                <div className="home__hero-tooltip">
+                  <img src={img} alt={alt} className='home__hero-img'/>
+                  <span className='home__hero-tooltiptext'>Background vector created by freepik - www.freepik.com</span>
+                </div>
               </div>
             </div>
           </div>

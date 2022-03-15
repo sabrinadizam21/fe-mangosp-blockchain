@@ -1,5 +1,5 @@
 .home__hero-section {
-    color: #fff;
+    color: #1A1305;
     padding: 30px 0;
   }
   
@@ -46,15 +46,15 @@
     font-size: 48px;
     line-height: 1.1;
     font-weight: 600;
-    color: #f7f8fa;
+    color: #1A1305;
   }
   
   .dark {
-    color: #1c2237;
+    color: #FFBF34;
   }
   
   .darkBg {
-    background-color: #1c2237;
+    background-color: #FFBF34;
   }
   
   .home__hero-subtitle {
@@ -81,6 +81,30 @@
     max-width: 100%;
     vertical-align: middle;
     display: inline-block;
+  }
+
+  .home__hero-tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .home__hero-tooltip .home__hero-tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #C3C3C3;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 7pt;
+  
+    /* Position the tooltip */
+    position: sticky;
+    z-index: 1;
+  }
+  
+  .home__hero-tooltip:hover .home__hero-tooltiptext {
+    visibility: visible;
   }
   
   @media screen and (max-width: 991px) {

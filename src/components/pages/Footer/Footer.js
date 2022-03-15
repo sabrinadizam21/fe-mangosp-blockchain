@@ -19,7 +19,7 @@ function Footer() {
           <div className='social-icons'>
             <Link
               className='social-icon-link'
-              to=''
+              to='/'
               target='_blank'
               aria-label='Kementan'
             >
@@ -28,7 +28,7 @@ function Footer() {
             </Link>
             <Link
               className='social-icon-link'
-              href='/'
+              to='/'
               target='_blank'
               aria-label='IPB'
             >

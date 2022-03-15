@@ -7,7 +7,7 @@
   }
   
   .feature__container-card {
-    background: linear-gradient(45deg, #0660e9 0%, #276afb 100%);
+    background: linear-gradient(45deg, #D9AC4B 0%, #E6B243 100%);
     box-shadow: 0 6px 20px rgba(56, 125, 255, 0.2);
     width: 280px;
     height: 280px;
@@ -16,7 +16,7 @@
   }
   
   .feature__container-card:nth-child(2) {
-    background: #242424;
+    background: #1A1305;
   }
   
   .feature__container-card:hover {
@@ -43,7 +43,7 @@
   }
   
   .feature__heading {
-    color: #1c2237;
+    color: #1A1305;
     margin-bottom: 24px;
   }
   
@@ -89,7 +89,7 @@
     margin: 24px 0;
   }
   
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 960px) {
     .feature__container {
       display: flex;
       flex-direction: column;
@@ -117,5 +117,9 @@
   
     .feature__container-card:hover {
       transform: none;
+    }
+
+    .feature__heading {
+      text-align: center;
     }
   }
