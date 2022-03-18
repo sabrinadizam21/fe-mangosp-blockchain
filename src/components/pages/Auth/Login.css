@@ -1,0 +1,112 @@
+.login__wrapper{
+    justify-content: center; 
+    flex-direction: column;
+    display: flex; 
+    align-items: center; 
+    width: 100%;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+.login__section{
+    width: 380px;
+    min-height: 90vh;
+    background-color: white;
+    padding: 30px 33px;
+}
+
+.login__title{
+    display: block;
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: inherit;
+}
+
+.login__label-form{
+    padding-top: 10px;
+}
+
+.login-radio{
+    padding-bottom: 10px;
+}
+
+input[type=email], input[type=password] {
+    width: 310px;
+    height: 32px;
+    background-color: transparent;
+    border-color: #1A1305;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 20px 10px;
+
+}
+
+input[type=submit]{
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #1A1305;
+  color: #fff;
+  border: solid 1px #1A1305;
+  margin-top: 10px;  
+}
+
+input[type=submit]:hover{
+  background-color: #fff;
+  color: #1A1305;
+  border: solid 1px #1A1305;
+}
+
+.login__radio-role {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+.login__radio-role input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+  
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+  
+.login__radio-role:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+  
+.login__radio-role input:checked ~ .checkmark {
+  background-color: #1A1305;
+}
+  
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+  
+.login__radio-role input:checked ~ .checkmark:after {
+  display: block;
+}
+  
+.login__radio-role .checkmark:after {
+  top: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
