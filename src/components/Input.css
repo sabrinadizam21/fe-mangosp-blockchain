@@ -1,0 +1,18 @@
+:root {
+    --primary: #1A1305;
+}
+
+.input {
+    background: transparent;
+    border: 1px solid var(--primary);
+    box-sizing: border-box;
+    border-radius: 3px;
+    width: 310px !important;
+    height: 32px !important;
+    margin-bottom: 10px;
+    padding: 20px 10px !important;
+}
+
+.label-form{
+    padding-top: 10px;
+}

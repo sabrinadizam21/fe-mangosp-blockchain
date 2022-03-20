@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie';
 import './Login.css'
+import { UserContext } from '../../context/UserContext'
+import { Input } from '../../components/Input';
 
 function Login() {
 
-  const [ loginStatus, setLoginStatus] = useState(false)
-  let history = useHistory()
+  const {loginStatus, setLoginStatus, userLists} = useContext(UserContext)
 
-  const userLists= [
-    {email :'penangkar@mail.com', password : 'password', role : 1, username : 'penangkar', name : 'pak penangkar'},
-    {email :'petani@mail.com', password : 'password', role : 2, username : 'petani', name : 'pak petani'},
-    {email :'pengumpul@mail.com', password : 'password', role : 3, username : 'pengumpul', name : 'pak pengumpul'},
-    {email :'pedagang@mail.com', password : 'password', role : 4, username : 'pedagang', name : 'pak pedagang'}
-  ]
+  let history = useHistory()
 
   const [input, setInput] = useState({
     email :'', 
@@ -44,30 +40,14 @@ function Login() {
   return (
     <>
         <div className="login__wrapper">
-          <div className="login__section">
-            
-            <span className="login__title">Login</span>
-            
+          <div className="login__section">            
+            <span className="login__title">Login</span>            
             <form onSubmit={handleSubmit}> 
-              <div className="login__email">
-                <div className="login__label-form">
-                  <label htmlFor="">Email atau username<span style={{color: 'red'}}>*</span></label>
-                </div>
-                
-                <div className="login__input-email">
-                  <input type="email" name="email" id="email" placeholder='Email atau username' value={input.email} onChange={handleChange}  required/>
-                </div>
-              </div>
+              <Input className='email' type="email" name="email" id="email" placeholder='Email' 
+              value={input.email} onChange={handleChange} label='Email'/>
 
-              <div className="login__password">
-                <div className="login__label-form">
-                  <label htmlFor="">Password<span style={{color: 'red'}}>*</span></label>
-                </div>
-                
-                <div className="login__input">
-                  <input type="password" name="password" id="password" placeholder='Password' value={input.password} onChange={handleChange}  required/>
-                </div>
-              </div>
+              <Input className='password' type="password" name="password" id="password" placeholder='Password' 
+              value={input.password} onChange={handleChange} label='Password '/>
 
               <input type="submit" className="btn-link" />
             </form>
