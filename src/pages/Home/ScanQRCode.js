@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { IconContext } from 'react-icons'
 import { Link } from 'react-router-dom'
-import { Button } from '../../Button'
+import { Button } from '../../components/Button'
 import './ScanQRCode.css'
-import '../../Button.css'
+import '../../components/Button.css'
 import { QrReader } from 'react-qr-reader';
 
 function ScanQRCode() {

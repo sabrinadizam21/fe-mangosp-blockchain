@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { MdFingerprint } from 'react-icons/md'
-import { Button } from './Button.js'
+import { Button } from '../../components/Button'
 import './Navbar.css'
 
 function Navbar() {
