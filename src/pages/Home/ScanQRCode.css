@@ -33,7 +33,7 @@
     margin: 20px;
 }
 
-input[type=text] {
+.qrcode__input {
     width: 550px;
     height: 32px;
     background-color: transparent;
@@ -43,14 +43,10 @@ input[type=text] {
     padding: 20px 10px;
 }
 
-input[type=button]{
+input[type=submit]{
     padding: 8px 20px;
     font-size: 14px;
     margin: 10px;
-}
-
-.qrcode__button {
-    display: block;
 }
 
 @media screen and (max-width: 960px) {
@@ -78,13 +74,13 @@ input[type=button]{
         height: 300px;
     }
 
-    input[type=text]{
+    .qrcode__input{
         width: 275px;
     }
 }
 
 @media screen and (max-width: 1049px) {
-    input[type=text]{
+    .qrcode__input{
         width: 275px;
     }
 }

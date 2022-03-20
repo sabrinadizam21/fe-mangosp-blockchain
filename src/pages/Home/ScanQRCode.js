@@ -26,7 +26,6 @@ function ScanQRCode() {
 
   return (
     <>
-        <IconContext.Provider value={{ color: '#fff', size: 64 }}>
         <div className='qrcode__section'>
           <div className='qrcode__wrapper'>
             <h1 className='qrcode__heading'>Scan QR Code</h1>
@@ -41,14 +40,13 @@ function ScanQRCode() {
               </div>
               <form action="">
                 <p style={{marginLeft : '10px', fontSize:'10pt'}}>ID Transaksi muncul, tekan tombol Lihat Transaksi</p> <br/>
-                <input type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
+                <input className='qrcode__input' type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
                 <br />
-                <input type="button" className='btn primary' value={'Lihat Transaksi'}/>
+                <input type="submit" className='btn primary' value={'Lihat Transaksi'}/>
               </form>       
             </div>
           </div>
         </div>
-        </IconContext.Provider>
     </>
   )
 }
