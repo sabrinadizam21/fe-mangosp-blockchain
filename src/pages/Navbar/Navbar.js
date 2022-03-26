@@ -46,6 +46,15 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <Link to='/Profil' className="nav-links" onClick={closeMobileMenu}>Profil</Link>
+              </li> 
+              <li className="nav-btn">
+                {button ? (
+                  <Link to='/logout' className="btn-link">
+                    <Button buttonStyle='btn--outline'>LOG OUT</Button>
+                  </Link>
+                ) : <Link to='/logout' className='btn-link' onClick={closeMobileMenu}>
+                  <Button buttonStyle='btn--outline' buttonSize='btn--mobile'>LOG OUT</Button>
+                </Link> }                
               </li> */}
               <li className="nav-btn">
                 {button ? (

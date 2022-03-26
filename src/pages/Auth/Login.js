@@ -49,7 +49,7 @@ function Login() {
               <Input className='password' type="password" name="password" id="password" placeholder='Password' 
               value={input.password} onChange={handleChange} label='Password '/>
 
-              <input type="submit" className="btn-link" />
+              <input type="submit" value='LOG IN' className="btn-link" />
             </form>
             <Link to='/registrasi' className="btn-link">
               <p>Belum punya akun? Registrasi</p>

@@ -1,0 +1,95 @@
+.register__wrapper{
+    justify-content: center; 
+    flex-direction: column;
+    display: flex; 
+    align-items: center; 
+    width: 100%;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+.register__section{
+    width: 380px;
+    min-height: 90vh;
+    background-color: white;
+    padding: 30px 33px;
+}
+
+.register__title{
+    display: block;
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: inherit;
+}
+
+input[type=submit]{
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #1A1305;
+  color: #fff;
+  border: solid 1px #1A1305;
+  margin: 0 0 10px 0 !important;
+  cursor: pointer;  
+}
+
+input[type=submit]:hover{
+  background-color: #fff;
+  color: #1A1305;
+  border: solid 1px #1A1305;
+}
+
+
+.register__radio-role {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+    
+  .register__radio-role input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+    
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+    
+  .register__radio-role:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+    
+  .register__radio-role input:checked ~ .checkmark {
+    background-color: #1A1305;
+  }
+    
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+    
+  .register__radio-role input:checked ~ .checkmark:after {
+    display: block;
+  }
+    
+  .register__radio-role .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
