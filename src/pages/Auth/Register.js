@@ -16,7 +16,8 @@ function Register() {
     nik : '',
     email : '',
     username : '',
-    password : ''
+    password : '',
+    role: 0
   })
   const [currentIndex, setCurrentIndex] = useState(-1)
   let history = useHistory()
@@ -30,7 +31,17 @@ function Register() {
     e.preventDefault()
     let newData = userLists
     if(currentIndex === -1){
-      newData = [...userLists, inputData]
+      setUserLists([...userLists, {
+        nama : inputData.nama,
+        alamat : inputData.alamat,
+        nomorTelp : parseInt(inputData.nomorTelp),
+        tglLahir : inputData.tglLahir,
+        nik : parseInt(inputData.nik),
+        email : inputData.email,
+        username : inputData.username,
+        password : inputData.password,
+        role : parseInt(inputData.role)
+      }])
       history.push('/login')
       console.log(newData)
     }
@@ -52,22 +63,22 @@ function Register() {
 
               <div className="register-radio">
                 <label className="register__radio-role"> Penangkar
-                  <input type="radio" name="role" id="penangkar" value={1} required/>
+                  <input type="radio" name="role" id="penangkar" value={1} onChange={handleChange} required/>
                   <span className="checkmark"></span>
                 </label>
 
                 <label className="register__radio-role">Petani
-                  <input type="radio" name="role" value={2} id="petani"/>
+                  <input type="radio" name="role" value={2} onChange={handleChange} id="petani"/>
                   <span className="checkmark"></span>
                 </label>
 
                 <label className="register__radio-role">Pengumpul
-                  <input type="radio" name="role" value={3} id="pengumpul"/>
+                  <input type="radio" name="role" value={3} onChange={handleChange} id="pengumpul"/>
                   <span className="checkmark"></span>
                 </label>
 
                 <label className="register__radio-role">Pedagang
-                  <input type="radio" name="role" value={4} id="pedagang"/>
+                  <input type="radio" name="role" value={4} onChange={handleChange} id="pedagang"/>
                   <span className="checkmark"></span>
                 </label>
               </div>
@@ -79,7 +90,7 @@ function Register() {
               value={inputData.alamat} onChange={handleChange} label='Alamat'/>
               
               <Input className='number' type="number" name="nomorTelp" id="nomorTelp" placeholder='Nomor Telepon' 
-              value={inputData.nomorTelp} onChange={handleChange} label='Nomor Telepon'/>
+              value={inputData.nomorTelp} onChange={handleChange} label='Nomor Telepon' minLength={10}/>
 
               <Input className='date' type="date" name="tglLahir" id="tglLahir" placeholder='Tanggal Lahir' 
               value={inputData.tglLahir} onChange={handleChange} label='Tanggal Lahir'/>
@@ -94,7 +105,7 @@ function Register() {
               value={inputData.username} onChange={handleChange} label='Username'/>
 
               <Input className='password' type="password" name="password" id="password" placeholder='Password' 
-              value={inputData.password} onChange={handleChange} label='Password '/>
+              value={inputData.password} onChange={handleChange} label='Password' minLength={6}/>
 
               <input type="submit" value={'REGISTER'} className="btn-link" />
 
