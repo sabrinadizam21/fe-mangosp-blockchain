@@ -11,7 +11,9 @@ export const Input = ({
     value,
     onChange,
     label,
-    htmlFor
+    htmlFor,
+    maxLength,
+    minLength,
 }) => {
     const checkInputType = TYPES.includes(type) ? type : TYPES[0]
     return(
@@ -20,7 +22,7 @@ export const Input = ({
             <label htmlFor={htmlFor}>{label}<span style={{color: 'red'}}>*</span></label>
         </div>
         <input className={`input ${checkInputType}`} type={type} name={name} id={id} 
-        placeholder={placeholder} value={value} onChange={onChange} required />
+        placeholder={placeholder} value={value} onChange={onChange} maxLength={maxLength} minLength={minLength} required />
         </>
     )
 }
