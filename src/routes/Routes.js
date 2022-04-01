@@ -5,6 +5,7 @@ import Login from '../pages/Auth/Login'
 import Register from '../pages/Auth/Register'
 import Footer from '../pages/Footer/Footer'
 import Home from '../pages/Home/Home'
+import Aset from '../pages/Aset/Aset'
 
 function Routes() {
   return (
@@ -14,6 +15,7 @@ function Routes() {
             <Route path='/' exact component={Home} />
             <Route path='/register' exact component={Register} />            
             <Route path='/login' exact component={Login} />
+            <Route path='/aset' exact component={Aset} />
         </Switch>
         <Footer />
     </Router>

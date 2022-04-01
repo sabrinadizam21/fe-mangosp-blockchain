@@ -1,0 +1,131 @@
+.aset__wrapper{
+    justify-content: center; 
+    flex-direction: column;
+    display: flex; 
+    align-items: center; 
+    width: 100%;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+.aset__section{
+    max-width: 480px;
+    width: 100%;
+    min-height: 90vh;
+    background-color: white;
+    padding: 30px 33px;
+}
+
+.aset__title h4{
+    display: block;
+    font-size: 36px;
+    font-weight: normal;
+    width: fit-content;
+}
+
+.aset__subtitle{
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.aset__btn-tambahBenih {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.aset__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.aset__content{
+    margin: 20px 0;
+}
+
+.card {
+    height: 210px;
+    max-width: 420px;
+    width: 100%;
+    justify-items: center;
+    box-shadow: rgb(152 152 152 / 20%) 0px 2px 8px 1px;;
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.card__header{
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.card__header b{
+    font-size: 17px;
+    font-weight: bolder;
+}
+
+.card__icon{    
+    display: flex;
+    align-items: center;
+    border: 1px solid #DBDBDB;
+    border-radius: 50px;
+    width: 45px;
+    height: 45px;
+    justify-content: flex-start;
+}
+
+.card__logo{
+    color: #1A1305;
+    font-size: 25px;
+    width: 45px;
+    align-items: center;
+}
+
+.card__timestamp{
+    font-weight: 400;
+    font-size: 12px;
+    font-style: italic;
+    color: #a6a6a6;
+}
+
+.quantity-value{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.card__body span{
+    font-weight: 400;
+    font-size: 14px;
+    color: #9A9A9A;
+}
+
+.quantity-value p{
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.seed-age p, .harvest-age p{
+    font-size: 14px !important;
+    font-weight: 400;
+}
+
+.seed-age, .harvest-age{
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 5px;
+}
+
+.card__bottom {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.aset-link {
+    text-decoration: none;
+    font-size: 14px;
+}
