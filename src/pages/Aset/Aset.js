@@ -16,8 +16,8 @@ function Aset() {
                   <div className="aset__subtitle">Aset yang Anda miliki</div>
                 </div>
                 <div className="aset__btn-tambahBenih">
-                  <Link to='/tambahaset'>
-                    <Button buttonColor='primary'>TAMBAH BENIH</Button>
+                  <Link to='/aset/daftaraset'>
+                    <Button buttonColor='primary'>DAFTAR ASET</Button>
                   </Link>
                 </div>
               </div>
