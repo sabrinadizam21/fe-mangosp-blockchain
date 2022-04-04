@@ -1,10 +1,13 @@
-import React from 'react'
+import React , { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { FaSeedling } from 'react-icons/fa'
 import './Aset.css'
+import Modal from '../../components/Modal'
+import { Input } from '../../components/Input'
 
 function Aset() {
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
         <div className="aset__wrapper">
@@ -52,7 +55,28 @@ function Aset() {
                     </div>
                   </div>
                   <div className="card__bottom">
-                    <Link className='aset-link' to='/tambahkuantitas'>TAMBAH KUANTITAS</Link>
+                      <Button className="openModalBtn"
+                        onClick={() => {
+                          setModalOpen(true);
+                        }}
+                      > 
+                      TAMBAH KUANTITAS
+                      </Button>
+                    {modalOpen && 
+                      <Modal setOpenModal={setModalOpen} 
+                        modalTitle={'Tambah Kuantitas'}  
+                        modalBody={
+                          <>
+                            <p>Kuantitas Benih A saat ini : 1.000 Kg</p>
+                            <br />
+                            <Input className='number' label={'Kuantitas Benih Baru'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
+                              placeholder='Kuantitas Benih Baru' required />
+                          </>
+                        } 
+                        cancelBtn ={'BATAL'}
+                        processBtn={'SIMPAN'}
+                        typePrcsBtn={'SUBMIT'}
+                      />}
                   </div>
                 </div> 
               </div>
