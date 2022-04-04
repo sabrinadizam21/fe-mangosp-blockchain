@@ -11,6 +11,7 @@ function DaftarAset() {
   const { aset, setAset } = useContext(AsetContext)
   const [input, setInput] = useState({
     varietas :'', 
+    kuantitasBenih : '',
     umurBenih : '', 
     umurPanen : '', 
     hargaPanen : ''
@@ -29,16 +30,17 @@ function DaftarAset() {
     if(currentIndex === -1){
       setAset([...aset, {
         varietas : input.varietas,
+        kuantitasBenih : parseInt(input.kuantitasBenih),
         umurBenih : parseInt(input.umurBenih),
         umurPanen : parseInt(input.umurPanen),
         hargaPanen : parseInt(input.hargaPanen)
       }])
       //history.push('/aset')
-      console.log(newData)
     }
     else {
         newData[currentIndex] = input
     }
+    console.log(newData)
   }
   return (
     <>
@@ -53,16 +55,19 @@ function DaftarAset() {
               </div>
               <div className="aset__content">
                 <form onSubmit={handleSubmit}>
-                    <Input className='text' label={'Varietas'} type='text' name='varietas' id='varietas' 
+                    <Input label={'Varietas'} type='text' name='varietas' id='varietas' 
                         placeholder='Varietas' value={input.varietas} onChange={handleChange} required />
+
+                    <Input label={'kuantitasBenih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
+                        placeholder='Kuantitas Benih' value={input.kuantitasBenih} onChange={handleChange} required />
                     
-                    <Input className='number' label={'Umur Benih'} type='text' name='umurBenih' id='umurBenih' 
+                    <Input label={'Umur Benih'} type='number' name='umurBenih' id='umurBenih' 
                         placeholder='Umur Benih' value={input.umurBenih} onChange={handleChange} required />
                     
-                    <Input className='number' label={'Umur Panen'} type='text' name='umurPanen' id='umurPanen' 
+                    <Input label={'Umur Panen'} type='number' name='umurPanen' id='umurPanen' 
                         placeholder='Umur Panen' value={input.umurPanen} onChange={handleChange} required />
                     
-                    <Input className='number' label={'Harga Panen'} type='text' name='hargaPanen' id='hargaPanen' 
+                    <Input  label={'Harga Panen'} type='number' name='hargaPanen' id='hargaPanen' 
                         placeholder='Harga Panen' value={input.hargaPanen} onChange={handleChange} required />
                     
                     <div className='aset__button'>
