@@ -47,18 +47,18 @@
 }
 
 .card {
-    height: 210px;
     max-width: 420px;
     width: 100%;
     justify-items: center;
     box-shadow: rgb(152 152 152 / 20%) 0px 2px 8px 1px;;
     background-color: white;
     border-radius: 5px;
-    padding: 15px;
+    padding: 10px 15px 10px 15px;
+    margin-bottom: 20px;
 }
 
 .card__header{
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
 }
@@ -121,7 +121,8 @@
 }
 
 .card__bottom {
-    margin-top: 15px;
+    border-top: 1px solid #DBDBDB;
+    padding-top: 5px;
     text-align: center;
 }
 
