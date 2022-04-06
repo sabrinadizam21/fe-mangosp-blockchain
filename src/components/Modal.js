@@ -8,7 +8,8 @@ function Modal({
   modalBody,
   cancelBtn,
   processBtn,
-  typePrcsBtn
+  //typePrcsBtn,
+  form
  }) {
   return (
     <div className="modal__background">
@@ -37,7 +38,7 @@ function Modal({
           >
             {cancelBtn}
           </button>
-          <button type={typePrcsBtn} >{processBtn}</button>
+          <button type='submit' form={form}>{processBtn}</button>
         </div>
       </div>
     </div>

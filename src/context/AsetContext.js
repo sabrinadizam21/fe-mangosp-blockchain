@@ -8,11 +8,15 @@ export const AsetProvider = props => {
         {id : 3, createDate: '24 Februari 2022 - 09:00 WIB', varietas :'Benih K', kuantitasBenih : 540, umurBenih : 18, umurPanen : 4, hargaPanen : 104000}
     ])
 
-    //const [ loginStatus, setLoginStatus] = useState(false)
+    
+    function numberFormat(number){
+        return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+    }
     return(
        <AsetContext.Provider value={{ 
            aset,
            setAset,
+           numberFormat
         }}>
         {props.children}
        </AsetContext.Provider>

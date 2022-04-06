@@ -9,7 +9,7 @@ import { AsetContext } from '../../context/AsetContext'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset } = useContext(AsetContext)
+  const { aset, numberFormat } = useContext(AsetContext)
   const [inputData, setInputData] = useState("")
   const [currentIndex, setCurrentIndex] = useState(-1)
 
@@ -21,17 +21,25 @@ function Aset() {
   const handleSubmit = (e) => {
     e.preventDefault()
     let newData = aset
-        if(currentIndex === -1){
-            newData = [...aset, inputData]
-        }
-        else {
-            newData[currentIndex] = inputData
-        }
+      if(currentIndex === -1){
+        newData = [...aset, {
+          kuantitasBenih : parseInt(inputData)
+        }]
+      }
+      else {
+        if(inputData <= newData[currentIndex].kuantitasBenih) alert("Input tidak boleh lebih kecil dari kuantitas sekarang")
+        else newData[currentIndex].kuantitasBenih = inputData
+      }
+      console.log(newData)
+      setModalOpen(false)
   }
 
-  function numberFormat(number){
-    return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+  const handleEdit = (event) => {
+    let id = parseInt(event.target.value)
+    setInputData(aset[id].kuantitasBenih)
+    setCurrentIndex(id)
   }
+
 
   return (
     <>
@@ -50,7 +58,7 @@ function Aset() {
                 </div>
               </div>
               <div className="aset__content">
-                {aset.map((data, index)=>{
+                {aset.map((data)=>{
                   return (
                     <div className="card" key={data.id}>
                       <div className="card__header">
@@ -84,9 +92,11 @@ function Aset() {
                       </div>
                       <div className="card__bottom">
                           <Button className="openModalBtn" buttonSize={'btn--primary'}
-                            onClick={() => {
+                            onClick={(e) => {
                               setModalOpen(true);
+                              handleEdit(e)
                             }}
+                            value={data.id}
                           > 
                           TAMBAH KUANTITAS
                           </Button>
@@ -95,18 +105,17 @@ function Aset() {
                             modalTitle={'Tambah Kuantitas'}  
                             modalBody={
                               <>
-                                <p>Kuantitas Benih A saat ini : {data.kuantitasBenih} Kg</p>
-                                <br />
-                                <form onSubmit={handleSubmit}>
-                                  <Input className='number' label={'Kuantitas Benih Baru'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
-                                  placeholder='Kuantitas Benih Baru' value={inputData} onChange={handleChange} required />
+                                <form id='editKuantitas' onSubmit={handleSubmit}>
+                                  <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
+                                  placeholder='Tambah Kuantitas Benih' value={inputData} onChange={handleChange} required />
                                 </form>
                               </>
                             } 
                             cancelBtn ={'BATAL'}
                             processBtn={'SIMPAN'}
-                            typePrcsBtn={'SUBMIT'}
-                          />}
+                            form='editKuantitas'
+                          />
+                          }
                       </div>
                     </div>
                   )
