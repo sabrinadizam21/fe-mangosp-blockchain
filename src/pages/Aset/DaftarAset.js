@@ -45,16 +45,16 @@ function DaftarAset() {
   }
   return (
     <>
-        <div className="aset__wrapper">
-            <div className="aset__section">
+        <div className="wrapper">
+            <div className="section">
               <div className="aset__header">
                 {/* Header */}
                 <div>
-                  <div className="aset__title"><h4>Daftar Aset</h4></div>
-                  <div className="aset__subtitle">Isi formulir berikut untuk menambah aset</div>
+                  <div className="title">Daftar Aset</div>
+                  <div className="subtitle">Isi formulir berikut untuk menambah aset</div>
                 </div>
               </div>
-              <div className="aset__content">
+              <div className="content">
                 <form id='daftar-aset-baru' onSubmit={handleSubmit}>
                     <Input label={'Varietas'} type='text' name='varietas' id='varietas' 
                         placeholder='Varietas' value={input.varietas} onChange={handleChange} required />

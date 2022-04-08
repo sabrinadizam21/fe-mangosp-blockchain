@@ -15,27 +15,21 @@ function Feature() {
           <div className='feature__container'>
             <Link to='/channel' className='feature__container-card'>
               <div className='feature__container-cardInfo'>
-                <div className='icon'>
-                  <FaFire />
-                </div>
+                <FaFire className='icon'/>
                 <h3>Channel</h3>
                 <p>asfsafsadf</p>
               </div>
             </Link>
             <Link to='/aset' className='feature__container-card'>
               <div className='feature__container-cardInfo'>
-                <div className='icon'>
-                  <BsXDiamondFill />
-                </div>
+                  <BsXDiamondFill className='icon'/>
                 <h3>Aset</h3>
                 <p>asfsafsadf</p>
               </div>
             </Link>
             <Link to='/transaksi' className='feature__container-card'>
               <div className='feature__container-cardInfo'>
-                <div className='icon'>
-                  <GiCrystalize />
-                </div>
+                  <GiCrystalize className='icon'/>
                 <h3>Transaksi</h3>
                 <p>asfsafsadf</p>
               </div>

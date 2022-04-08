@@ -1,16 +1,19 @@
 .feature__section {
-    padding: 100px 0 160px;
+    padding: 80px 0 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #fafafa;
+    background: white;    
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
   }
   
   .feature__container-card {
     background: linear-gradient(45deg, #D9AC4B 0%, #E6B243 100%);
     box-shadow: 0 6px 20px rgba(56, 125, 255, 0.2);
-    width: 280px;
-    height: 280px;
+    width: 200px;
+    height: 200px;
     text-decoration: none;
     border-radius: 4px;
   }
@@ -51,7 +54,6 @@
     display: flex;
     flex-direction: column;
     height: 280px;
-    padding: 24px;
     align-items: center;
     color: #fff;
   }
@@ -87,9 +89,11 @@
   
   .icon {
     margin: 24px 0;
+    width: 50px;
+    height: 50px;
   }
   
-  @media screen and (max-width: 960px) {
+  @media screen and (max-width: 800px) {
     .feature__container {
       display: flex;
       flex-direction: column;

@@ -39,21 +39,23 @@ function Login() {
 
   return (
     <>
-        <div className="login__wrapper">
-          <div className="login__section">            
-            <span className="login__title">Login</span>            
-            <form onSubmit={handleSubmit}> 
-              <Input className='email' type="email" name="email" id="email" placeholder='Email' 
-              value={input.email} onChange={handleChange} label='Email'/>
+        <div className="wrapper">
+          <div className="section">            
+            <span className="title">Login</span> 
+            <div className="content">          
+              <form onSubmit={handleSubmit}> 
+                <Input className='email' type="email" name="email" id="email" placeholder='Email' 
+                value={input.email} onChange={handleChange} label='Email'/>
 
-              <Input className='password' type="password" name="password" id="password" placeholder='Password' 
-              value={input.password} onChange={handleChange} label='Password' minLength={6}/>
+                <Input className='password' type="password" name="password" id="password" placeholder='Password' 
+                value={input.password} onChange={handleChange} label='Password' minLength={6}/>
 
-              <input type="submit" value='LOG IN' className="btn-link" />
-            </form>
-            <Link to='/register' className="btn-link">
-              <p>Belum punya akun? Registrasi</p>
-            </Link>
+                <input type="submit" value='LOG IN' className="btn-link" />
+              </form>
+              <Link to='/register' className="btn-link">
+                <p>Belum punya akun? Registrasi</p>
+              </Link>
+            </div> 
           </div>
         </div>
         

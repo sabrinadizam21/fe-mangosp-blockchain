@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { IconContext } from 'react-icons'
-import { Link } from 'react-router-dom'
-import { Button } from '../../components/Button'
 import './ScanQRCode.css'
 import '../../components/Button.css'
-import { QrReader } from 'react-qr-reader';
+import { QrReader } from 'react-qr-reader'
+import { Button } from '../../components/Button'
 
 function ScanQRCode() {
 
@@ -39,10 +37,9 @@ function ScanQRCode() {
               />
               </div>
               <form action="">
-                <p style={{marginLeft : '10px', fontSize:'10pt'}}>ID Transaksi muncul, tekan tombol Lihat Transaksi</p> <br/>
-                <input className='qrcode__input' type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
+               <input className='qrcode__input' type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
                 <br />
-                <input type="submit" className='btn primary' value={'Lihat Transaksi'}/>
+                <Button type={'submit'} buttonStyle='btn--primary' buttonColor='primary'>LIHAT TRANSAKSI</Button>
               </form>       
             </div>
           </div>

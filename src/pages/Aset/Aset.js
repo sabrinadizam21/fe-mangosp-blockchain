@@ -43,13 +43,13 @@ function Aset() {
 
   return (
     <>
-        <div className="aset__wrapper">
-            <div className="aset__section">
+        <div className="wrapper">
+            <div className="section">
               <div className="aset__header">
                 {/* Header */}
                 <div>
-                  <div className="aset__title"><h4>Aset</h4></div>
-                  <div className="aset__subtitle">Aset yang Anda miliki</div>
+                  <div className="title">Aset</div>
+                  <div className="subtitle">Aset yang Anda miliki</div>
                 </div>
                 <div className="aset__btn-tambahBenih">
                   <Link to='/aset/daftaraset'>
@@ -57,7 +57,7 @@ function Aset() {
                   </Link>
                 </div>
               </div>
-              <div className="aset__content">
+              <div className="content">
                 { sortData(aset).map((data, index)=>{
                   return (
                     <div className="card" key={index}>

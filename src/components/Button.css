@@ -51,7 +51,6 @@
 .btn--wide {
   padding: 12px 64px;
   font-size: 14px;
-  width: 100%;
 }
 
 .btn--large:hover:enabled,
@@ -63,8 +62,8 @@
 }
 
 .btn--wide:hover:enabled {
-  color: #fff;
-  background-color: #FF3474;
+  color: #fff !important;
+  background-color: #FF3474 !important;
   transition: all 0.2s ease-out;
 }
 
@@ -96,11 +95,11 @@
   border: none;
 }
 
-.primary:hover:enabled {
+/* .primary:hover:enabled {
   background-color: #fff;
   color: #1A1305;
-  border: none;
-}
+  border: 1px solid #1A1305;
+} */
 
 .green {
   background: #25ce4a;
