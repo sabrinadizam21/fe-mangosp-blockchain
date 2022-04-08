@@ -11,14 +11,15 @@ export const Button = ({
     buttonStyle, 
     buttonSize, 
     buttonColor,
-    value
+    value,
+    disabled
 }) => {
     const checkButtonStyle = STYLES.includes(buttonStyle) ? buttonStyle : STYLES[0]
     const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0]
     const checkButtonColor = COLOR.includes(buttonColor) ? buttonColor : null
     return (
         <button className={`btn ${checkButtonStyle} ${checkButtonSize} ${checkButtonColor}`} 
-        onClick={onClick} type={type} value={value}>{children}</button>
+        onClick={onClick} type={type} value={value} disabled={disabled}>{children}</button>
     )
 }
 

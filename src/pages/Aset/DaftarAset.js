@@ -6,9 +6,11 @@ import './Aset.css'
 import { Input } from '../../components/Input'
 import { AsetContext } from '../../context/AsetContext'
 import { useHistory } from 'react-router'
+import Modal from '../../components/Modal'
 
 function DaftarAset() {
   const { aset, setAset } = useContext(AsetContext)
+  const [modalOpen, setModalOpen] = useState(false)
   const [input, setInput] = useState({
     varietas :'', 
     kuantitasBenih : '',
@@ -35,12 +37,10 @@ function DaftarAset() {
         umurPanen : parseInt(input.umurPanen),
         hargaPanen : parseInt(input.hargaPanen)
       }])
-      //history.push('/aset')
+    history.push('/aset')
+    console.log(aset)
     }
-    else {
-        newData[currentIndex] = input
-    }
-    console.log(newData)
+    setModalOpen(false)
   }
   return (
     <>
@@ -54,7 +54,7 @@ function DaftarAset() {
                 </div>
               </div>
               <div className="aset__content">
-                <form onSubmit={handleSubmit}>
+                <form id='daftar-aset-baru' onSubmit={handleSubmit}>
                     <Input label={'Varietas'} type='text' name='varietas' id='varietas' 
                         placeholder='Varietas' value={input.varietas} onChange={handleChange} required />
 
@@ -77,7 +77,26 @@ function DaftarAset() {
                             </Link>      
                         </div>
                         <div className='btn-links'>
-                            <Button type={'submit'} buttonStyle='btn--primary' buttonSize='btn--medium' >SIMPAN</Button>
+                           <Button 
+                              className="openModalBtn" buttonSize='btn--medium' type={'button'} 
+                              onClick={()=>{
+                                setModalOpen(true);
+                              }}
+                              disabled = {!input.varietas.length|| !input.kuantitasBenih || !input.umurBenih || !input.umurPanen || !input.hargaPanen} 
+                            >
+                              SIMPAN
+                            </Button>
+                        {modalOpen && 
+                          <Modal setOpenModal={setModalOpen} 
+                            modalTitle={'Konfirmasi'}  
+                            modalBody={
+                              <p>Apakah Anda ingin menyimpan data ini?</p>
+                            } 
+                            cancelBtn ={'CEK KEMBALI'}
+                            processBtn={'KONFIRMASI'}
+                            form='daftar-aset-baru'
+                          />
+                          }
                         </div>
                     </div> 
                 </form>

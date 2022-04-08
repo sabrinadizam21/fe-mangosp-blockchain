@@ -9,14 +9,14 @@ import { AsetContext } from '../../context/AsetContext'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat } = useContext(AsetContext)
+  const { aset, numberFormat, formatDate, sortData } = useContext(AsetContext)
   const [inputData, setInputData] = useState("")
   const [currentIndex, setCurrentIndex] = useState(-1)
 
   const handleChange = (event) => {
     let input = event.target.value
     setInputData(input)
-}
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -35,9 +35,9 @@ function Aset() {
   }
 
   const handleEdit = (event) => {
-    let id = parseInt(event.target.value)
-    setInputData(aset[id].kuantitasBenih)
-    setCurrentIndex(id)
+    var index = parseInt(event.target.value)
+    setInputData(aset[index].kuantitasBenih)
+    setCurrentIndex(index)
   }
 
 
@@ -58,23 +58,23 @@ function Aset() {
                 </div>
               </div>
               <div className="aset__content">
-                {aset.map((data)=>{
+                { sortData(aset).map((data, index)=>{
                   return (
-                    <div className="card" key={data.id}>
+                    <div className="card" key={index}>
                       <div className="card__header">
                         <div className="card__icon">
                           <FaSeedling className='card__logo' />
                         </div>
                         <div style={{marginLeft: '20px'}}>
                           <b>{data.varietas}</b>
-                          <p className="card__timestamp">{data.createDate}</p>
+                          <p className="card__timestamp">{formatDate(data.createDate)}</p>
                         </div>                
                       </div>
                       <div className="card__body">
                         <div className="quantity-value">
                           <div className="quantity">
                             <span>Kuantitas</span>
-                            <p>{numberFormat(data.kuantitasBenih)} Kg</p>
+                            <p>{numberFormat(data.kuantitasBenih)} Kg </p>
                           </div>
                           <div className="value">
                             <span>Harga per Kg</span>
@@ -96,7 +96,7 @@ function Aset() {
                               setModalOpen(true);
                               handleEdit(e)
                             }}
-                            value={data.id}
+                            value={index}
                           > 
                           TAMBAH KUANTITAS
                           </Button>

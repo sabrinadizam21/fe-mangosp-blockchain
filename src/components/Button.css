@@ -54,15 +54,15 @@
   width: 100%;
 }
 
-.btn--large:hover,
-.btn--medium:hover,
-.btn--mobile:hover {
+.btn--large:hover:enabled,
+.btn--medium:hover:enabled,
+.btn--mobile:hover:enabled {
   transition: all 0.3s ease-out;
   background: #1A1305;
   color: #fff;
 }
 
-.btn--wide:hover {
+.btn--wide:hover:enabled {
   color: #fff;
   background-color: #FF3474;
   transition: all 0.2s ease-out;
@@ -96,7 +96,7 @@
   border: none;
 }
 
-.primary:hover {
+.primary:hover:enabled {
   background-color: #fff;
   color: #1A1305;
   border: none;
@@ -110,4 +110,11 @@
 
 .green:hover {
   background-color: #1A1305;
+}
+
+button:disabled {
+  background-color: darkgrey;
+  color: white;
+  border-color: darkgray;
+  cursor: default;
 }
