@@ -16,7 +16,8 @@ function DaftarAset() {
     kuantitasBenih : '',
     umurBenih : '', 
     umurPanen : '', 
-    hargaPanen : ''
+    hargaPanen : '',
+    createdDate :''
   })
   const [currentIndex] = useState(-1)
   let history = useHistory()
@@ -28,17 +29,17 @@ function DaftarAset() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let newData = aset
     if(currentIndex === -1){
       setAset([...aset, {
+        id : 5,
         varietas : input.varietas,
         kuantitasBenih : parseInt(input.kuantitasBenih),
         umurBenih : parseInt(input.umurBenih),
         umurPanen : parseInt(input.umurPanen),
-        hargaPanen : parseInt(input.hargaPanen)
+        hargaPanen : parseInt(input.hargaPanen),
+        createdDate : new Date().getTime()
       }])
     history.push('/aset')
-    console.log(aset)
     }
     setModalOpen(false)
   }
@@ -58,7 +59,7 @@ function DaftarAset() {
                     <Input label={'Varietas'} type='text' name='varietas' id='varietas' 
                         placeholder='Varietas' value={input.varietas} onChange={handleChange} required />
 
-                    <Input label={'kuantitasBenih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
+                    <Input label={'Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
                         placeholder='Kuantitas Benih' value={input.kuantitasBenih} onChange={handleChange} required />
                     
                     <Input label={'Umur Benih'} type='number' name='umurBenih' id='umurBenih' 

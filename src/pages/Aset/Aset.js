@@ -67,7 +67,7 @@ function Aset() {
                         </div>
                         <div style={{marginLeft: '20px'}}>
                           <b>{data.varietas}</b>
-                          <p className="card__timestamp">{formatDate(data.createDate)}</p>
+                          <p className="card__timestamp">{formatDate(data.createdDate)}</p>
                         </div>                
                       </div>
                       <div className="card__body">
