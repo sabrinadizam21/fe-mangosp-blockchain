@@ -3,7 +3,8 @@ export const AsetContext = createContext()
 export const AsetProvider = props => {
 
     const formatDate = (x) => {
-        let date = new Date(x*1000)
+        if (x.toString().length < 12) { x = x*1000 }
+        const date = new Date(x)
         const day = date.toLocaleString('default', {day: 'numeric'})
         const month = date.toLocaleString('default', {month: 'long'})
         const year = date.toLocaleString('default', {year: 'numeric'})
