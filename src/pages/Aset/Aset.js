@@ -18,6 +18,8 @@ function Aset() {
     setInputData(input)
   }
 
+  console.log(aset)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     let newData = aset
@@ -58,68 +60,70 @@ function Aset() {
                 </div>
               </div>
               <div className="content">
-                { sortData(aset).map((data, index)=>{
-                  return (
-                    <div className="card" key={index}>
-                      <div className="card__header">
-                        <div className="card__icon">
-                          <FaSeedling className='card__logo' />
-                        </div>
-                        <div style={{marginLeft: '20px'}}>
-                          <b>{data.varietas}</b>
-                          <p className="card__timestamp">{formatDate(data.createdDate)}</p>
-                        </div>                
-                      </div>
-                      <div className="card__body">
-                        <div className="quantity-value">
-                          <div className="quantity">
-                            <span>Kuantitas</span>
-                            <p>{numberFormat(data.kuantitasBenih)} Kg </p>
+                <div className="card__wrapper">
+                  { sortData(aset).map((data, index)=>{
+                    return (
+                      <div className="card" key={index}>
+                        <div className="card__header">
+                          <div className="card__icon">
+                            <FaSeedling className='card__logo' />
                           </div>
-                          <div className="value">
-                            <span>Harga per Kg</span>
-                            <p>Rp{numberFormat(data.hargaPanen)}</p>
+                          <div style={{marginLeft: '15px'}}>
+                            <b>{data.varietas}</b>
+                            <p className="card__timestamp">{formatDate(data.createdDate)}</p>
+                          </div>                
+                        </div>
+                        <div className="card__body">
+                          <div className="quantity-value">
+                            <div className="quantity">
+                              <span>Kuantitas</span>
+                              <p>{numberFormat(data.kuantitasBenih)} Kg </p>
+                            </div>
+                            <div className="value">
+                              <span>Harga per Kg</span>
+                              <p>Rp{numberFormat(data.hargaPanen)}</p>
+                            </div>
+                          </div>
+                          <div className="seed-age">
+                            <span>Umur Benih</span> 
+                            <p>{numberFormat(data.umurBenih)} hari</p>
+                          </div>
+                          <div className="harvest-age">
+                            <span>Umur Panen</span>
+                            <p>{numberFormat(data.umurPanen)} hari</p>
                           </div>
                         </div>
-                        <div className="seed-age">
-                          <span>Umur Benih</span> 
-                          <p>{numberFormat(data.umurBenih)} hari</p>
-                        </div>
-                        <div className="harvest-age">
-                          <span>Umur Panen</span>
-                          <p>{numberFormat(data.umurPanen)} hari</p>
+                        <div className="card__bottom">
+                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'}
+                              onClick={(e) => {
+                                setModalOpen(true);
+                                handleEdit(e)
+                              }}
+                              value={index}
+                            > 
+                            TAMBAH KUANTITAS
+                            </Button>
+                          {modalOpen && 
+                            <Modal setOpenModal={setModalOpen} 
+                              modalTitle={'Tambah Kuantitas'}  
+                              modalBody={
+                                <>
+                                  <form id='editKuantitas' onSubmit={handleSubmit}>
+                                    <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
+                                    placeholder='Tambah Kuantitas Benih' value={inputData} onChange={handleChange} required />
+                                  </form>
+                                </>
+                              } 
+                              cancelBtn ={'BATAL'}
+                              processBtn={'SIMPAN'}
+                              form='editKuantitas'
+                            />
+                            }
                         </div>
                       </div>
-                      <div className="card__bottom">
-                          <Button className="openModalBtn" buttonSize={'btn--primary'}
-                            onClick={(e) => {
-                              setModalOpen(true);
-                              handleEdit(e)
-                            }}
-                            value={index}
-                          > 
-                          TAMBAH KUANTITAS
-                          </Button>
-                        {modalOpen && 
-                          <Modal setOpenModal={setModalOpen} 
-                            modalTitle={'Tambah Kuantitas'}  
-                            modalBody={
-                              <>
-                                <form id='editKuantitas' onSubmit={handleSubmit}>
-                                  <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
-                                  placeholder='Tambah Kuantitas Benih' value={inputData} onChange={handleChange} required />
-                                </form>
-                              </>
-                            } 
-                            cancelBtn ={'BATAL'}
-                            processBtn={'SIMPAN'}
-                            form='editKuantitas'
-                          />
-                          }
-                      </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </div>
         </div>
