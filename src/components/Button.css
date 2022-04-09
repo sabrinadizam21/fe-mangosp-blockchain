@@ -53,6 +53,14 @@
   font-size: 14px;
 }
 
+.btn--small {
+  font-size: 12px;
+  background-color: #1A1305;
+  color: #fff;
+  padding: 6px;
+  width: 100%;
+}
+
 .btn--large:hover:enabled,
 .btn--medium:hover:enabled,
 .btn--mobile:hover:enabled {
