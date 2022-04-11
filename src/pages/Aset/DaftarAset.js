@@ -89,12 +89,16 @@ function DaftarAset() {
                             </Button>
                         {modalOpen && 
                           <Modal setOpenModal={setModalOpen} 
-                            modalTitle={'Konfirmasi'}  
+                            modalTitle={'Konfirmasi Daftar Aset'}  
                             modalBody={
-                              <p>Apakah Anda ingin menyimpan data ini?</p>
+                              <div style={{textAlign : 'center'}}>
+                                <p>Data yang telah dikirim tidak bisa diubah kembali </p>
+                                <br />
+                                <p>Apakah Anda yakin menyimpan data ini?</p>
+                              </div>
                             } 
                             cancelBtn ={'CEK KEMBALI'}
-                            processBtn={'KONFIRMASI'}
+                            processBtn={'YAKIN'}
                             form='daftar-aset-baru'
                           />
                           }
