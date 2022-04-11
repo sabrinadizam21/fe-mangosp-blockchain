@@ -7,6 +7,7 @@ import Footer from '../pages/Footer/Footer'
 import Home from '../pages/Home/Home'
 import Aset from '../pages/Aset/Aset'
 import DaftarAset from '../pages/Aset/DaftarAset'
+import { AsetProvider } from '../context/AsetContext'
 
 function Routes() {
   return (
@@ -16,8 +17,10 @@ function Routes() {
             <Route path='/' exact component={Home} />
             <Route path='/register' exact component={Register} />            
             <Route path='/login' exact component={Login} />
-            <Route path='/aset' exact component={Aset} />
-            <Route path='/aset/daftaraset' exact component={DaftarAset} />
+            <AsetProvider>
+              <Route path='/aset' exact component={Aset} />
+              <Route path='/aset/daftaraset' exact component={DaftarAset} />
+            </AsetProvider>
         </Switch>
         <Footer />
     </Router>
