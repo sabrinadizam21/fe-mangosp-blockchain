@@ -1,15 +1,3 @@
-.aset__btn-tambahBenih {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.aset__header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-}
-
 .aset__content{
     margin: 20px 0;
 }

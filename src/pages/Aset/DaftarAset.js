@@ -47,7 +47,7 @@ function DaftarAset() {
     <>
         <div className="wrapper">
             <div className="section">
-              <div className="aset__header">
+              <div className="header">
                 {/* Header */}
                 <div>
                   <div className="title">Daftar Aset</div>

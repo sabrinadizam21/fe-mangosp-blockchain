@@ -47,13 +47,13 @@ function Aset() {
     <>
         <div className="wrapper">
             <div className="section">
-              <div className="aset__header">
+              <div className="header">
                 {/* Header */}
                 <div>
                   <div className="title">Aset</div>
                   <div className="subtitle">Aset yang Anda miliki</div>
                 </div>
-                <div className="aset__btn-tambahBenih">
+                <div className="btn-header">
                   <Link to='/aset/daftaraset'>
                     <Button buttonColor='primary'>DAFTAR ASET</Button>
                   </Link>

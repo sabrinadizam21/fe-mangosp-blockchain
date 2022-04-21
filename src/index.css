@@ -47,3 +47,15 @@ code {
 .content{
   margin: 20px 0;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.btn-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
