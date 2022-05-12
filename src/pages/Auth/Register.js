@@ -1,26 +1,12 @@
-import React, { useState,  useContext } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './Register.css'
 import { Input } from '../../components/Input';
 import { UserContext } from '../../context/UserContext';
-import { useHistory } from 'react-router';
 
 function Register() {
-
-  const {userLists, setUserLists} = useContext(UserContext)
-  const [ inputData, setInputData ] = useState({
-    nama : '',
-    alamat : '',
-    nomorTelp : '',
-    tglLahir : '',
-    nik : '',
-    email : '',
-    username : '',
-    password : '',
-    role: 0
-  })
-  const [currentIndex, setCurrentIndex] = useState(-1)
-  let history = useHistory()
+  const { inputData, setInputData, functionUser } = useContext(UserContext)
+  const { functionRegisSubmit } = functionUser
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -29,25 +15,7 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let newData = userLists
-    if(currentIndex === -1){
-      setUserLists([...userLists, {
-        nama : inputData.nama,
-        alamat : inputData.alamat,
-        nomorTelp : parseInt(inputData.nomorTelp),
-        tglLahir : inputData.tglLahir,
-        nik : parseInt(inputData.nik),
-        email : inputData.email,
-        username : inputData.username,
-        password : inputData.password,
-        role : parseInt(inputData.role)
-      }])
-      history.push('/login')
-      console.log(newData)
-    }
-    else {
-        newData[currentIndex] = inputData
-    }
+    functionRegisSubmit()
   }
   return (
     <>
@@ -82,14 +50,14 @@ function Register() {
                   </label>
                 </div>
                 
-                <Input className='text' type="text" name="nama" id="nama" placeholder='Nama Lengkap' 
-                value={inputData.nama} onChange={handleChange} label='Nama lengkap'/>
+                <Input className='text' type="text" name="namaLengkap" id="namaLengkap" placeholder='Nama Lengkap' 
+                value={inputData.namaLengkap} onChange={handleChange} label='Nama lengkap'/>
                 
                 <Input className='text' type="text" name="alamat" id="alamat" placeholder='Alamat' 
                 value={inputData.alamat} onChange={handleChange} label='Alamat'/>
                 
-                <Input className='number' type="number" name="nomorTelp" id="nomorTelp" placeholder='Nomor Telepon' 
-                value={inputData.nomorTelp} onChange={handleChange} label='Nomor Telepon' minLength={10}/>
+                <Input className='number' type="number" name="noTelp" id="noTelp" placeholder='Nomor Telepon' 
+                value={inputData.noTelp} onChange={handleChange} label='Nomor Telepon' minLength={10}/>
 
                 <Input className='date' type="date" name="tglLahir" id="tglLahir" placeholder='Tanggal Lahir' 
                 value={inputData.tglLahir} onChange={handleChange} label='Tanggal Lahir'/>
@@ -100,8 +68,8 @@ function Register() {
                 <Input className='email' type="email" name="email" id="email" placeholder='Email' 
                 value={inputData.email} onChange={handleChange} label='Email'/>
 
-                <Input className='text' type="text" name="username" id="username" placeholder='Username' 
-                value={inputData.username} onChange={handleChange} label='Username'/>
+                <Input className='text' type="text" name="userName" id="userName" placeholder='Username' 
+                value={inputData.userName} onChange={handleChange} label='Username'/>
 
                 <Input className='password' type="password" name="password" id="password" placeholder='Password' 
                 value={inputData.password} onChange={handleChange} label='Password' minLength={6}/>

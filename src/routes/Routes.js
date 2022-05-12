@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom"
+import Cookies from 'js-cookie';
 import Navbar from '../pages/Navbar/Navbar'
 import Login from '../pages/Auth/Login'
 import Register from '../pages/Auth/Register'
@@ -15,21 +16,35 @@ import TransaksiKeluar from '../pages/Transaksi/TransaksiKeluar'
 import TransaksiForm from '../pages/Transaksi/TransaksiForm'
 
 function Routes() {
+  const LoginRoute = ({...props}) => {
+    if(Cookies.get('token') !== undefined){
+      return <Redirect to="/" />
+    } else if(Cookies.get('token') === undefined){
+      return <Route {...props} />
+    }
+  }
+  const PrivateRoute = ({...props}) => {
+      if(Cookies.get('token') !== undefined){
+        return <Route {...props} />
+      }else if(Cookies.get('token') === undefined){
+        return <Redirect to="/login" />
+      }
+  }
   return (
     <Router>
         <Navbar />
         <Switch>
             <Route path='/' exact component={Home} />
-            <Route path='/register' exact component={Register} />            
-            <Route path='/login' exact component={Login} />
-            <Route path='/detail-transaksi' exact component={DetailTransaksi} />
-            <Route path='/transaksi' exact component={Transaksi} />
-            <Route path='/transaksi/masuk' exact component={TransaksiMasuk} />
-            <Route path='/transaksi/keluar' exact component={TransaksiKeluar} />
-            <Route path='/transaksi/buat' exact component={TransaksiForm} />
+            <LoginRoute path='/register' exact component={Register} />            
+            <LoginRoute path='/login' exact component={Login} />
+            <PrivateRoute path='/detail-transaksi' exact component={DetailTransaksi} />
+            <PrivateRoute path='/transaksi' exact component={Transaksi} />
+            <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
+            <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
+            <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
             <AsetProvider>
-              <Route path='/aset' exact component={Aset} />
-              <Route path='/aset/daftaraset' exact component={DaftarAset} />
+              <PrivateRoute path='/aset' exact component={Aset} />
+              <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
             </AsetProvider>
         </Switch>
         <Footer />

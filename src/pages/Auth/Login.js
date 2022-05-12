@@ -1,22 +1,30 @@
-import React, { useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom'
 import './Login.css'
-import { UserContext } from '../../context/UserContext'
 import { Input } from '../../components/Input';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios'
+import Cookies from 'js-cookie';
 
 function Login() {
 
-  const {loginStatus, setLoginStatus, userLists} = useContext(UserContext)
-
+  const { input, setInput, setLoginStatus } = useContext(UserContext)
+  
   let history = useHistory()
-
-  const [input, setInput] = useState({
-    email :'', 
-    password : '',
-    message:''
-  })
+  
+  const functionLoginSubmit = () => {
+    axios.post(`https://mango-bm.herokuapp.com/api/login`, {
+      userName : input.userName,
+      password : input.password
+    }
+    ).then((res)=>{
+        let access_token = res.data.accessToken
+        Cookies.set('token', access_token, {expires: 1})
+        setLoginStatus(true)
+        history.push("/") 
+    }).catch((res)=> alert(res))
+}
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -25,16 +33,7 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    let authData = userLists.find((e) => e.email === input.email && e.password === input.password)
-    if(authData){
-      setLoginStatus(true)
-      Cookies.set('email', authData.email, {expires: 1})
-      Cookies.set('password', authData.password, {expires: 1})
-      history.push("/register")
-    } else {
-      alert("email atau password salah")
-    }
-    
+    functionLoginSubmit()    
   }
 
   return (
@@ -44,10 +43,10 @@ function Login() {
             <span className="title">Login</span> 
             <div className="content">          
               <form onSubmit={handleSubmit}> 
-                <Input className='email' type="email" name="email" id="email" placeholder='Email' 
-                value={input.email} onChange={handleChange} label='Email'/>
+                <Input type="text" name="userName" id="userName" placeholder='Username' 
+                value={input.userName} onChange={handleChange} label='Username'/>
 
-                <Input className='password' type="password" name="password" id="password" placeholder='Password' 
+                <Input type="password" name="password" id="password" placeholder='Password' 
                 value={input.password} onChange={handleChange} label='Password' minLength={6}/>
 
                 <input type="submit" value='LOG IN' className="btn-link" />

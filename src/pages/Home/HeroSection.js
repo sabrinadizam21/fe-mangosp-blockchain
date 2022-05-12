@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext,useEffect } from 'react';
 import './HeroSection.css';
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 
 function HeroSection({
   lightBg,
@@ -14,6 +15,13 @@ function HeroSection({
   alt,
   imgStart
 }) {
+  const { functionUser, input } = useContext(UserContext)
+  const { fecthDataById } = functionUser
+
+  useEffect (()=>{
+    fecthDataById(input.userName)
+  }, [])
+
   return (
     <>
       <div
