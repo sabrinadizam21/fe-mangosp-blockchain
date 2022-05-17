@@ -24,13 +24,14 @@ function Navbar() {
   window.addEventListener('resize', showButton);
   
   const { setLoginStatus } = useContext(UserContext)
-    let history = useHistory()
+  let history = useHistory()
 
-    const handleLogout = () => {
-        setLoginStatus(false)
-        Cookies.remove('token')
-        history.push('/login')
-    }
+  const handleLogout = async () => {
+    Cookies.remove('token')
+    await setLoginStatus(false)
+    history.push('/login')
+  }
+  
 
   return (
     <>
