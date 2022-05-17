@@ -9,17 +9,16 @@ function HeroSection({
   lightText,
   lightTextDesc,
   headline,
-  description,
   buttonLabel,
   img,
   alt,
   imgStart
 }) {
-  const { functionUser, input } = useContext(UserContext)
-  const { fecthDataById } = functionUser
+  const { functionUser, input, profile, loginStatus } = useContext(UserContext)
+  const { getUserLogin } = functionUser
 
   useEffect (()=>{
-    fecthDataById(input.userName)
+    if(input.userName !== undefined) getUserLogin(input.userName)
   }, [])
 
   return (
@@ -47,7 +46,7 @@ function HeroSection({
                       : 'home__hero-subtitle dark'
                   }
                 >
-                  {description}
+                  { loginStatus && input.userName !== undefined ? (`Selamat Datang, ${profile.namaLengkap} !`) : (`Selamat Datang!`)}
                 </p>
                 <Link to='/'>
                   <Button buttonSize='btn--wide' buttonColor='primary'>

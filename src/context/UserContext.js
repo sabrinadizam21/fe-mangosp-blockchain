@@ -45,7 +45,7 @@ export const UserProvider = props => {
         }).catch(err=> console.log(err))
     }
 
-    const fecthDataById = async(userName) => {
+    const getUserLogin = async(userName) => {
         const token = "Bearer " + Cookies.get('token')
         axios.get(`https://mango-bm.herokuapp.com/api/profile/${userName}`, {
             headers : {
@@ -53,7 +53,7 @@ export const UserProvider = props => {
             }
         })
         .then((res)=>{
-            let profile = res.data
+            let profile = res.data[0]
             setProfile(profile)
             console.log(profile)
             // setInputData({
@@ -75,7 +75,7 @@ export const UserProvider = props => {
     
     const functionUser = {
         functionRegisSubmit,
-        fecthDataById
+        getUserLogin
     }
 
     return(

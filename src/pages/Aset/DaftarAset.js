@@ -56,8 +56,8 @@ function DaftarAset() {
               </div>
               <div className="content">
                 <form id='daftar-aset-baru' onSubmit={handleSubmit}>
-                    <Input label={'Varietas'} type='text' name='varietas' id='varietas' 
-                        placeholder='Varietas' value={input.varietas} onChange={handleChange} required />
+                    <Input label={'Varietas Benih'} type='text' name='varietas' id='varietas' 
+                        placeholder='Varietas Benih' value={input.varietas} onChange={handleChange} required />
 
                     <Input label={'Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
                         placeholder='Kuantitas Benih' value={input.kuantitasBenih} onChange={handleChange} required />
