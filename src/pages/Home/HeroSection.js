@@ -14,13 +14,8 @@ function HeroSection({
   alt,
   imgStart
 }) {
-  const { functionUser, input, profile, loginStatus } = useContext(UserContext)
-  const { getUserLogin } = functionUser
-
-  useEffect (()=>{
-    if(input.userName !== undefined) getUserLogin(input.userName)
-  }, [getUserLogin, input.userName])
-
+  const { input, profile, loginStatus } = useContext(UserContext)
+  console.log(profile)
   return (
     <>
       <div

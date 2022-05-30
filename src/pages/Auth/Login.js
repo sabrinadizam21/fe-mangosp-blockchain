@@ -9,7 +9,8 @@ import Cookies from 'js-cookie';
 
 function Login() {
 
-  const { input, setInput, setLoginStatus } = useContext(UserContext)
+  const { input, setInput, setLoginStatus, functionUser } = useContext(UserContext)
+  const { getUserLogin } = functionUser
   
   let history = useHistory()
   
@@ -22,6 +23,7 @@ function Login() {
         let access_token = res.data.accessToken
         Cookies.set('token', access_token, {expires: 1})
         setLoginStatus(true)
+        getUserLogin(input.userName)
         history.push("/")
     }).catch((res)=> alert(res))
 }
