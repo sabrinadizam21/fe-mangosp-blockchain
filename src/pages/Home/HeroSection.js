@@ -19,7 +19,7 @@ function HeroSection({
 
   useEffect (()=>{
     if(input.userName !== undefined) getUserLogin(input.userName)
-  }, [])
+  }, [getUserLogin, input.userName])
 
   return (
     <>
@@ -46,7 +46,8 @@ function HeroSection({
                       : 'home__hero-subtitle dark'
                   }
                 >
-                  { loginStatus && input.userName !== undefined ? (`Selamat Datang, ${profile.namaLengkap} !`) : (`Selamat Datang!`)}
+                  { loginStatus && input.userName !== undefined ? (`Selamat Datang, ${profile.namaLengkap}!`) : (`Selamat Datang!`)}
+                  
                 </p>
                 <Link to='/'>
                   <Button buttonSize='btn--wide' buttonColor='primary'>

@@ -22,7 +22,7 @@ function Login() {
         let access_token = res.data.accessToken
         Cookies.set('token', access_token, {expires: 1})
         setLoginStatus(true)
-        history.push("/") 
+        history.push("/")
     }).catch((res)=> alert(res))
 }
 
@@ -33,7 +33,7 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    functionLoginSubmit()    
+    functionLoginSubmit() 
   }
 
   return (

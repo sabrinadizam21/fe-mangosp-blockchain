@@ -45,31 +45,17 @@ export const UserProvider = props => {
         }).catch(err=> console.log(err))
     }
 
-    const getUserLogin = async(userName) => {
-        const token = "Bearer " + Cookies.get('token')
-        axios.get(`https://mango-bm.herokuapp.com/api/profile/${userName}`, {
+    const getUserLogin = async (userName) => {
+       const token = "Bearer " + Cookies.get('token')
+       await axios.get(`https://mango-bm.herokuapp.com/api/profile/${userName}`, {
             headers : {
                 Authorization : token
             }
         })
         .then((res)=>{
             let profile = res.data[0]
-            setProfile(profile)
-            console.log(profile)
-            // setInputData({
-            //     userName : profile.userName, 
-            //     password : profile.password, 
-            //     email : profile.email, 
-            //     namaLengkap : profile.namaLengkap, 
-            //     noTelp : profile.noTelp, 
-            //     tglLahir : profile.tglLahir, 
-            //     nik : profile.nik, 
-            //     role : profile.role, 
-            //     alamat : profile.alamat, 
-            //     createdAt : profile.createdAt, 
-            //     UpdateAt : profile.UpdateAt
-            // })
-            // setCurrentIndex(profile.id)            
+            setProfile(profile) 
+            //console.log(profile)        
         }).catch(err=> console.log(err))
     }
     

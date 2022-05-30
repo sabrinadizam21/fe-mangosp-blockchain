@@ -14,6 +14,9 @@ import Transaksi from '../pages/Transaksi/Transaksi'
 import TransaksiMasuk from '../pages/Transaksi/TransaksiMasuk'
 import TransaksiKeluar from '../pages/Transaksi/TransaksiKeluar'
 import TransaksiForm from '../pages/Transaksi/TransaksiForm'
+import TanamBenih from '../pages/Aset/TanamBenih';
+import Panen from '../pages/Aset/Panen';
+import { UserProvider } from '../context/UserContext';
 
 function Routes() {
   const LoginRoute = ({...props}) => {
@@ -32,22 +35,26 @@ function Routes() {
   }
   return (
     <Router>
+      <UserProvider>
         <Navbar />
         <Switch>
-            <Route path='/' exact component={Home} />
-            <LoginRoute path='/register' exact component={Register} />            
-            <LoginRoute path='/login' exact component={Login} />
-            <PrivateRoute path='/detail-transaksi' exact component={DetailTransaksi} />
-            <PrivateRoute path='/transaksi' exact component={Transaksi} />
-            <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
-            <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
-            <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
             <AsetProvider>
+              <Route path='/' exact component={Home} />
+              <LoginRoute path='/register' exact component={Register} />            
+              <LoginRoute path='/login' exact component={Login} />
+              <PrivateRoute path='/detail-transaksi' exact component={DetailTransaksi} />
+              <PrivateRoute path='/transaksi' exact component={Transaksi} />
+              <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
+              <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
+              <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
+              <PrivateRoute path='/tanam-benih' exact component={TanamBenih} />
+              <PrivateRoute path='/panen' exact component={Panen} />
               <PrivateRoute path='/aset' exact component={Aset} />
               <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
             </AsetProvider>
         </Switch>
         <Footer />
+        </UserProvider>
     </Router>
   )
 }

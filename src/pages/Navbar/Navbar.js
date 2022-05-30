@@ -60,12 +60,11 @@ function Navbar() {
                 </li> 
                 <li className="nav-btn">
                   {button ? (
-                    <Link className="btn-link">
-                      <Button buttonStyle='btn--outline' onClick={handleLogout}>LOG OUT</Button>
-                    </Link>
-                  ) : <Link className='btn-link' onClick={closeMobileMenu}>
-                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile' onClick={handleLogout}>LOG OUT</Button>
-                  </Link> }                
+                    <Button className="btn-link" buttonStyle='btn--outline' onClick={handleLogout}>LOG OUT</Button>
+                    
+                  ) : 
+                    <Button className='btn-link' onClick={()=>{closeMobileMenu(); handleLogout()}} buttonStyle='btn--outline' buttonSize='btn--mobile'>LOG OUT</Button>
+                   }                
                 </li>
               </>
               )}
