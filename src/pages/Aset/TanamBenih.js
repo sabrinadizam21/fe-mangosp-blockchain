@@ -4,7 +4,7 @@ import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
 
-function TanamBenihForm() {
+function TanamBenih() {
     const [modalOpen, setModalOpen] = useState(false)
     const { profile } = useContext(UserContext)
     const [input, setInput] = useState({
@@ -78,4 +78,4 @@ function TanamBenihForm() {
   )
 }
 
-export default TanamBenihForm
+export default TanamBenih
