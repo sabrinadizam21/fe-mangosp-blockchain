@@ -47,7 +47,7 @@ export const UserProvider = props => {
 
     const getUserLogin = async (userName) => {
        const token = "Bearer " + Cookies.get('token')
-       await axios.get(`https://mango-bm.herokuapp.com/api/profile/${userName}`, {
+       axios.get(`https://mango-bm.herokuapp.com/api/profile/${userName}`, {
             headers : {
                 Authorization : token
             }
