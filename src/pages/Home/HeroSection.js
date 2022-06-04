@@ -2,7 +2,8 @@ import React, { useContext,useEffect } from 'react';
 import './HeroSection.css';
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext'
+import Cookies from 'js-cookie';
 
 function HeroSection({
   lightBg,
@@ -14,7 +15,14 @@ function HeroSection({
   alt,
   imgStart
 }) {
-  const { input, profile, loginStatus } = useContext(UserContext)
+  const { profile, functionUser } = useContext(UserContext)
+  const { getUserLogin } = functionUser
+
+  const username = Cookies.get('username')
+  useEffect(async()=>{
+    getUserLogin(username)
+  }, [])
+  
   console.log(profile)
   return (
     <>
@@ -41,7 +49,7 @@ function HeroSection({
                       : 'home__hero-subtitle dark'
                   }
                 >
-                  { loginStatus && input.userName !== undefined ? (`Selamat Datang, ${profile.namaLengkap}!`) : (`Selamat Datang!`)}
+                  { profile !== '' ? (`Selamat Datang, ${profile.namaLengkap}!`) : (`Selamat Datang!`)}
                   
                 </p>
                 <Link to='/'>

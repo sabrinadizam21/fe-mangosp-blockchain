@@ -28,6 +28,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     Cookies.remove('token')
+    Cookies.remove('username')
     await setLoginStatus(false)
     window.location.href ='/login'
   }

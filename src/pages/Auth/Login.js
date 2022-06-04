@@ -21,9 +21,11 @@ function Login() {
     }
     ).then((res)=>{
         let access_token = res.data.accessToken
+        let status = res.data.status
+        let username = status.substring(15)
         Cookies.set('token', access_token, {expires: 1})
+        Cookies.set('username', username, {expires: 1})
         setLoginStatus(true)
-        getUserLogin(input.userName)
         history.push("/")
     }).catch((res)=> alert(res))
 }
@@ -34,7 +36,7 @@ function Login() {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault()  
     functionLoginSubmit() 
   }
 
