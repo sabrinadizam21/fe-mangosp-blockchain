@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import './Login.css'
@@ -9,23 +9,24 @@ import Cookies from 'js-cookie';
 
 function Login() {
 
-  const { input, setInput, setLoginStatus, functionUser } = useContext(UserContext)
-  const { getUserLogin } = functionUser
+  const { input, setInput, setLoginStatus, loginStatus } = useContext(UserContext)
+  const [ inputText, setInputText] = useState("LOG IN")
+  const changeText = (text) => setInputText(text);
   
   let history = useHistory()
   
-  const functionLoginSubmit = () => {
+  const functionLoginSubmit = async() => {
     axios.post(`https://mango-bm.herokuapp.com/api/login`, {
       userName : input.userName,
       password : input.password
     }
     ).then((res)=>{
         let access_token = res.data.accessToken
-        let status = res.data.status
-        let username = status.substring(15)
+        let username = input.userName
+        setLoginStatus(true)
         Cookies.set('token', access_token, {expires: 1})
         Cookies.set('username', username, {expires: 1})
-        setLoginStatus(true)
+        Cookies.set('loginStatus', loginStatus, {expires: 1})
         history.push("/")
     }).catch((res)=> alert(res))
 }
@@ -53,7 +54,7 @@ function Login() {
                 <Input type="password" name="password" id="password" placeholder='Password' 
                 value={input.password} onChange={handleChange} label='Password' minLength={6}/>
 
-                <input type="submit" value='LOG IN' className="btn-link" />
+                <input type="submit" value={inputText} onClick={() => changeText("Loading...")} className="btn-link" />
               </form>
               <Link to='/register' className="btn-link">
                 <p>Belum punya akun? Registrasi</p>
