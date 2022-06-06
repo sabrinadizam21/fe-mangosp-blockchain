@@ -1,10 +1,12 @@
 import React, { useState, createContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
+
 export const UserContext = createContext()
 export const UserProvider = props => {
-    const [ loginStatus, setLoginStatus] = useState(false)
+    const [ loginStatus, setLoginStatus ] = useState(false)
+    
     const [ profile, setProfile ] = useState([])
     
     let history = useHistory()
@@ -66,7 +68,7 @@ export const UserProvider = props => {
 
     return(
        <UserContext.Provider value={{ 
-           input, setInput, loginStatus, setLoginStatus, functionUser, inputData, setInputData,
+           input, setInput, functionUser, inputData, setInputData, loginStatus, setLoginStatus,
            profile, setProfile
         }}>
         {props.children}

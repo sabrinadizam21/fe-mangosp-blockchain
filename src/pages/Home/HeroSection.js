@@ -6,7 +6,7 @@ import { UserContext } from '../../context/UserContext'
 import Cookies from 'js-cookie';
 
 function HeroSection() {
-  const { profile, functionUser, loginStatus } = useContext(UserContext)
+  const { profile, functionUser } = useContext(UserContext)
   const { getUserLogin } = functionUser
   const [ lightBg ] = useState(false)
   const [ lightTextDesc ] = useState(true)
@@ -14,6 +14,7 @@ function HeroSection() {
   const [ imgStart ] = useState('')
   
   const username = Cookies.get('username')
+  const loginStatus = Cookies.get('loginStatus')
   useEffect(()=>{
     getUserLogin(username)
   }, [])

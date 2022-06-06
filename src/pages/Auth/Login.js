@@ -20,13 +20,12 @@ function Login() {
       userName : input.userName,
       password : input.password
     }
-    ).then((res)=>{
+    ).then(async(res)=>{
         let access_token = res.data.accessToken
         let username = input.userName
-        setLoginStatus(true)
         Cookies.set('token', access_token, {expires: 1})
         Cookies.set('username', username, {expires: 1})
-        Cookies.set('loginStatus', loginStatus, {expires: 1})
+        Cookies.set('loginStatus', true, {expires: 1})
         history.push("/")
     }).catch((res)=> alert(res))
 }
