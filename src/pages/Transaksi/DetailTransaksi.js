@@ -5,11 +5,12 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 import { FaWarehouse, FaCircle } from "react-icons/fa"
 import { MdContentCopy } from "react-icons/md"
 import './DetailTransaksi.css'
-import { Link } from 'react-router-dom';
 import Modal from '../../components/Modal';
+import ModalDetTrx from '../../components/ModalDetTrx';
 
 function DetailTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [modalDetTrxOpen, setModalDetTrxOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw');
 
   const handleChange = (event) => {
@@ -91,7 +92,12 @@ function DetailTransaksi() {
                         <p className="timestamp">20 Januari 2000 - 23:14 wib</p>
                       </div>
                       <div className="timeline-card__bottom">
-                          <Link to=''>Lihat Detail</Link>
+                          <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true); }}>Lihat Detail</button>
+                          {modalDetTrxOpen && 
+                            <ModalDetTrx setModalDetTrxOpen={setModalDetTrxOpen} 
+                              modalDetTrxTitle={'Penangkar mendaftarkan Benih'}  
+                            />
+                          }
                       </div>
                     </div>
                   </div>

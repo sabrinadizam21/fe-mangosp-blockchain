@@ -77,3 +77,23 @@
     color: #1a1305;
     border: 1px solid #1a1305;
   }
+
+  table, td {
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  td:first-child {
+    width: 14em;
+    min-width: 14em;
+    max-width: 14em;
+    word-break: break-all;
+  }
+  td:nth-child(2){
+    width: 7em;
+    min-width: 7em;
+    max-width: 7em;
+    word-break: break-all;
+  }
