@@ -6,7 +6,6 @@ import { Button } from '../../components/Button'
 import './Navbar.css'
 import { UserContext } from '../../context/UserContext'
 import Cookies from 'js-cookie';
-import { useHistory } from 'react-router';
 
 function Navbar() {
   const [click, setClick] = useState(false)
@@ -23,13 +22,13 @@ function Navbar() {
   }
   window.addEventListener('resize', showButton);
   
-  const { setLoginStatus } = useContext(UserContext)
-  let history = useHistory()
+  const { loginStatus, setLoginStatus } = useContext(UserContext)
 
   const handleLogout = async () => {
     Cookies.remove('token')
     Cookies.remove('username')
     await setLoginStatus(false)
+    Cookies.set('loginStatus', loginStatus)
     window.location.href ='/login'
   }
   
