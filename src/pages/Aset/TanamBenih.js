@@ -59,8 +59,6 @@ function TanamBenih() {
                             modalBody={
                               <div style={{textAlign : 'center'}}>
                                 <p>Data yang telah dikirim tidak bisa diubah kembali </p>
-                                <br />
-                                <p></p>
                               </div>
                             } 
                             cancelBtn ={'CEK KEMBALI'}

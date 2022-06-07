@@ -72,7 +72,7 @@
 }
 
 .seed-age p, .harvest-age p{
-    font-size: 16px !important;
+    font-size: 14px !important;
     font-weight: 400;
 }
 
@@ -92,10 +92,13 @@
     font-size: 14px;
 }
 
-@media screen and (max-width : 400px) {
+@media screen and (max-width : 500px) {
     .card__wrapper {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        width: 100%;
     }
     
 }

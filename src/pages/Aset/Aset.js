@@ -6,6 +6,7 @@ import './Aset.css'
 import Modal from '../../components/Modal'
 import { Input } from '../../components/Input'
 import { AsetContext } from '../../context/AsetContext'
+import UnlockAccess from '../../components/UnlockAccess';
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -53,14 +54,19 @@ function Aset() {
                   <div className="title">Aset</div>
                   <div className="subtitle">Aset yang Anda miliki</div>
                 </div>
-                <div className="btn-header">
-                  <Link to='/aset/daftaraset'>
-                    <Button buttonColor='primary'>DAFTAR ASET</Button>
-                  </Link>
-                </div>
+                <UnlockAccess request={1}>
+                  <div className="btn-header">
+                    <Link to='/aset/daftaraset'>
+                      <Button buttonColor='primary'>DAFTAR ASET</Button>
+                    </Link>
+                  </div>
+                </UnlockAccess>
               </div>
               <div className="content">
                 <div className="card__wrapper">
+
+                  {/* START ASET PENANGKAR */}
+                  <UnlockAccess request={1}>
                   { sortData(aset).map((data, index)=>{
                     return (
                       <div className="card" key={index}>
@@ -123,6 +129,101 @@ function Aset() {
                       </div>
                     )
                   })}
+                  </UnlockAccess>
+                  {/* END ASET PENANGKAR */}
+
+                  {/* START ASET PETANI */}
+                  <UnlockAccess request={2}>
+                  {/* { sortData(aset).map((data, index)=>{
+                    return ( */}
+                      <div className="card"> {/* key={index}> */}
+                        <div className="card__header">
+                          <div className="card__icon">
+                            <FaSeedling className='card__logo' />
+                          </div>
+                          <div style={{marginLeft: '15px'}}>
+                            <b>Benih 1</b>
+                            <p className="card__timestamp">{formatDate(1648054793)}</p>
+                          </div>                
+                        </div>
+                        <div className="card__body">
+                          <div className="quantity-value">
+                            <div className="quantity">
+                              <span>Kuantitas</span>
+                              <p>120 Kg </p>
+                            </div>
+                            <div className="value">
+                              <span>Harga per Kg</span>
+                              <p>Rp54.000</p>
+                            </div>
+                          </div>
+                          <div className="seed-age">
+                            <span>Pengirim</span> 
+                            <p>Penangkar</p>
+                          </div>
+                          <div className="seed-age">
+                            <span>Umur Benih</span> 
+                            <p>12 hari</p>
+                          </div>
+                          <div className="harvest-age">
+                            <span>Umur Panen</span>
+                            <p>6 hari</p>
+                          </div>
+                        </div>
+                        <div className="card__bottom">
+                            <Link to='/tanam-benih'> 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} 
+                                buttonStyle={'btn--outline'}> TANAM BENIH
+                              </Button>
+                            </Link>
+                        </div>
+                      </div>
+                      <div className="card"> {/* key={index}> */}
+                        <div className="card__header">
+                          <div className="card__icon">
+                            <FaSeedling className='card__logo' />
+                          </div>
+                          <div style={{marginLeft: '15px'}}>
+                            <b>Benih 4</b>
+                            <p className="card__timestamp">{formatDate(1648054793)}</p>
+                          </div>                
+                        </div>
+                        <div className="card__body">
+                          <div className="quantity-value">
+                            <div className="quantity">
+                              <span>Kuantitas</span>
+                              <p>45 Kg </p>
+                            </div>
+                            <div className="value">
+                              <span>Harga per Kg</span>
+                              <p>Rp104.000</p>
+                            </div>
+                          </div>
+                          <div className="seed-age">
+                            <span>Pengirim</span> 
+                            <p>Penangkar Suga</p>
+                          </div>
+                          <div className="seed-age">
+                            <span>Umur Benih</span> 
+                            <p>17 hari</p>
+                          </div>
+                          <div className="harvest-age">
+                            <span>Umur Panen</span>
+                            <p>21 hari</p>
+                          </div>
+                        </div>
+                        <div className="card__bottom">
+                            <Link to='/panen'> 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} 
+                                buttonStyle={'btn--outline'}> PANEN
+                              </Button>
+                            </Link>
+                        </div>
+                      </div>
+                    {/* )
+                  })} */}
+                  </UnlockAccess>
+                  {/* END ASET PETANI */}
                 </div>
               </div>
             </div>
