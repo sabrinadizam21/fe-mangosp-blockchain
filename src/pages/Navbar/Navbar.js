@@ -22,13 +22,13 @@ function Navbar() {
   }
   window.addEventListener('resize', showButton);
   
-  const { loginStatus, setLoginStatus } = useContext(UserContext)
+  const { setLoginStatus } = useContext(UserContext)
 
   const handleLogout = async () => {
     Cookies.remove('token')
     Cookies.remove('username')
     await setLoginStatus(false)
-    Cookies.set('loginStatus', loginStatus)
+    Cookies.set('loginStatus', false)
     window.location.href ='/login'
   }
   
