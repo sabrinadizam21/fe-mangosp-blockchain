@@ -100,7 +100,7 @@ function Aset() {
                           </div>
                         </div>
                         <div className="card__bottom">
-                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'}
+                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
                               onClick={(e) => {
                                 setModalOpen(true);
                                 handleEdit(e)
@@ -172,7 +172,7 @@ function Aset() {
                         </div>
                         <div className="card__bottom">
                             <Link to='/tanam-benih'> 
-                              <Button className="openModalBtn" buttonSize={'btn--small'} 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
                                 buttonStyle={'btn--outline'}> TANAM BENIH
                               </Button>
                             </Link>
@@ -214,7 +214,7 @@ function Aset() {
                         </div>
                         <div className="card__bottom">
                             <Link to='/panen'> 
-                              <Button className="openModalBtn" buttonSize={'btn--small'} 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
                                 buttonStyle={'btn--outline'}> PANEN
                               </Button>
                             </Link>
