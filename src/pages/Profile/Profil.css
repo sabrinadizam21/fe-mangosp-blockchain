@@ -1,0 +1,38 @@
+.iconProfile {
+    font-size: 50px;
+    border-radius: 50%;
+    border: 2pt solid black;
+}
+
+.head-profile {
+    display: flex;
+}
+
+.head-profile-text{
+    margin-left: 25px;
+}
+
+
+.head-profile-text p{
+    padding-bottom: 5px;
+}
+
+.namaLengkap {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.role {
+    font-size: 14px;
+}
+
+.bottom-profile {
+    margin-top: 15px;
+}
+
+.profile-detail {
+    border-bottom: 1pt solid #c3c3c3;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}

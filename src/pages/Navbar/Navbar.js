@@ -22,7 +22,7 @@ function Navbar() {
   }
   window.addEventListener('resize', showButton);
   
-  const { setLoginStatus } = useContext(UserContext)
+  const { setLoginStatus, profile } = useContext(UserContext)
 
   const handleLogout = async () => {
     Cookies.remove('token')
@@ -56,7 +56,7 @@ function Navbar() {
                   <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to='/profil' className="nav-links" onClick={closeMobileMenu}>Profil</Link>
+                  <Link to={`/${profile.userName}`} className="nav-links" onClick={closeMobileMenu}>Profil</Link>
                 </li> 
                 <li className="nav-btn">
                   {button ? (
