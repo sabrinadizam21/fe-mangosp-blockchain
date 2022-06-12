@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 function Login() {
 
   const { input, setInput, setLoginStatus } = useContext(UserContext)
+  const [passwordType, setPasswordType] = useState("password");
   const [ inputText, setInputText] = useState("LOG IN")
   const changeText = (text) => setInputText(text);
   
@@ -41,6 +42,15 @@ function Login() {
     functionLoginSubmit() 
   }
 
+  const showPassword = () => {
+    if(passwordType==="password")
+    {
+     setPasswordType("text")
+     return;
+    }
+    setPasswordType("password")
+  }
+
   return (
     <>
         <div className="wrapper">
@@ -51,8 +61,12 @@ function Login() {
                 <Input type="text" name="userName" id="userName" placeholder='Username' 
                 value={input.userName} onChange={handleChange} label='Username'/>
 
-                <Input type="password" name="password" id="password" placeholder='Password' 
+                <Input type={passwordType} name="password" id="password" placeholder='Password' 
                 value={input.password} onChange={handleChange} label='Password' minLength={6}/>
+                
+                <label className="show-password">
+                  <input type="checkbox" onClick={showPassword} /> Lihat password
+                </label>
 
                 <input type="submit" value={inputText} onClick={() => changeText("Loading...")} className="btn-link" />
               </form>
