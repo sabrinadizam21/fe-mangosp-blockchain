@@ -9,7 +9,8 @@ import Cookies from 'js-cookie';
 
 function Login() {
 
-  const { input, setInput, setLoginStatus } = useContext(UserContext)
+  const { input, setInput, setLoginStatus, functionUser, error } = useContext(UserContext)
+  const { validateInput } = functionUser
   const [passwordType, setPasswordType] = useState("password");
   const [ inputText, setInputText] = useState("LOG IN")
   const changeText = (text) => setInputText(text);
@@ -35,6 +36,7 @@ function Login() {
   const handleChange = (event) => {
     let {value, name} = event.target
     setInput({...input, [name]:value})
+    validateInput(event)
   }
 
   const handleSubmit = (event) => {
@@ -59,10 +61,12 @@ function Login() {
             <div className="content">          
               <form onSubmit={handleSubmit}> 
                 <Input type="text" name="userName" id="userName" placeholder='Username' 
-                value={input.userName} onChange={handleChange} label='Username'/>
+                value={input.userName} onChange={handleChange} label='Username'  onBlur={validateInput}/>
+                {error.userName && <span className='err'>{error.userName}</span>}
 
                 <Input type={passwordType} name="password" id="password" placeholder='Password' 
-                value={input.password} onChange={handleChange} label='Password' minLength={6}/>
+                value={input.password} onChange={handleChange} label='Password' minLength={8}  onBlur={validateInput}/>
+                {error.password && <span className='err'>{error.password}<br /></span>}
                 
                 <label className="show-password">
                   <input type="checkbox" onClick={showPassword} /> Lihat password

@@ -27,8 +27,58 @@ export const UserProvider = props => {
         userName : '',
         email : '',
         password : '',
+        confirmPassword : '',
         role: ''
     })
+
+    const [error, setError] = useState({
+        username: '',
+        password: '',
+        confirmPassword: ''
+      })
+
+    const validateInput = e => {
+        let { name, value, placeholder } = e.target
+        setError(prev => {
+        const stateObj = { ...prev, [name]: "" }
+        if (!value) {
+            stateObj[name] = `${placeholder} tidak boleh kosong.`
+        }
+          switch (name) {
+                 
+            case "password":
+              if (!value) {
+                stateObj[name] = "Password tidak boleh kosong."
+              } else if (inputData.confirmPassword && value !== inputData.confirmPassword) {
+                stateObj["confirmPassword"] = "Password dan Konfirmasi Password tidak sama."
+              } else if (value.length !== 8) {
+                stateObj[name] = "Panjang password minimal 8 karakter."
+              } else {
+                stateObj["confirmPassword"] = inputData.confirmPassword ? "" : error.confirmPassword;
+              }
+              break
+       
+            case "confirmPassword":
+              if (!value) {
+                stateObj[name] = "Konfirmasi password tidak boleh kosong."
+              } else if (inputData.password && value !== inputData.password) {
+                stateObj[name] = "Password dan Konfirmasi Password tidak sama."
+              }
+              break
+
+            case "nik":
+                if(value.length !== 16) {
+                    stateObj[name] = "Panjang NIK harus 16 karakter."
+                }
+                break
+       
+            default:
+              break
+          }
+       
+          return stateObj
+        })
+      }
 
     const functionRegisSubmit = () => {
         axios.post(`https://mango-bm.herokuapp.com/api/registrasi`, {
@@ -69,13 +119,14 @@ export const UserProvider = props => {
     
     const functionUser = {
         functionRegisSubmit,
-        getUserLogin
+        getUserLogin,
+        validateInput
     }
 
     return(
        <UserContext.Provider value={{ 
            input, setInput, functionUser, inputData, setInputData, loginStatus, setLoginStatus,
-           profile, setProfile
+           profile, setProfile, error, setError
         }}>
         {props.children}
        </UserContext.Provider>

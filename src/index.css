@@ -59,3 +59,8 @@ code {
   justify-content: flex-end;
   align-items: center;
 }
+
+.err {
+  color: red;
+  font-size: small;
+}
