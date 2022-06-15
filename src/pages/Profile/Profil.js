@@ -17,7 +17,7 @@ function Profil() {
 
   useEffect(()=>{
     getUserLogin(Cookies.get('username'))
-  }, [getUserLogin])
+  }, [])
 
   return (
     <>

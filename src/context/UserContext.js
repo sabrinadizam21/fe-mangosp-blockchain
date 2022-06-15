@@ -58,7 +58,13 @@ export const UserProvider = props => {
             let profile = res.data[0]
             setProfile(profile) 
             //console.log(profile)        
-        }).catch(err=> console.log(err))
+        }).catch((err)=>{
+            alert(err)
+            Cookies.remove('token')
+            Cookies.remove('username')
+            Cookies.set('loginStatus', false)
+            window.location.href ='/login'
+        })
     }
     
     const functionUser = {
