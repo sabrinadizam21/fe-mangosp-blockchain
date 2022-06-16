@@ -14,7 +14,8 @@ export const Input = ({
     htmlFor,
     maxLength,
     minLength,
-    onBlur
+    onBlur,
+    errorMsg
 }) => {
     const checkInputType = TYPES.includes(type) ? type : TYPES[0]
     return(
@@ -25,6 +26,7 @@ export const Input = ({
             <input className={`input ${checkInputType}`} type={type} name={name} id={id} 
             placeholder={placeholder} value={value} onChange={onChange} 
             maxLength={maxLength} minLength={minLength} onBlur={onBlur} required />
+            {errorMsg && <span className='err'>{errorMsg}</span>}
         </div>
     )
 }

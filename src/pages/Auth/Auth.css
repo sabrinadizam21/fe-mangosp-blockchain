@@ -1,0 +1,58 @@
+input[type=submit]{
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #1A1305;
+  color: #fff;
+  border: solid 1px #1A1305;
+  margin: 10px 0 !important;
+  cursor: pointer;  
+}
+
+input[type=submit]:disabled {
+  background-color: darkgrey;
+  color: white;
+  border-color: darkgray;
+  cursor: not-allowed;
+}
+
+.show-password{
+  font-size: 14px !important;
+  padding-left: 5px;
+}
+
+.register__radio-role {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+.register__role {
+  padding: 11px 10px;
+  font-size: 14px;
+  border: 1pt solid #1A1305;
+  margin-bottom: 0px !important;
+  max-width: 100%;
+  border-radius: 3px;
+}
+
+.register__dropdown{
+  margin-bottom: 10px;
+}
+
+select, select option {
+  color: #000000;
+}
+
+select:invalid, select option[value=""] {
+  color: #999999;
+}
+
+[hidden] {
+  display: none;
+}

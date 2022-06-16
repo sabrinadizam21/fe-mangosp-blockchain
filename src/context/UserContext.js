@@ -38,11 +38,17 @@ export const UserProvider = props => {
       })
 
     const validateInput = e => {
-        let { name, value, placeholder } = e.target
+        let { name, value, placeholder, type } = e.target
         setError(prev => {
         const stateObj = { ...prev, [name]: "" }
         if (!value) {
             stateObj[name] = `${placeholder} tidak boleh kosong.`
+        }
+
+        if(type === 'number'){
+          if(!/[^a-z]/i.test(value)){
+            stateObj[name] = `${placeholder} harus berisi angka.`
+          }
         }
           switch (name) {
                  
@@ -51,7 +57,7 @@ export const UserProvider = props => {
                 stateObj[name] = "Password tidak boleh kosong."
               } else if (inputData.confirmPassword && value !== inputData.confirmPassword) {
                 stateObj["confirmPassword"] = "Password dan Konfirmasi Password tidak sama."
-              } else if (value.length !== 8) {
+              } else if (value.length < 8) {
                 stateObj[name] = "Panjang password minimal 8 karakter."
               } else {
                 stateObj["confirmPassword"] = inputData.confirmPassword ? "" : error.confirmPassword;
