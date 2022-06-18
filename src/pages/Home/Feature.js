@@ -13,25 +13,25 @@ function Feature() {
         <div className='feature__wrapper'>
           <h1 className='feature__heading'>Fitur Kami</h1>
           <div className='feature__container'>
-            <Link to='/channel' className='feature__container-card'>
-              <div className='feature__container-cardInfo'>
-                <FaFire className='icon'/>
-                <h3>Channel</h3>
-                <p>asfsafsadf</p>
-              </div>
-            </Link>
             <Link to='/aset' className='feature__container-card'>
               <div className='feature__container-cardInfo'>
-                  <BsXDiamondFill className='icon'/>
+                <FaFire className='icon'/>
                 <h3>Aset</h3>
-                <p>asfsafsadf</p>
+                <p>Cek aset yang Anda miliki</p>
               </div>
             </Link>
             <Link to='/transaksi' className='feature__container-card'>
               <div className='feature__container-cardInfo'>
-                  <GiCrystalize className='icon'/>
+                  <BsXDiamondFill className='icon'/>
                 <h3>Transaksi</h3>
-                <p>asfsafsadf</p>
+                <p>Lihat list transaksi masuk dan keluar</p>
+              </div>
+            </Link>
+            <Link to='/transaksi/buat' className='feature__container-card'>
+              <div className='feature__container-cardInfo'>
+                  <GiCrystalize className='icon'/>
+                <h3>Buat Transaksi</h3>
+                <p>Lakukan transaksi dengan pengguna lain</p>
               </div>
             </Link>
           </div>

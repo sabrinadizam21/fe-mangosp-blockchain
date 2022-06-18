@@ -70,6 +70,7 @@
   .feature__container-cardInfo p {
     font-size: 14px;
     margin-bottom: 24px;
+    text-align: center;
   }
   
   .feature__container-features {
