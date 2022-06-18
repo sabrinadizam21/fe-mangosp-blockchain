@@ -20,6 +20,7 @@ import { UserProvider } from '../context/UserContext'
 import RoleBasedRouting from '../components/RoleBasedRouting'
 import KonfirmasiTransaksi from '../pages/Transaksi/KonfirmasiTransaksi'
 import Profil from '../pages/Profile/Profil'
+import ListAsetTransaksi from '../pages/Transaksi/ListAsetTransaksi'
 
 function Routes() {
   const LoginRoute = ({...props}) => {
@@ -52,16 +53,16 @@ function Routes() {
             <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
             <PrivateRoute path='/konfirmasi' exact component={KonfirmasiTransaksi}/>
             <RoleBasedRouting path='/tanam-benih' exact component={TanamBenih} roles={2} />
-            {/* <PrivateRoute path='/panen' exact component={Panen} /> */}
             <RoleBasedRouting path='/panen' exact component={Panen} roles={2}/>
+            <PrivateRoute path='/transaksi/pilih-aset' exact component={ListAsetTransaksi} />
+            <PrivateRoute path='/profil' exact component={Profil} />  
             <AsetProvider>
-              <PrivateRoute path='/aset' exact component={Aset} />
               <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
-              <PrivateRoute path='/:userName' exact component={Profil} />
-            </AsetProvider>
+              <PrivateRoute path='/aset' exact component={Aset} />
+            </AsetProvider>    
         </Switch>
         <Footer />
-        </UserProvider>
+      </UserProvider>
     </Router>
   )
 }

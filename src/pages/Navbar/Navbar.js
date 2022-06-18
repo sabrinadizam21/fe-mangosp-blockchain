@@ -56,7 +56,7 @@ function Navbar() {
                   <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={`/${profile.userName}`} className="nav-links" onClick={closeMobileMenu}>Profil</Link>
+                  <Link to={'/profil'} className="nav-links" onClick={closeMobileMenu}>Profil</Link>
                 </li> 
                 <li className="nav-btn">
                   {button ? (

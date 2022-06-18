@@ -15,7 +15,7 @@ function Transaksi() {
                         <div className="subtitle">Daftar transaksi yang anda lakukan</div>
                     </div>
                     <div className="btn-header">
-                    <Link to='/transaksi/buat'>
+                    <Link to='/transaksi/pilih-aset'>
                         <Button buttonColor='primary'>BUAT TRANSAKSI</Button>
                     </Link>
                     </div>

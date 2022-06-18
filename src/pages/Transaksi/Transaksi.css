@@ -72,3 +72,24 @@ select {
 .btn-konfirmasi {
     padding: 10px 5px 0;
 }
+
+.content-wrapper-card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+@media screen and (max-width : 600px) {
+    .content-wrapper-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .card {
+        max-width: 500px !important;
+        width: 100%;
+    }
+    
+}
