@@ -16,7 +16,7 @@ function HeroSection() {
   const username = Cookies.get('username')
   const loginStatus = Cookies.get('loginStatus')
   useEffect(()=>{
-    getUserLogin(username)
+    if(username !== undefined) getUserLogin(username)
   }, [])
 
   return (

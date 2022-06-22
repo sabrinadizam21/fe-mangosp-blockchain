@@ -11,9 +11,9 @@ function Login() {
 
   const { input, setInput, setLoginStatus, functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
-  const [passwordType, setPasswordType] = useState("password");
+  const [passwordType, setPasswordType] = useState("password")
   const [ inputText, setInputText] = useState("LOG IN")
-  const changeText = (text) => setInputText(text);
+  const changeText = (text) => setInputText(text)
   
   let history = useHistory()
   
@@ -22,7 +22,7 @@ function Login() {
       userName : input.userName,
       password : input.password
     }
-    ).then(async(res)=>{
+    ).then((res)=>{
         let access_token = res.data.accessToken
         let username = input.userName
         Cookies.set('token', access_token, {expires: 1})
@@ -30,7 +30,10 @@ function Login() {
         setLoginStatus(true)
         Cookies.set('loginStatus', true, {expires: 1})
         history.push("/")
-    }).catch((res)=> alert(res))
+    }).catch((res)=> {
+      alert(res)
+      changeText("LOG IN")
+    })
 }
 
   const handleChange = (event) => {
@@ -69,9 +72,14 @@ function Login() {
                 <label className="show-password">
                   <input type="checkbox" onClick={showPassword} /> Lihat password
                 </label>
-
-                <input type="submit" value={inputText} onClick={() => changeText("Loading...")} 
-                className="btn-link" disabled={!input.userName.length || !input.password}/>
+                
+                <input type="submit" value={inputText} className="btn-link" disabled={!input}
+                onClick={() => {
+                  changeText("Loading...");
+                  setTimeout(() => {
+                    changeText("LOG IN");
+                  }, 5000);}} 
+                />
               </form>
               <Link to='/register' className="btn-link">
                 <p>Belum punya akun? Registrasi</p>
