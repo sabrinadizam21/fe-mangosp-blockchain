@@ -114,8 +114,8 @@ export const UserProvider = props => {
             let profile = res.data[0]
             setProfile(profile) 
             //console.log(profile)        
-        }).catch((err)=>{
-            alert(err)
+        }).catch(()=>{
+            alert("Sesi Log In Anda telah berakhir, silahkan Log In kembali")
             Cookies.remove('token')
             Cookies.remove('username')
             Cookies.set('loginStatus', false)
