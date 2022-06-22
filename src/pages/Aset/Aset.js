@@ -224,6 +224,108 @@ function Aset() {
                   })} */}
                   </UnlockAccess>
                   {/* END ASET PETANI */}
+
+                  {/* START ASET PENGUMPUL */}
+                  <UnlockAccess request={3}>
+                  {/* { sortData(aset).map((data, index)=>{
+                    return ( */}
+                      <div className="card"> {/* key={index}> */}
+                        <div className="card__header">
+                          <div className="card__icon">
+                            <FaSeedling className='card__logo' />
+                          </div>
+                          <div style={{marginLeft: '15px'}}>
+                            <b>Benih 1</b>
+                            <p className="card__timestamp">{formatDate(1648054793)}</p>
+                          </div>                
+                        </div>
+                        <div className="card__body">
+                          <div className="quantity-value">
+                            <div className="quantity">
+                              <span>Kuantitas</span>
+                              <p>120 Kg </p>
+                            </div>
+                            <div className="value">
+                              <span>Harga per Kg</span>
+                              <p>Rp54.000</p>
+                            </div>
+                          </div>
+                          <div className="seed-age">
+                            <span>Pengirim</span> 
+                            <p>Ina Petani</p>
+                          </div>
+                          <div className="seed-age">
+                            <span>Umur Benih</span> 
+                            <p>12 hari</p>
+                          </div>
+                          <div className="harvest-age">
+                            <span>Umur Panen</span>
+                            <p>6 hari</p>
+                          </div>
+                        </div>
+                        {/* <div className="card__bottom">
+                            <Link to='/tanam-benih'> 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                                buttonStyle={'btn--outline'}> TANAM BENIH
+                              </Button>
+                            </Link>
+                        </div> */}
+                      </div>
+                    {/* )
+                  })} */}
+                  </UnlockAccess>
+                  {/* END ASET PENGUMPUL */}
+
+                  {/* START ASET PEDAGANG */}
+                  <UnlockAccess request={4}>
+                  {/* { sortData(aset).map((data, index)=>{
+                    return ( */}
+                      <div className="card"> {/* key={index}> */}
+                        <div className="card__header">
+                          <div className="card__icon">
+                            <FaSeedling className='card__logo' />
+                          </div>
+                          <div style={{marginLeft: '15px'}}>
+                            <b>Benih 1</b>
+                            <p className="card__timestamp">{formatDate(1648054793)}</p>
+                          </div>                
+                        </div>
+                        <div className="card__body">
+                          <div className="quantity-value">
+                            <div className="quantity">
+                              <span>Kuantitas</span>
+                              <p>120 Kg </p>
+                            </div>
+                            <div className="value">
+                              <span>Harga per Kg</span>
+                              <p>Rp54.000</p>
+                            </div>
+                          </div>
+                          <div className="seed-age">
+                            <span>Pengirim</span> 
+                            <p>Ari Pengumpul</p>
+                          </div>
+                          <div className="seed-age">
+                            <span>Umur Benih</span> 
+                            <p>12 hari</p>
+                          </div>
+                          <div className="harvest-age">
+                            <span>Umur Panen</span>
+                            <p>6 hari</p>
+                          </div>
+                        </div>
+                        {/* <div className="card__bottom">
+                            <Link to='/tanam-benih'> 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                                buttonStyle={'btn--outline'}> TANAM BENIH
+                              </Button>
+                            </Link>
+                        </div> */}
+                      </div>
+                    {/* )
+                  })} */}
+                  </UnlockAccess>
+                  {/* END ASET PEDAGANG */}
                 </div>
               </div>
             </div>
