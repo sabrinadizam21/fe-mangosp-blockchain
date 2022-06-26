@@ -30,8 +30,9 @@ function Login() {
         setLoginStatus(true)
         Cookies.set('loginStatus', true, {expires: 1})
         history.push("/")
+        console.log(res)
     }).catch((res)=> {
-      alert(res)
+      console.log(res)
       changeText("LOG IN")
     })
 }

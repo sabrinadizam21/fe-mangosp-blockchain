@@ -113,11 +113,13 @@ export const UserProvider = props => {
         .then((res)=>{
             let profile = res.data[0]
             setProfile(profile) 
-            //console.log(profile)        
+            Cookies.set('role', profile.role)
+            console.log(profile)        
         }).catch(()=>{
             alert("Sesi Log In Anda telah berakhir, silahkan Log In kembali")
             Cookies.remove('token')
             Cookies.remove('username')
+            Cookies.remove('role')
             Cookies.set('loginStatus', false)
             window.location.href ='/login'
         })
