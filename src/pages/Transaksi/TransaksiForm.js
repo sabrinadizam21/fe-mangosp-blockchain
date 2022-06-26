@@ -6,53 +6,40 @@ import UnlockAccess from '../../components/UnlockAccess'
 import { UserContext } from '../../context/UserContext'
 import './TransaksiForm.css'
 import Cookies from 'js-cookie'
+import { useHistory } from 'react-router'
+import { AsetContext } from '../../context/AsetContext'
 
 function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
   const { profile, functionUser, error } = useContext(UserContext)
   const { validateInput, getUserLogin } = functionUser
+  const { 
+    input1, setInput1, createTrxPenangkar, 
+    input2, setInput2, checked, setChecked, createTrxPetani, 
+    input3, setInput3, createTrxPengumpul, 
+    input4, setInput4, createTrxPedagang 
+  } = useContext(AsetContext)
+
   const username = Cookies.get('username')
 
   useEffect(()=>{
     getUserLogin(username)
-  }, [])
+  }, []) 
 
-  const [input1, setInput1] = useState({
-    kuantitas : '',
-    umurBenih : '',
-    umurPanen : '',
-    hargaBenih : '',
-    penerima : '',
-  })
+  const checkList = ["Bayar Langsung", "Transfer", "E-money", "Lainnya"]
 
-  const [input2, setInput2] = useState({
-    benih : '',
-    ukuran : '',
-    pestisida : '',
-    kadarAir : '',
-    perlakuan : '',
-    produktivitas : '',
-    penerima : '',
-  })
+  const handleCheck = (event) => {
+    var updatedList = [...checked]
+    if (event.target.checked) {
+      updatedList = [...checked, event.target.value]
+    } else {
+      updatedList.splice(checked.indexOf(event.target.value), 1)
+    }
+    setChecked(updatedList)
+  }
 
-  const [input3, setInput3] = useState({
-    kuantitasMangga : '',
-    teknikSorting : '',
-    hargaMangga : '',
-    metodePengemasan : '',
-    kadarAir : '',
-    penerima : '',
-    paymentMethod : ''
-  })
-
-  const [input4, setInput4] = useState({
-    kuantitasMangga : '',
-    teknikSorting : '',
-    hargaMangga : '',
-    metodePengemasan : '',
-    kadarAir : '',
-    penerima : ''
-  })
+  var isChecked = (item) =>
+    checked.includes(item) ? "checked-item" : "not-checked-item"
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -61,6 +48,19 @@ function TransaksiForm() {
     if(profile.role === 3) setInput3({...input3, [name]:value})
     if(profile.role === 4) setInput4({...input4, [name]:value})
   }
+
+  let history = useHistory()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(profile.role === 1) createTrxPenangkar()
+    else if(profile.role === 2) createTrxPetani()
+    else if(profile.role === 3) createTrxPengumpul()
+    else if(profile.role === 4) createTrxPedagang()
+    history.push('/detail-transaksi')
+    setModalOpen(false)
+  }
+
   return (
     <>
       <div className="wrapper">
@@ -72,132 +72,139 @@ function TransaksiForm() {
             </div>
           </div>
           <div className="content">
-            <form id='buat-transaksi-baru'>
+            <form id='buat-transaksi-baru' onSubmit={handleSubmit}>
               <UnlockAccess request={1}> 
                 <>
-                  <Input label={'Kuantitas'} type='number' name='kuantitas' id='kuantitas' errorMsg={error.kuantitas}
-                    placeholder='Kuantitas' value={input1.kuantitas} onChange={handleChange} onBlur={validateInput} />                    
+                  <Input label={'Kuantitas'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' errorMsg={error.KuantitasBenihKg}
+                    placeholder='Kuantitas' value={input1.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
                   
-                  <Input label={'Umur Benih'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
-                    placeholder='Umur Benih' value ={input1.umurBenih}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Umur Benih'} type='number' name='UmurBenih' id='UmurBenih' errorMsg={error.UmurBenih} 
+                    placeholder='Umur Benih' value ={input1.UmurBenih}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input label={'Umur Panen'} type='number' name='umurPanen' id='umurPanen' errorMsg={error.umurPanen} 
-                    placeholder='Umur Panen' value ={input1.umurPanen}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Umur Panen'} type='number' name='UmurPanen' id='UmurPanen' errorMsg={error.UmurPanen} 
+                    placeholder='Umur Panen' value ={input1.UmurPanen}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Harga Benih'} type='number' name='hargaBenih' id='hargaBenih' errorMsg={error.hargaBenih} 
-                    placeholder='Harga Benih' value ={input1.hargaBenih}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Harga Benih'} type='number' name='HargaBenihKg' id='HargaBenihKg' errorMsg={error.HargaBenihKg} 
+                    placeholder='Harga Benih' value ={input1.HargaBenihKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='text' name='penerima' id='penerima' errorMsg={error.penerima} 
-                    placeholder='Penerima' value ={input1.penerima}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Penerima'} type='text' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima} 
+                    placeholder='Penerima' value ={input1.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
                         
                   <div>
-                    <label htmlFor="">Metode Pembayaran : <span style={{color: 'red'}}>*</span> </label> <br />
-                    <input type="checkbox" name="paymentMethod" id="cash" value={'cash'} required /> Bayar langsung <br />
-                    <input type="checkbox" name="paymentMethod" id="transfer" value={'transfer'} /> Transfer bank <br />
-                    <input type="checkbox" name="paymentMethod" id="emoney" value={'emoney'} /> E-money <br />
-                    <input type="checkbox" name="paymentMethod" id="other" value={'other'} /> Lainnya <br />
+                    <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
+                    {checkList.map((item, index) => (
+                      <div key={index}>
+                        <input value={item} type="checkbox" onChange={handleCheck} />
+                        <span className={isChecked(item)}>{item}</span>
+                      </div>
+                    ))}
+                    <input type="text" name='CaraPembayaran' value={input1.CaraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>
               
               <UnlockAccess request={2}>
                 <>
-                  <Input label={'Benih'} type='text' name='benih' id='benih' errorMsg={error.benih}
-                    placeholder='Benih' value ={input2.benih}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Benih'} type='text' name='Benih' id='Benih' errorMsg={error.Benih}
+                    placeholder='Benih' value ={input2.Benih}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Kuantitas Mangga'} type='number' name='kuantitasMangga' id='kuantitasMangga' errorMsg={error.kuantitasMangga}
-                    placeholder='Kuantitas Mangga' value ={input2.kuantitasMangga}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Kuantitas Mangga'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={input2.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input label={'Ukuran'} type='text' name='ukuran' id='ukuran' errorMsg={error.ukuran}
-                    placeholder='Ukuran' value ={input2.ukuran}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Ukuran'} type='text' name='Ukuran' id='Ukuran' errorMsg={error.Ukuran}
+                    placeholder='Ukuran' value ={input2.Ukuran}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Pestisida'} type='text' name='pestisida' id='pestisida' errorMsg={error.pestisida}
-                    placeholder='Pestisida' value ={input2.pestisida}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Pestisida'} type='text' name='Pestisida' id='Pestisida' errorMsg={error.Pestisida}
+                    placeholder='Pestisida' value ={input2.Pestisida}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Kadar Air'} type='text' name='kadarAir' id='kadarAir' errorMsg={error.kadarAir}
-                    placeholder='Kadar Air' value ={input2.kadarAir}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Kadar Air'} type='text' name='KadarAir' id='KadarAir' errorMsg={error.KadarAir}
+                    placeholder='Kadar Air' value ={input2.KadarAir}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Perlakuan'} type='text' name='perlakuan' id='perlakuan' errorMsg={error.perlakuan}
-                    placeholder='Perlakuan' value ={input2.perlakuan}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Perlakuan'} type='text' name='Perlakuan' id='Perlakuan' errorMsg={error.Perlakuan}
+                    placeholder='Perlakuan' value ={input2.Perlakuan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Produktivitas'} type='text' name='produktivitas' id='produktivitas' errorMsg={error.produktivitas}
-                    placeholder='Produktivitas' value ={input2.produktivitas}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Produktivitas'} type='text' name='Produktivitas' id='Produktivitas' errorMsg={error.Produktivitas}
+                    placeholder='Produktivitas' value ={input2.Produktivitas}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Penerima'} type='number' name='penerima' id='penerima' errorMsg={error.penerima}
-                    placeholder='Penerima' value ={input2.penerima}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Harga Mangga'} type='number' name='HargaManggaTotal' id='HargaManggaTotal' errorMsg={error.HargaManggaTotal} 
+                    placeholder='Harga Mangga' value ={input2.HargaManggaTotal}  onChange={handleChange} onBlur={validateInput} />
+
+                  <Input label={'Penerima'} type='number' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima}
+                    placeholder='Penerima' value ={input2.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
+
+                  <div>
+                    <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
+                    {checkList.map((item, index) => (
+                      <div key={index}>
+                        <input value={item} type="checkbox" onChange={handleCheck} />
+                        <span className={isChecked(item)}>{item}</span>
+                      </div>
+                    ))}
+                    <input type="text" name='CaraPembayaran' value={input2.CaraPembayaran = checked} onChange={handleChange} hidden />
+                  </div>
                 </>
               </UnlockAccess>
 
               <UnlockAccess request={3}>
                 <>
-                  <Input label={'Kuantitas Mangga'} type='number' name='kuantitasMangga' id='kuantitasMangga' 
-                    placeholder='Kuantitas Mangga' value ={input3.kuantitasMangga}  onChange={handleChange} onBlur={validateInput} />
-                    {error.kuantitasMangga && <span className='err'>{error.kuantitasMangga}</span>}
+                  <Input label={'Kuantitas Mangga'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={input3.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' 
-                    placeholder='Teknik Sorting' value ={input3.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
-                    {error.teknikSorting && <span className='err'>{error.teknikSorting}</span>}
+                  <Input label={'Teknik Sorting'} type='text' name='TeknikSorting' id='TeknikSorting' errorMsg={error.TeknikSorting}
+                    placeholder='Teknik Sorting' value ={input3.TeknikSorting}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Harga Mangga'} type='text' name='hargaMangga' id='hargaMangga' 
-                    placeholder='Harga Mangga' value ={input3.hargaMangga}  onChange={handleChange} onBlur={validateInput} />
-                    {error.hargaMangga && <span className='err'>{error.hargaMangga}</span>}
+                  <Input label={'Harga Mangga'} type='text' name='HargaManggaKg' id='HargaManggaKg' errorMsg={error.HargaManggaKg}
+                    placeholder='Harga Mangga' value ={input3.HargaManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' 
-                    placeholder='Metode Pengemasan' value ={input3.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
-                    {error.metodePengemasan && <span className='err'>{error.metodePengemasan}</span>}
+                  <Input  label={'Metode Pengemasan'} type='text' name='MetodePengemasan' id='MetodePengemasan' errorMsg={error.MetodePengemasan}
+                    placeholder='Metode Pengemasan' value ={input3.MetodePengemasan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='kadarAir' 
-                    placeholder='Pengangkutan' value ={input3.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
-                    {error.pengangkutan && <span className='err'>{error.pengangkutan}</span>}
+                  <Input label={'Pengangkutan'} type='text' name='Pengangkutan' id='Pengangkutan' errorMsg={error.Pengangkutan}
+                    placeholder='Pengangkutan' value ={input3.Pengangkutan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='number' name='penerima' id='penerima' 
-                    placeholder='Penerima' value ={input3.penerima}  onChange={handleChange} onBlur={validateInput} />
-                    {error.penerima && <span className='err'>{error.penerima}</span>}
+                  <Input label={'Penerima'} type='number' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima}
+                    placeholder='Penerima' value ={input3.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
                       
                   <div>
-                    <label htmlFor="">Metode Pembayaran : <span style={{color: 'red'}}>*</span> </label> <br />
-                    <input type="checkbox" name="paymentMethod" id="cash" value={'cash'} required /> Bayar langsung <br />
-                    <input type="checkbox" name="paymentMethod" id="transfer" value={'transfer'} /> Transfer bank <br />
-                    <input type="checkbox" name="paymentMethod" id="emoney" value={'emoney'} /> E-money <br />
-                    <input type="checkbox" name="paymentMethod" id="other" value={'other'} /> Lainnya <br />
+                    <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
+                    {checkList.map((item, index) => (
+                      <div key={index}>
+                        <input value={item} type="checkbox" onChange={handleCheck} />
+                        <span className={isChecked(item)}>{item}</span>
+                      </div>
+                    ))}
+                    <input type="text" name='CaraPembayaran' value={input3.CaraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>
               
               <UnlockAccess request={4}>
                 <>
-                <Input label={'Kuantitas Mangga'} type='number' name='kuantitasMangga' id='kuantitasMangga' 
-                  placeholder='Kuantitas Mangga' value ={input4.kuantitasMangga}  onChange={handleChange} onBlur={validateInput} />
-                  {error.kuantitasMangga && <span className='err'>{error.kuantitasMangga}</span>}
-                      
-                <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' 
-                  placeholder='Teknik Sorting' value ={input4.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
-                  {error.teknikSorting && <span className='err'>{error.teknikSorting}</span>}
-                
-                <Input label={'Harga Mangga'} type='text' name='hargaMangga' id='hargaMangga' 
-                  placeholder='Harga Mangga' value ={input4.hargaMangga}  onChange={handleChange} onBlur={validateInput} />
-                  {error.hargaMangga && <span className='err'>{error.hargaMangga}</span>}
-                      
-                <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' 
-                  placeholder='Metode Pengemasan' value ={input4.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
-                  {error.metodePengemasan && <span className='err'>{error.metodePengemasan}</span>}
-
-                <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='kadarAir' 
-                  placeholder='Pengangkutan' value ={input4.kadarAir}  onChange={handleChange} onBlur={validateInput} />
-                  {error.kadarAir && <span className='err'>{error.kadarAir}</span>}
-
-                <Input label={'Penerima'} type='number' name='penerima' id='penerima' 
-                  placeholder='Penerima' value ={input4.penerima}  onChange={handleChange} onBlur={validateInput} />
-                  {error.penerima && <span className='err'>{error.penerima}</span>}
-                    
-                <div>
-                  <label htmlFor="">Metode Pembayaran : <span style={{color: 'red'}}>*</span> </label> <br />
-                  <input type="checkbox" name="paymentMethod" id="cash" value={'cash'} required /> Bayar langsung <br />
-                  <input type="checkbox" name="paymentMethod" id="transfer" value={'transfer'} /> Transfer bank <br />
-                  <input type="checkbox" name="paymentMethod" id="emoney" value={'emoney'} /> E-money <br />
-                  <input type="checkbox" name="paymentMethod" id="other" value={'other'} /> Lainnya <br />
-                </div>
+                <Input label={'Kuantitas Mangga'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={input4.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                        
+                  <Input label={'Teknik Sorting'} type='text' name='TeknikSorting' id='TeknikSorting' errorMsg={error.TeknikSorting}
+                    placeholder='Teknik Sorting' value ={input4.TeknikSorting}  onChange={handleChange} onBlur={validateInput} />
                   
+                  <Input label={'Harga Mangga'} type='text' name='HargaManggaKg' id='HargaManggaKg' errorMsg={error.HargaManggaKg}
+                    placeholder='Harga Mangga' value ={input4.HargaManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                        
+                  <Input  label={'Metode Pengemasan'} type='text' name='MetodePengemasan' id='MetodePengemasan' errorMsg={error.MetodePengemasan}
+                    placeholder='Metode Pengemasan' value ={input4.MetodePengemasan}  onChange={handleChange} onBlur={validateInput} />
+
+                  <Input label={'Pengangkutan'} type='text' name='Pengangkutan' id='Pengangkutan' errorMsg={error.Pengangkutan}
+                    placeholder='Pengangkutan' value ={input4.Pengangkutan}  onChange={handleChange} onBlur={validateInput} />
+                    
+                  <div>
+                    <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
+                    {checkList.map((item, index) => (
+                      <div key={index}>
+                        <input value={item} type="checkbox" onChange={handleCheck} />
+                        <span className={isChecked(item)}>{item}</span>
+                      </div>
+                    ))}
+                    <input type="text" name='CaraPembayaran' value={input4.CaraPembayaran = checked} onChange={handleChange} hidden />
+                  </div>
                 </>
               </UnlockAccess>
 
