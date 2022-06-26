@@ -3,6 +3,7 @@ import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
+import { useHistory } from 'react-router'
 
 function Panen() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -19,6 +20,14 @@ function Panen() {
   const handleChange = (event) => {
       let {value, name} = event.target
       setInput({...input, [name]:value})
+  }
+
+  let history = useHistory()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    history.push('/detail-transaksi')
+    setModalOpen(false)
   }
 
 return (
@@ -43,7 +52,7 @@ return (
                 </div>
               </div>
               <div>
-                  <form id='tanam-benih'>
+                  <form id='tanam-benih' onSubmit={handleSubmit}>
                       <Input label={'Jumlah'} type='number' name='jumlah' id='jumlah' 
                       placeholder='Jumlah' value={input.jumlah} onChange={handleChange} required />
 

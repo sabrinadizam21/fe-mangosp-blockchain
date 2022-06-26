@@ -3,6 +3,7 @@ import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
+import { useHistory } from 'react-router'
 
 function TanamBenih() {
     const [modalOpen, setModalOpen] = useState(false)
@@ -14,6 +15,14 @@ function TanamBenih() {
     const handleChange = (event) => {
         let {value, name} = event.target
         setInput({...input, [name]:value})
+    }
+
+    let history = useHistory()
+
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      history.push('/detail-transaksi')
+      setModalOpen(false)
     }
 
   return (
@@ -38,7 +47,7 @@ function TanamBenih() {
                   </div>
                 </div>
                 <div>
-                    <form id='tanam-benih'>
+                    <form id='tanam-benih' onSubmit={handleSubmit}>
                         <Input label={'Jenis Pupuk'} type='text' name='pupuk' id='pupuk' 
                         placeholder='Jenis Pupuk' value={input.pupuk} onChange={handleChange} required />
 

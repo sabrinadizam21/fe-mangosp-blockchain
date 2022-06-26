@@ -1,4 +1,4 @@
-import React , { useState, useContext } from 'react'
+import React , { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { FaSeedling } from 'react-icons/fa'
@@ -6,43 +6,37 @@ import './Aset.css'
 import Modal from '../../components/Modal'
 import { Input } from '../../components/Input'
 import { AsetContext } from '../../context/AsetContext'
-import UnlockAccess from '../../components/UnlockAccess';
+import UnlockAccess from '../../components/UnlockAccess'
+import { UserContext } from '../../context/UserContext'
+import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat, formatDate, sortData } = useContext(AsetContext)
-  const [inputData, setInputData] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(-1)
+  const { aset, numberFormat, formatDate, sortData, qtyBenih, setQtyBenih, addQtyBenih, setCurrentIndex } = useContext(AsetContext)
+  const {functionUser, error} = useContext(UserContext)
+  const {getUserLogin, validateInput} = functionUser
 
   const handleChange = (event) => {
     let input = event.target.value
-    setInputData(input)
+    setQtyBenih(input)
   }
-
-  console.log(aset)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let newData = aset
-      if(currentIndex === -1){
-        newData = [...aset, {
-          kuantitasBenih : parseInt(inputData)
-        }]
-      }
-      else {
-        if(inputData <= newData[currentIndex].kuantitasBenih) alert("Input tidak boleh lebih kecil dari kuantitas sekarang")
-        else newData[currentIndex].kuantitasBenih = inputData
-      }
-      console.log(newData)
-      setModalOpen(false)
+    addQtyBenih()
+    setModalOpen(false)
+    validateInput(e)
   }
 
   const handleEdit = (event) => {
     var index = parseInt(event.target.value)
-    setInputData(aset[index].kuantitasBenih)
+    setQtyBenih(aset[index].KuantitasBenihKg)
     setCurrentIndex(index)
   }
 
+  useEffect(()=>{
+    getUserLogin(Cookies.get('username'))
+  },[])
 
   return (
     <>
@@ -75,7 +69,7 @@ function Aset() {
                             <FaSeedling className='card__logo' />
                           </div>
                           <div style={{marginLeft: '15px'}}>
-                            <b>{data.varietas}</b>
+                            <b>{data.VarietasBenih}</b>
                             <p className="card__timestamp">{formatDate(data.createdDate)}</p>
                           </div>                
                         </div>
@@ -83,20 +77,12 @@ function Aset() {
                           <div className="quantity-value">
                             <div className="quantity">
                               <span>Kuantitas</span>
-                              <p>{numberFormat(data.kuantitasBenih)} Kg </p>
+                              <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
                             </div>
                             <div className="value">
-                              <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.hargaPanen)}</p>
+                              <span>Umur Benih</span>
+                              <p>{numberFormat(data.UmurBenih)} hari</p>
                             </div>
-                          </div>
-                          <div className="seed-age">
-                            <span>Umur Benih</span> 
-                            <p>{numberFormat(data.umurBenih)} hari</p>
-                          </div>
-                          <div className="harvest-age">
-                            <span>Umur Panen</span>
-                            <p>{numberFormat(data.umurPanen)} hari</p>
                           </div>
                         </div>
                         <div className="card__bottom">
@@ -115,8 +101,8 @@ function Aset() {
                               modalBody={
                                 <>
                                   <form id='editKuantitas' onSubmit={handleSubmit}>
-                                    <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' 
-                                    placeholder='Tambah Kuantitas Benih' value={inputData} onChange={handleChange} required />
+                                    <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
+                                    placeholder='Tambah Kuantitas Benih' value={qtyBenih} onChange={handleChange} onBlur={validateInput} errorMsg={error.KuantitasBenihKg} required />
                                   </form>
                                 </>
                               } 
