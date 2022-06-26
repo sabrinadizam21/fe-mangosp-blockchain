@@ -50,13 +50,13 @@ function Routes() {
             <PrivateRoute path='/transaksi' exact component={Transaksi} />
             <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
             <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
-            <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
             <PrivateRoute path='/konfirmasi' exact component={KonfirmasiTransaksi}/>
             <RoleBasedRouting path='/tanam-benih' exact component={TanamBenih} roles={2} />
             <RoleBasedRouting path='/panen' exact component={Panen} roles={2}/>
             <PrivateRoute path='/transaksi/pilih-aset' exact component={ListAsetTransaksi} />
             <PrivateRoute path='/profil' exact component={Profil} />  
             <AsetProvider>
+              <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
               <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
               <PrivateRoute path='/aset' exact component={Aset} />
             </AsetProvider>    
