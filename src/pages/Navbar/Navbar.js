@@ -22,11 +22,12 @@ function Navbar() {
   }
   window.addEventListener('resize', showButton);
   
-  const { setLoginStatus, profile } = useContext(UserContext)
+  const { setLoginStatus } = useContext(UserContext)
 
   const handleLogout = async () => {
     Cookies.remove('token')
     Cookies.remove('username')
+    Cookies.remove('role')
     await setLoginStatus(false)
     Cookies.set('loginStatus', false)
     window.location.href ='/login'
@@ -53,7 +54,15 @@ function Navbar() {
                   <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
+                <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
+                {/* <div class="dropdown">
+                  <a className="dropbtn nav-links">Transaksi</a>
+                  <div className="dropdown-content">
+                    <a href="/transaksi/pilih-aset" onClick={closeMobileMenu}>Buat Transaksi</a>
+                    <a href="/transaksi/masuk" onClick={closeMobileMenu}>Transaksi Masuk</a>
+                    <a href="/transaksi/keluar" onClick={closeMobileMenu}>Transaksi Keluar</a>
+                  </div>
+                </div> */}
                 </li>
                 <li className="nav-item">
                   <Link to={'/profil'} className="nav-links" onClick={closeMobileMenu}>Profil</Link>
