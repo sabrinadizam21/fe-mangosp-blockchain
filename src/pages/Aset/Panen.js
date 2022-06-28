@@ -7,27 +7,58 @@ import { useHistory } from 'react-router'
 
 function Panen() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { profile } = useContext(UserContext)
-  const [input, setInput] = useState({
-    jumlah : '',
-    ukuran : '',
-    pestisida : '',
-    kadarAir : '',
-    perlakuan : '',
-    produktivitas : '',
+  const { functionUser, error } = useContext(UserContext)
+  const { validateInput } = functionUser
+
+  const [ inputTrx, setInputTrx] = useState({
+    Ukuran : '', 
+    Pestisida : '', 
+    KadarAir : '', 
+    Perlakuan : '', 
+    Produktivitas : '', 
+    KuantitasManggaKg : '',
+    TanggalTanam : ''
   })
+
+  const [currentIndex] = useState(-1)
+
+  const [ panen, setPanen ] = useState([
+    {Ukuran : 'Besar', Pestisida : 'A', KadarAir : '10', Perlakuan : 'AA', Produktivitas : 'a', 
+    KuantitasManggaKg : 10, TanggalTanam : 1648054793}
+  ])
 
   const handleChange = (event) => {
       let {value, name} = event.target
-      setInput({...input, [name]:value})
+      setInputTrx({...inputTrx, [name]:value})
   }
 
   let history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    if(currentIndex === -1){
+      setPanen([...panen, {
+        Ukuran : inputTrx.Ukuran, 
+        Pestisida : inputTrx.Pestisida, 
+        KadarAir : inputTrx.KadarAir, 
+        Perlakuan : inputTrx.Perlakuan, 
+        Produktivitas : inputTrx.Produktivitas, 
+        KuantitasManggaKg : inputTrx.KuantitasManggaKg,
+        TanggalTanam : new Date().getTime(), 
+      }])
+    setInputTrx({
+        Ukuran : '', 
+        Pestisida : '', 
+        KadarAir : '', 
+        Perlakuan : '', 
+        Produktivitas : '', 
+        KuantitasManggaKg : '',
+        TanggalTanam : '' 
+      })
+    }
     history.push('/detail-transaksi')
     setModalOpen(false)
+    console.log(panen)
   }
 
 return (
@@ -53,23 +84,23 @@ return (
               </div>
               <div>
                   <form id='tanam-benih' onSubmit={handleSubmit}>
-                      <Input label={'Jumlah'} type='number' name='jumlah' id='jumlah' 
-                      placeholder='Jumlah' value={input.jumlah} onChange={handleChange} required />
+                      <Input label={'Jumlah'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errMsg={error.KuantitasManggaKg}
+                      placeholder='Jumlah' value={inputTrx.KuantitasManggaKg} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Ukuran'} type='text' name='ukuran' id='ukuran' 
-                      placeholder='Ukuran' value={input.ukuran} onChange={handleChange} required />
+                      <Input label={'Ukuran'} type='text' name='Ukuran' id='Ukuran' errMsg={error.Ukuran}
+                      placeholder='Ukuran' value={inputTrx.Ukuran} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Pestisida'} type='text' name='pestisida' id='pestisida' 
-                      placeholder='Pestisida' value={input.pestisida} onChange={handleChange} required />
+                      <Input label={'Pestisida'} type='text' name='Pestisida' id='Pestisida' errMsg={error.Pestisida}
+                      placeholder='Pestisida' value={inputTrx.Pestisida} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Kadar Air'} type='number' name='kadarAir' id='kadarAir' 
-                      placeholder='Kadar Air' value={input.kadarAir} onChange={handleChange} required />
+                      <Input label={'Kadar Air'} type='number' name='KadarAir' id='KadarAir' errMsg={error.KadarAir}
+                      placeholder='Kadar Air' value={inputTrx.KadarAir} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Perlakuan'} type='text' name='perlakuan' id='perlakuan' 
-                      placeholder='Perlakuan' value={input.perlakuan} onChange={handleChange} required />
+                      <Input label={'Perlakuan'} type='text' name='Perlakuan' id='Perlakuan' errMsg={error.Perlakuan}
+                      placeholder='Perlakuan' value={inputTrx.Perlakuan} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Produktivitas'} type='text' name='produktivitas' id='produktivitas' 
-                      placeholder='Produktivitas' value={input.produktivitas} onChange={handleChange} required />
+                      <Input label={'Produktivitas'} type='text' name='Produktivitas' id='Produktivitas' errMsg={error.Produktivitas}
+                      placeholder='Produktivitas' value={inputTrx.Produktivitas} onChange={handleChange} onBlur={validateInput} required />
 
                       <div>
                          <Button 
@@ -77,9 +108,8 @@ return (
                             onClick={()=>{
                               setModalOpen(true);
                             }}
-                            disabled = {!input.jumlah.length || !input.ukuran.length || !input.pestisida.length || 
-                              !input.kadarAir.length || !input.perlakuan.length || 
-                              !input.produktivitas.length } 
+                            disabled = {!inputTrx.KuantitasManggaKg.length || !inputTrx.Ukuran.length || !inputTrx.Pestisida.length || 
+                              !inputTrx.KadarAir.length || !inputTrx.Perlakuan.length || !inputTrx.Produktivitas.length } 
                             style = {{width : '100%'}}
                           >
                             SIMPAN

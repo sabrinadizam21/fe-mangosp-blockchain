@@ -32,46 +32,46 @@ export const AsetProvider = props => {
         {id : 3, createdDate: 1645668000, VarietasBenih :'Benih K', KuantitasBenihKg : 540, UmurBenih : 18, isAsset : true}
     ])
 
-    // const [mangga, setMangga] = useState([
-    //     { ID : 0, 
-    //         BenihID : 0, 
-    //         ManggaID : '', 
-    //         NamaPengirim : '', 
-    //         NamaPenerima : '', 
-    //         KuantitasBenihKg : '', 
-    //         HargaBenihKg : '', 
-    //         HargaBenihTotal : '', 
-    //         KuantitasManggaKg : '', 
-    //         HargaManggaKg : '', 
-    //         HargaManggaTotal : '', 
-    //         TanggalTransaksi : '', 
-    //         VarietasBenih : '', 
-    //         UmurBenih : '', 
-    //         Pupuk : '', 
-    //         TanggalTanam : '', 
-    //         LokasiLahan : '', 
-    //         Ukuran : '', 
-    //         Pestisida : '', 
-    //         KadarAir : '', 
-    //         Perlakuan : '', 
-    //         Produktivitas : '', 
-    //         TanggalPanen : '', 
-    //         TanggalMasuk : '', 
-    //         TeknikSorting : '', 
-    //         MetodePengemasan : '', 
-    //         Pengangkutan : '', 
-    //         Pembeli : '', 
-    //         CaraPembayaran : '', 
-    //         TxID1 : '', 
-    //         TxID2 : '', 
-    //         TxID3 : '', 
-    //         TxID4 : '', 
-    //         IsAsset : '', 
-    //         IsConfirmed : '', 
-    //         IsEmpty : '', 
-    //         IsRejected : '', 
-    //         RejectReason : ''}
-    // ])
+    const [inputTrx, setInputTrx] = useState([
+        {   id : '', 
+            BenihID : 0, 
+            ManggaID : '', 
+            NamaPengirim : '', 
+            NamaPenerima : '', 
+            KuantitasBenihKg : '', 
+            HargaBenihKg : '', 
+            HargaBenihTotal : '', 
+            KuantitasManggaKg : '', 
+            HargaManggaKg : '', 
+            HargaManggaTotal : '', 
+            TanggalTransaksi : '', 
+            VarietasBenih : '', 
+            UmurBenih : '', 
+            Pupuk : '', 
+            TanggalTanam : '', 
+            LokasiLahan : '', 
+            Ukuran : '', 
+            Pestisida : '', 
+            KadarAir : '', 
+            Perlakuan : '', 
+            Produktivitas : '', 
+            TanggalPanen : '', 
+            TanggalMasuk : '', 
+            TeknikSorting : '', 
+            MetodePengemasan : '', 
+            Pengangkutan : '', 
+            Pembeli : '', 
+            CaraPembayaran : '', 
+            TxID1 : '', 
+            TxID2 : '', 
+            TxID3 : '', 
+            TxID4 : '', 
+            IsAsset : '', 
+            IsConfirmed : '', 
+            IsEmpty : '', 
+            IsRejected : '', 
+            RejectReason : ''}
+    ])
     
     
     //======================== START ASET BENIH ========================//
@@ -119,28 +119,21 @@ export const AsetProvider = props => {
     //======================== START TRANSAKSI PENANGKAR ========================//
     const [trxPenangkar, setTrxPenangkar] = useState([])
     const [checked, setChecked] = useState([])
-    // Input Transaksi Penangkar
-    const [input1, setInput1] = useState({
-        KuantitasBenihKg : '', UmurBenih : '', UmurPanen : '', HargaBenihKg : '', isAsset : true, 
-        NamaPengirim : Cookies.get('username'), NamaPenerima : '', CaraPembayaran : []
-    })
 
     const createTrxPenangkar = () => {
         if(currentIndex === -1){
-            setTrxPenangkar([...trxPenangkar, {
-                id : 3,
+            setAset([...aset, {
                 NamaPengirim : Cookies.get('username'),
-                KuantitasBenihKg : input1.KuantitasBenihKg, 
-                UmurBenih : input1.UmurBenih, 
-                UmurPanen : input1.UmurPanen, 
-                HargaBenihKg : input1.HargaBenihKg, 
-                NamaPenerima : input1.NamaPenerima,
-                CaraPembayaran : input1.CaraPembayaran,
-                isAsset : false
+                KuantitasBenihKg : inputTrx.KuantitasBenihKg, 
+                UmurBenih : inputTrx.UmurBenih, 
+                UmurPanen : inputTrx.UmurPanen, 
+                HargaBenihKg : inputTrx.HargaBenihKg, 
+                NamaPenerima : inputTrx.NamaPenerima,
+                CaraPembayaran : inputTrx.CaraPembayaran,
+                isAsset : false,
             }])
             //history.push('/transaksi-keluar')
-            console.log(input1)
-            setInput1({
+            setInputTrx({
                 KuantitasBenihKg : '', 
                 UmurBenih : '', 
                 UmurPanen : '', 
@@ -156,38 +149,22 @@ export const AsetProvider = props => {
 
 
     //======================== START TRANSAKSI PETANI ========================//
-    const [trxPetani, setTrxPetani] = useState([])
-    
-    const [input2, setInput2] = useState({
-       Benih : '',
-       KuantitasManggaKg : '',
-       Ukuran : '',
-       Pestisida : '',
-       KadarAir : '',
-       Perlakuan : '',
-       Produktivitas : '',
-       HargaManggaTotal : '',
-       NamaPenerima : '',
-       CaraPembayaran : []
-    })
-
-      const createTrxPetani = () => {
+    const createTrxPetani = () => {
         if(currentIndex === -1){
-            setTrxPetani([...trxPetani, {
-                Benih : input2.Benih,
-                KuantitasManggaKg : input2.KuantitasManggaKg,
-                Ukuran : input2.Ukuran,
-                Pestisida : input2.Pestisida,
-                KadarAir : input2.KadarAir,
-                Perlakuan : input2.Perlakuan,
-                Produktivitas : input2.Produktivitas,
-                HargaManggaTotal : input2.HargaManggaTotal,
-                NamaPenerima : input2.NamaPenerima,
-                CaraPembayaran : input2.CaraPembayaran
+            setAset([...aset, {
+                Benih : inputTrx.Benih,
+                KuantitasManggaKg : inputTrx.KuantitasManggaKg,
+                Ukuran : inputTrx.Ukuran,
+                Pestisida : inputTrx.Pestisida,
+                KadarAir : inputTrx.KadarAir,
+                Perlakuan : inputTrx.Perlakuan,
+                Produktivitas : inputTrx.Produktivitas,
+                HargaManggaTotal : inputTrx.HargaManggaTotal,
+                NamaPenerima : inputTrx.NamaPenerima,
+                CaraPembayaran : inputTrx.CaraPembayaran
             }])
             //history.push('/transaksi-keluar')
-            console.log(input2)
-            setInput2({
+            setInputTrx({
                 Benih : '',
                 KuantitasManggaKg : '',
                 Ukuran : '',
@@ -203,33 +180,22 @@ export const AsetProvider = props => {
     }
     //======================== END TRANSAKSI PETANI ========================//
 
-    //======================== START TRANSAKSI PENGUMPUL ========================//
-    const [trxPengumpul, setTrxPengumpul] = useState([])
     
-    const [input3, setInput3] = useState({
-        KuantitasManggaKg : '',
-        TeknikSorting : '',
-        HargaManggaKg : '',
-        MetodePengemasan : '',
-        Pengangkutan : '',
-        NamaPenerima : '',
-        CaraPembayaran : []
-    })
-
-      const createTrxPengumpul = () => {
+    //======================== START TRANSAKSI PENGUMPUL ========================//
+    const createTrxPengumpul = () => {
         if(currentIndex === -1){
-            setTrxPengumpul([...trxPengumpul, {
-                KuantitasManggaKg : '',
-                TeknikSorting : '',
-                HargaManggaKg : '',
-                MetodePengemasan : '',
-                Pengangkutan : '',
-                NamaPenerima : '',
-                CaraPembayaran : [],
+            setAset([...aset, {
+                KuantitasManggaKg : inputTrx.KuantitasManggaKg,
+                TeknikSorting : inputTrx.TeknikSorting,
+                HargaManggaKg : inputTrx.HargaManggaKg,
+                MetodePengemasan : inputTrx.MetodePengemasan,
+                Pengangkutan : inputTrx.Pengangkutan,
+                NamaPenerima : inputTrx.NamaPenerima,
+                CaraPembayaran : inputTrx.CaraPembayaran,
+                
             }])
             //history.push('/transaksi-keluar')
-            console.log(input3)
-            setInput3({
+            setInputTrx({
                 KuantitasManggaKg : '',
                 TeknikSorting : '',
                 HargaManggaKg : '',
@@ -243,30 +209,18 @@ export const AsetProvider = props => {
     //======================== END TRANSAKSI PENGUMPUL ========================//
 
     //======================== START TRANSAKSI PEDAGANG ========================//
-    const [trxPedagang, setTrxPedagang] = useState([])
-    
-    const [input4, setInput4] = useState({
-        KuantitasManggaKg : '',
-        TeknikSorting : '',
-        HargaManggaKg : '',
-        MetodePengemasan : '',
-        Pengangkutan : '',
-        CaraPembayaran : []
-    })
-
-      const createTrxPedagang = () => {
+    const createTrxPedagang = () => {
         if(currentIndex === -1){
-            setTrxPedagang([...trxPedagang, {
-                KuantitasManggaKg : input3.KuantitasManggaKg,
-                TeknikSorting : input3.TeknikSorting,
-                HargaManggaKg : input3.HargaManggaKg,
-                MetodePengemasan : input3.MetodePengemasan,
-                Pengangkutan : input3.Pengangkutan,
-                CaraPembayaran : input3.CaraPembayaran,
+            setAset([...aset, {
+                KuantitasManggaKg : inputTrx.KuantitasManggaKg,
+                TeknikSorting : inputTrx.TeknikSorting,
+                HargaManggaKg : inputTrx.HargaManggaKg,
+                MetodePengemasan : inputTrx.MetodePengemasan,
+                Pengangkutan : inputTrx.Pengangkutan,
+                CaraPembayaran : inputTrx.CaraPembayaran,
             }])
             //history.push('/transaksi-keluar')
-            console.log(input4)
-            setInput4({
+            setInputTrx({
                 KuantitasManggaKg : '',
                 TeknikSorting : '',
                 HargaManggaKg : '',
@@ -282,10 +236,9 @@ export const AsetProvider = props => {
     return(
        <AsetContext.Provider value={{ 
            aset, setAset, numberFormat, formatDate, sortData, createBenih, input, setInput, addQtyBenih,
-           qtyBenih, setQtyBenih, currentIndex, setCurrentIndex,
-
-           input1, setInput1, createTrxPenangkar, input2, setInput2, checked, setChecked, createTrxPetani,
-           input3, setInput3, createTrxPengumpul, input4, setInput4, createTrxPedagang
+           qtyBenih, setQtyBenih, currentIndex, setCurrentIndex, inputTrx, setInputTrx, 
+           trxPenangkar, setTrxPenangkar, createTrxPenangkar, checked, setChecked, createTrxPetani,
+           createTrxPengumpul,  createTrxPedagang
         }}>
         {props.children}
        </AsetContext.Provider>

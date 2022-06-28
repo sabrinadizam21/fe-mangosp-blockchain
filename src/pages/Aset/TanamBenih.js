@@ -6,24 +6,50 @@ import { UserContext } from '../../context/UserContext'
 import { useHistory } from 'react-router'
 
 function TanamBenih() {
-    const [modalOpen, setModalOpen] = useState(false)
-    const { profile } = useContext(UserContext)
-    const [input, setInput] = useState({
-        pupuk : ''
-    })
+  const [modalOpen, setModalOpen] = useState(false)
+  const { functionUser, error } = useContext(UserContext)
+  const { validateInput } = functionUser
 
-    const handleChange = (event) => {
-        let {value, name} = event.target
-        setInput({...input, [name]:value})
+  const [ currentIndex ] = useState(-1)
+
+  const [ tanamBenih, setTanamBenih ] = useState([
+    {Benih : 'A', Pupuk : 'A', TanggalTanam : 1648054793, LokasiLahan : 'Bandung',}
+  ])
+    
+  const [inputTrx, setInputTrx,] = useState({
+    Benih : '',
+    Pupuk : '', 
+    TanggalTanam : '', 
+    LokasiLahan : '',
+  })
+
+  const handleChange = (event) => {
+    let {value, name} = event.target
+    setInputTrx({...inputTrx, [name]:value})
+  }
+
+  let history = useHistory()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(currentIndex === -1){
+      setTanamBenih([...tanamBenih, {
+        Benih : 'AAA',
+        Pupuk : inputTrx.Pupuk, 
+        TanggalTanam : new Date().getTime(), 
+        LokasiLahan : inputTrx.LokasiLahan, 
+      }])
+      setInputTrx({
+        Benih : '',
+        Pupuk : '', 
+        TanggalTanam : '', 
+        LokasiLahan : '', 
+      })
     }
-
-    let history = useHistory()
-
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      history.push('/detail-transaksi')
-      setModalOpen(false)
-    }
+    history.push('/detail-transaksi')
+    console.log(tanamBenih)
+    setModalOpen(false)
+  }
 
   return (
     <>
@@ -48,8 +74,11 @@ function TanamBenih() {
                 </div>
                 <div>
                     <form id='tanam-benih' onSubmit={handleSubmit}>
-                        <Input label={'Jenis Pupuk'} type='text' name='pupuk' id='pupuk' 
-                        placeholder='Jenis Pupuk' value={input.pupuk} onChange={handleChange} required />
+                        <Input label={'Jenis Pupuk'} type='text' name='Pupuk' id='Pupuk' errorMsg={error.Pupuk}
+                        placeholder='Jenis Pupuk' value={inputTrx.Pupuk} onChange={handleChange} onBlur={validateInput} required />
+                        
+                        <Input label={'Lokasi Lahan'} type='text' name='LokasiLahan' id='LokasiLahan' errorMsg={error.LokasiLahan}
+                        placeholder='Lokasi Lahan' value={inputTrx.LokasiLahan} onChange={handleChange} onBlur={validateInput} required />
 
                         <div>
                            <Button 
@@ -57,7 +86,7 @@ function TanamBenih() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!input.pupuk.length} 
+                              disabled = {!inputTrx.Pupuk || !inputTrx.LokasiLahan } 
                               style = {{width : '100%'}}
                             >
                               SIMPAN
