@@ -102,9 +102,10 @@ function Register() {
                 !inputData.confirmPassword}/>
 
               </form>
-              <Link to='/login' className="btn-link">
-                <p>Sudah punya akun? Log In</p>
-              </Link>
+
+              <div className="link-login-regis">
+                <Link to='/login' className="link">Sudah punya akun? Log In</Link>
+              </div>
             </div>
           </div>
         </div>

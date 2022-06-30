@@ -62,5 +62,10 @@ code {
 
 .err {
   color: red;
-  font-size: small;
+  font-size: 12px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
 }

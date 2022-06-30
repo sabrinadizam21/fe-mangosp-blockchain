@@ -13,6 +13,7 @@ function Login() {
   const { validateInput } = functionUser
   const [passwordType, setPasswordType] = useState("password")
   const [ inputText, setInputText] = useState("LOG IN")
+  const [errorMessage, setErrorMessage] = useState('')
   const changeText = (text) => setInputText(text)
   
   let history = useHistory()
@@ -31,8 +32,10 @@ function Login() {
         Cookies.set('loginStatus', true, {expires: 1})
         history.push("/")
         console.log(res)
-    }).catch((res)=> {
-      console.log(res)
+    }).catch(err => {
+      let message = err.response.data
+      if(message.error === 'invalid username') setErrorMessage('Username salah')
+      else if (message.error === 'invalid password') setErrorMessage('Password salah')
       changeText("LOG IN")
     })
 }
@@ -74,17 +77,21 @@ function Login() {
                   <input type="checkbox" onClick={showPassword} /> Lihat password
                 </label>
                 
-                <input type="submit" value={inputText} className="btn-link" disabled={!input}
+                <input type="submit" value={inputText} className="btn-link" disabled={!input.userName.length || !input.password.length}
                 onClick={() => {
                   changeText("Loading...");
                   setTimeout(() => {
                     changeText("LOG IN");
                   }, 5000);}} 
                 />
+
+                {errorMessage && <p className="errorMessage"> {errorMessage} </p> }
               </form>
-              <Link to='/register' className="btn-link">
-                <p>Belum punya akun? Registrasi</p>
-              </Link>
+              <div className="link-login-regis">
+                <Link to='/register' className='link'>
+                  Belum punya akun? Registrasi
+                </Link>
+              </div>
             </div> 
           </div>
         </div>

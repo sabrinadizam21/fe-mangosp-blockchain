@@ -4,7 +4,7 @@ input[type=submit]{
   background-color: #1A1305;
   color: #fff;
   border: solid 1px #1A1305;
-  margin: 10px 0 !important;
+  margin: 10px 0 0 !important;
   cursor: pointer;  
 }
 
@@ -55,4 +55,13 @@ select:invalid, select option[value=""] {
 
 [hidden] {
   display: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.link-login-regis{
+  margin-top: 15px;
+  text-align: center;
 }
