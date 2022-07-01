@@ -1,27 +1,33 @@
-import React, {useState} from 'react'
-import { MdQrCodeScanner } from "react-icons/md";
+import React, {useState, useContext} from 'react'
 import { GiSeedling, GiFarmer, GiShop } from "react-icons/gi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 import { FaWarehouse, FaCircle } from "react-icons/fa"
-import { MdContentCopy } from "react-icons/md"
 import './DetailTransaksi.css'
-import Modal from '../../components/Modal';
-import ModalDetTrx from '../../components/ModalDetTrx';
-import { Button } from '../../components/Button';
+import Modal from '../../components/Modal'
+import ModalDetTrx from '../../components/ModalDetTrx'
+import { Button } from '../../components/Button'
+import { Input } from '../../components/Input'
+import { UserContext } from '../../context/UserContext'
+import { AsetContext } from '../../context/AsetContext'
 
 function KonfirmasiTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalDetTrxOpen, setModalDetTrxOpen] = useState(false)
-  const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw');
+  const { functionUser, error } = useContext(UserContext)
+  const { aset, rejectTrx, inputTrx, setInputTrx, confirmTrx } = useContext(AsetContext)
+  const { validateInput } = functionUser
 
   const handleChange = (event) => {
-    const id_QR = event.target.value
-    setText(id_QR)
-  }
+    let {value, name} = event.target
+    setInputTrx({...inputTrx, [name]:value})
+  } 
 
-  const copyClipboard = async () => {
-    await navigator.clipboard.writeText(text)
-    alert("ID berhasil di salin")
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    rejectTrx()
+    setModalOpen(false)
+    validateInput(e)
+    console.log(aset)
   }
   return (
     <>
@@ -29,25 +35,6 @@ function KonfirmasiTransaksi() {
             <div className="section">
               <div className="detailTrx__header">
                 <span className="title">Detail Transaksi</span>
-                <button  onClick={() => { setModalOpen(true); }}>
-                  <MdQrCodeScanner className='detailTrx__qrcode' />
-                </button>
-                {modalOpen && 
-                  <Modal setOpenModal={setModalOpen} 
-                    modalTitle={'QR CODE'}  
-                    modalBody={
-                      <>  
-                        <img src="https://ipb.link/User/QrCode?shortlink=modul-toga&domain=ipb.link" alt="qr-code" />
-                        <div className='qrcode-input'>
-                          <input type="text" value={text} onChange={handleChange} disabled />
-                          <button onClick={copyClipboard} disabled={!text}><MdContentCopy /></button>
-                        </div>
-                      </>
-                    } 
-                    cancelBtn ={'TUTUP'}
-                    processBtn={'DOWNLOAD QR'}
-                  />
-                }
               </div>
               <div className="content">
                 <div className="actor-status">
@@ -82,10 +69,26 @@ function KonfirmasiTransaksi() {
                   </div>
                 </div>
                 <div className="btn-konfirmasi">
-                    <Button buttonSize='btn--small'>TERIMA</Button>
+                    <Button onClick={confirmTrx} buttonSize='btn--small'>TERIMA</Button>
                 </div>
                 <div className="btn-konfirmasi">
-                    <Button buttonStyle='btn--outline' buttonSize='btn--small' >TOLAK</Button>
+                    <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small'  onClick={() => { setModalOpen(true)}}>TOLAK</Button>
+                    {modalOpen && 
+                  <Modal setOpenModal={setModalOpen} 
+                    modalTitle={'Tolak Transaksi'}  
+                    modalBody={
+                      <>  
+                        <form id='rejectReason' onSubmit={handleSubmit}>
+                          <Input label={'Alasan'} type='text' name='RejectReason' id='RejectReason' placeholder='Alasan' 
+                          value={inputTrx.RejectReason} onChange={handleChange} onBlur={validateInput} errorMsg={error.RejectReason} required />
+                        </form>
+                      </>
+                    } 
+                    cancelBtn ={'TUTUP'}
+                    processBtn={'SIMPAN'}
+                    form={'rejectReason'}
+                  />
+                }
                 </div>
                 <div className="detailTrx__timeline">
                   <div className="timeline-title">Timeline</div>
@@ -99,7 +102,7 @@ function KonfirmasiTransaksi() {
                         <p className="timestamp">20 Januari 2000 - 23:14 wib</p>
                       </div>
                       <div className="timeline-card__bottom">
-                          <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true); }}>Lihat Detail</button>
+                          <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true) }}>Lihat Detail</button>
                           {modalDetTrxOpen && 
                             <ModalDetTrx setModalDetTrxOpen={setModalDetTrxOpen} 
                               modalDetTrxTitle={'Penangkar mendaftarkan Benih'}  

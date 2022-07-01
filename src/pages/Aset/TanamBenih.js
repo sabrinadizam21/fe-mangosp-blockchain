@@ -34,10 +34,21 @@ function TanamBenih() {
     e.preventDefault()
     if(currentIndex === -1){
       setTanamBenih([...tanamBenih, {
-        Benih : 'AAA',
-        Pupuk : inputTrx.Pupuk, 
-        TanggalTanam : new Date().getTime(), 
-        LokasiLahan : inputTrx.LokasiLahan, 
+        fcn : "CreateTrxManggaByPenangkar",
+        peers: [
+            "peer0.penangkar.example.com",
+            "peer0.petani.example.com",
+            "peer0.pengumpul.example.com",
+            "peer0.pedagang.example.com"
+        ],
+        chaincodeName: "manggasatu_cc",
+        channelName: "channel1",
+        args: [{
+          Benih : 'AAA',
+          Pupuk : inputTrx.Pupuk, 
+          TanggalTanam : new Date().getTime(), 
+          LokasiLahan : inputTrx.LokasiLahan, 
+        }]
       }])
       setInputTrx({
         Benih : '',

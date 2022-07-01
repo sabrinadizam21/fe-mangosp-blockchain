@@ -38,13 +38,24 @@ function Panen() {
     e.preventDefault()
     if(currentIndex === -1){
       setPanen([...panen, {
-        Ukuran : inputTrx.Ukuran, 
-        Pestisida : inputTrx.Pestisida, 
-        KadarAir : inputTrx.KadarAir, 
-        Perlakuan : inputTrx.Perlakuan, 
-        Produktivitas : inputTrx.Produktivitas, 
-        KuantitasManggaKg : inputTrx.KuantitasManggaKg,
-        TanggalTanam : new Date().getTime(), 
+        fcn : "CreateTrxManggaByPenangkar",
+        peers: [
+            "peer0.penangkar.example.com",
+            "peer0.petani.example.com",
+            "peer0.pengumpul.example.com",
+            "peer0.pedagang.example.com"
+        ],
+        chaincodeName: "manggasatu_cc",
+        channelName: "channel1",
+        args: [{
+          Ukuran : inputTrx.Ukuran, 
+          Pestisida : inputTrx.Pestisida, 
+          KadarAir : inputTrx.KadarAir, 
+          Perlakuan : inputTrx.Perlakuan, 
+          Produktivitas : inputTrx.Produktivitas, 
+          KuantitasManggaKg : inputTrx.KuantitasManggaKg,
+          TanggalTanam : new Date().getTime(), 
+        }]
       }])
     setInputTrx({
         Ukuran : '', 
