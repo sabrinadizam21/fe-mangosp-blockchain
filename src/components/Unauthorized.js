@@ -1,16 +1,26 @@
 import { useHistory } from "react-router-dom"
+import { Button } from "./Button";
 
 const Unauthorized = () => {
     let history = useHistory();
     return (
-        <section>
-            <h1>Unauthorized</h1>
-            <br />
-            <p>Anda tidak memiliki akses ke halaman ini</p>
-            <div className="flexGrow">
-                <button onClick={history.goBack}>Kembali</button>
+        <>
+         <div className="wrapper">
+            <div className="section">
+                <div className="header">
+                    <div>
+                        <div className="title">Akses Ditolak</div>
+                        <div className="subtitle">Anda tidak memiliki akses ke halaman ini</div>
+                    </div>
+                </div>
+                <div className="content">
+                    <div className="flexGrow">
+                        <Button onClick={history.goBack}>Kembali</Button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+        </>
     )
 }
 
