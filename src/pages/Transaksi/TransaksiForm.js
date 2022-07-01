@@ -53,11 +53,10 @@ function TransaksiForm() {
     else if(profile.role === 2) createTrxPetani()
     else if(profile.role === 3) createTrxPengumpul()
     else if(profile.role === 4) createTrxPedagang()
-    history.push('/detail-transaksi')
+    //history.push('/detail-transaksi')
     setModalOpen(false)
-  }
-  
-  console.log(aset)
+    console.log(aset)
+  }  
 
   return (
     <>
