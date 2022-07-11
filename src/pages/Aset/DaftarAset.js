@@ -11,12 +11,12 @@ import { UserContext } from '../../context/UserContext'
 function DaftarAset() {
   const { error, functionUser } = useContext(UserContext)
   const { validateInput } = functionUser
-  const { input, setInput, createBenih } = useContext(AsetContext)
+  const { inputTrx, setInputTrx, createBenih } = useContext(AsetContext)
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleChange = (event) => {
     let {value, name} = event.target
-    setInput({...input, [name]:value})
+    setInputTrx({...inputTrx, [name]:value})
     validateInput(event)
   }
 
@@ -39,13 +39,13 @@ function DaftarAset() {
               <div className="content">
                 <form id='daftar-aset-baru' onSubmit={handleSubmit}>
                     <Input label={'Varietas Benih'} type='text' name='VarietasBenih' id='VarietasBenih' errorMsg={error.VarietasBenih}
-                        placeholder='Varietas Benih' value={input.VarietasBenih} onChange={handleChange} onBlur={validateInput} required />
+                        placeholder='Varietas Benih' value={inputTrx.VarietasBenih} onChange={handleChange} onBlur={validateInput} required />
 
                     <Input label={'Kuantitas Benih (Kg)'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' errorMsg={error.KuantitasBenihKg}
-                        placeholder='Kuantitas Benih' value={input.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
+                        placeholder='Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
                     
                     <Input label={'Umur Benih (hari)'} type='number' name='UmurBenih' id='UmurBenih' errorMsg={error.UmurBenih}
-                        placeholder='Umur Benih' value={input.UmurBenih} onChange={handleChange} onBlur={validateInput} required />
+                        placeholder='Umur Benih' value={inputTrx.UmurBenih} onChange={handleChange} onBlur={validateInput} required />
                     
                     <div className='aset__button'>
                         <div className='btn-links'>
@@ -59,7 +59,7 @@ function DaftarAset() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!input.VarietasBenih.length|| !input.KuantitasBenihKg.length || !input.UmurBenih.length } 
+                              disabled = {!inputTrx.VarietasBenih|| !inputTrx.KuantitasBenihKg || !inputTrx.UmurBenih } 
                             >
                               SIMPAN
                             </Button>

@@ -47,7 +47,34 @@ select {
     margin-left: 15px;
     display : flex;
     justify-content : space-between;
-    width: 100%;
+}
+
+.label-status{
+    padding: 3px 10px;
+    max-width: 160px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 2px;
+    align-items: center;
+}
+
+.color-success {
+    color: #266900;
+    background-color: #dff0d0; 
+    border-color: #60b515 ;
+}
+
+.color-pending {
+    color: #313131;
+    background-color: #feecb5; 
+    border-color: #efd603 ;
+}
+
+.color-failed {
+    color: #a32100;
+    background-color: #f5dbd9; 
+    border-color: #ebafa6 ;
 }
 
 .card__header {
@@ -77,6 +104,11 @@ select {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+}
+
+.listAset{
+    text-decoration: none;
+    cursor :pointer;
 }
 
 @media screen and (max-width : 600px) {

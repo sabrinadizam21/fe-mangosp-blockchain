@@ -12,13 +12,14 @@ import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat, formatDate, sortData, qtyBenih, setQtyBenih, addQtyBenih, setCurrentIndex } = useContext(AsetContext)
+  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, setCurrentIndex } = useContext(AsetContext)
   const {functionUser, error} = useContext(UserContext)
   const {getUserLogin, validateInput} = functionUser
 
   const handleChange = (event) => {
-    let input = event.target.value
-    setQtyBenih(input)
+    let {value, name} = event.target
+    setInputTrx({...inputTrx, [name]:value})
+    validateInput(event)
   }
 
   const handleSubmit = (e) => {
@@ -27,16 +28,21 @@ function Aset() {
     setModalOpen(false)
     validateInput(e)
   }
-
+  
   const handleEdit = (event) => {
     var index = parseInt(event.target.value)
-    setQtyBenih(aset[index].KuantitasBenihKg)
+    setInputTrx({
+      KuantitasBenihKg : aset[index].KuantitasBenihKg
+    })
     setCurrentIndex(index)
   }
 
+  const username = Cookies.get('username')
   useEffect(()=>{
-    getUserLogin(Cookies.get('username'))
-  },[])
+    getUserLogin(username)
+  },[username])
+
+  const dataAset = aset.filter(asets => asets.IsAsset === true)
 
   return (
     <>
@@ -57,11 +63,12 @@ function Aset() {
                 </UnlockAccess>
               </div>
               <div className="content">
+              {dataAset.length === 0 ? <p>Tidak ada aset</p> : (<>
                 <div className="card__wrapper">
 
                   {/* START ASET PENANGKAR */}
                   <UnlockAccess request={1}>
-                  { sortData(aset).map((data, index)=>{
+                  { sortData(dataAset).map((data, index)=>{
                     return (
                       <div className="card" key={index}>
                         <div className="card__header">
@@ -70,7 +77,7 @@ function Aset() {
                           </div>
                           <div style={{marginLeft: '15px'}}>
                             <b>{data.VarietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.createdDate)}</p>
+                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
                           </div>                
                         </div>
                         <div className="card__body">
@@ -102,7 +109,8 @@ function Aset() {
                                 <>
                                   <form id='editKuantitas' onSubmit={handleSubmit}>
                                     <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
-                                    placeholder='Tambah Kuantitas Benih' value={qtyBenih} onChange={handleChange} onBlur={validateInput} errorMsg={error.KuantitasBenihKg} required />
+                                    placeholder='Tambah Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
+                                    errorMsg={error.KuantitasBenihKg} required />
                                   </form>
                                 </>
                               } 
@@ -313,6 +321,7 @@ function Aset() {
                   </UnlockAccess>
                   {/* END ASET PEDAGANG */}
                 </div>
+              </>)}
               </div>
             </div>
         </div>
