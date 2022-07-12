@@ -44,6 +44,13 @@ function Aset() {
 
   const dataAset = aset.filter(asets => asets.IsAsset === true)
 
+  const dataAsetPetani = aset.filter(data => 
+    // Data belum tanam benih
+    (data.NamaPenerima === username && data.IsConfirmed === true) ||
+    // Data sudah tanam benih atau belum panen && sudah panen
+    (data.NamaPengirim === username && data.Pupuk !== '' && data.IsAsset === true)
+    )
+
   return (
     <>
         <div className="wrapper">
@@ -63,7 +70,7 @@ function Aset() {
                 </UnlockAccess>
               </div>
               <div className="content">
-              {dataAset.length === 0 ? <p>Tidak ada aset</p> : (<>
+              {dataAset.length === 0 || dataAsetPetani.length === 0 ? <p>Tidak ada aset</p> : (<>
                 <div className="card__wrapper">
 
                   {/* START ASET PENANGKAR */}
@@ -128,94 +135,64 @@ function Aset() {
 
                   {/* START ASET PETANI */}
                   <UnlockAccess request={2}>
-                  {/* { sortData(aset).map((data, index)=>{
-                    return ( */}
-                      <div className="card"> {/* key={index}> */}
+                  { sortData(dataAsetPetani).map((data, index)=>{
+                    return (
+                      <div className="card" key={index}>
                         <div className="card__header">
                           <div className="card__icon">
                             <FaSeedling className='card__logo' />
                           </div>
                           <div style={{marginLeft: '15px'}}>
-                            <b>Benih 1</b>
-                            <p className="card__timestamp">{formatDate(1648054793)}</p>
+                            <b>{data.VarietasBenih}</b>
+                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
                           </div>                
                         </div>
                         <div className="card__body">
                           <div className="quantity-value">
                             <div className="quantity">
                               <span>Kuantitas</span>
-                              <p>120 Kg </p>
+                              <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
                             </div>
                             <div className="value">
                               <span>Harga per Kg</span>
-                              <p>Rp54.000</p>
+                              <p>Rp{numberFormat(data.HargaBenihKg)}</p>
                             </div>
                           </div>
                           <div className="seed-age">
                             <span>Pengirim</span> 
-                            <p>Penangkar</p>
+                            <p>{data.NamaPengirim}</p>
                           </div>
                           <div className="seed-age">
                             <span>Umur Benih</span> 
-                            <p>12 hari</p>
+                            <p>{data.UmurBenih} hari</p>
                           </div>
-                          <div className="harvest-age">
+                          {/* <div className="harvest-age">
                             <span>Umur Panen</span>
-                            <p>6 hari</p>
-                          </div>
+                            <p>{data.UmurPanen} hari</p>
+                          </div> */}
                         </div>
                         <div className="card__bottom">
+                          {data.Pestisida === '' ? 
+                          data.Pupuk === '' ? (
                             <Link to='/tanam-benih'> 
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
                                 buttonStyle={'btn--outline'}> TANAM BENIH
                               </Button>
-                            </Link>
-                        </div>
-                      </div>
-                      <div className="card"> {/* key={index}> */}
-                        <div className="card__header">
-                          <div className="card__icon">
-                            <FaSeedling className='card__logo' />
-                          </div>
-                          <div style={{marginLeft: '15px'}}>
-                            <b>Benih 4</b>
-                            <p className="card__timestamp">{formatDate(1648054793)}</p>
-                          </div>                
-                        </div>
-                        <div className="card__body">
-                          <div className="quantity-value">
-                            <div className="quantity">
-                              <span>Kuantitas</span>
-                              <p>45 Kg </p>
-                            </div>
-                            <div className="value">
-                              <span>Harga per Kg</span>
-                              <p>Rp104.000</p>
-                            </div>
-                          </div>
-                          <div className="seed-age">
-                            <span>Pengirim</span> 
-                            <p>Penangkar Suga</p>
-                          </div>
-                          <div className="seed-age">
-                            <span>Umur Benih</span> 
-                            <p>17 hari</p>
-                          </div>
-                          <div className="harvest-age">
-                            <span>Umur Panen</span>
-                            <p>21 hari</p>
-                          </div>
-                        </div>
-                        <div className="card__bottom">
-                            <Link to='/panen'> 
-                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                            </Link>) : (
+                              <Link to='/panen'> 
+                                <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
                                 buttonStyle={'btn--outline'}> PANEN
-                              </Button>
-                            </Link>
+                                </Button>
+                              </Link>
+                            ) : 
+                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'} 
+                            disabled > Siap Transaksi
+                            </Button>
+                          }
                         </div>
                       </div>
-                    {/* )
-                  })} */}
+                    )
+                  })}
                   </UnlockAccess>
                   {/* END ASET PETANI */}
 
