@@ -121,5 +121,5 @@ button:disabled {
   background-color: darkgrey;
   color: white;
   border-color: darkgray;
-  cursor: default;
+  cursor: no-drop;
 }
