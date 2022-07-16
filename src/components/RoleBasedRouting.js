@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom"
+import { Route, Switch } from "react-router-dom"
 import Unauthorized from './Unauthorized'
 import { useContext, useEffect } from 'react'
 import { UserContext } from "../context/UserContext"
@@ -19,15 +19,19 @@ function RoleBasedRouting({
     return (
       <>
         {GrantPermission(roles) === true ? 
-        (<Route
-          {...rest}
-          render={(props) => (
-            <>
-              <Component {...props} />
-            </>
-          )}
-        />) :
         (
+        <Switch>
+          <Route
+            {...rest}
+            render={(props) => (
+              <>
+                <Component {...props} />
+              </>
+            )}
+          />
+        </Switch>) :
+        (
+        <Switch>
           <Route 
             render={() => (
               <>
@@ -35,6 +39,7 @@ function RoleBasedRouting({
               </>
             )}
           />
+        </Switch>
         )
         }
       </>
