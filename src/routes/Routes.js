@@ -45,13 +45,13 @@ function Routes() {
         <Switch>
             <Route path='/' exact component={Home} />
             <LoginRoute path='/register' exact component={Register} />            
-            <LoginRoute path='/login' exact component={Login} />
-            <PrivateRoute path='/detail-transaksi' exact component={DetailTransaksi} />
+            <LoginRoute path='/login' exact component={Login} />            
             <PrivateRoute path='/transaksi' exact component={Transaksi} />
             <PrivateRoute path='/profil' exact component={Profil} /> 
-            <RoleBasedRouting path='/tanam-benih' exact component={TanamBenih} roles={2} />
-            <RoleBasedRouting path='/panen' exact component={Panen} roles={2}/>
             <AsetProvider>
+              <PrivateRoute path='/detail-transaksi' exact component={DetailTransaksi} />
+              <RoleBasedRouting path='/tanam-benih' exact component={TanamBenih} roles={2} />
+              <RoleBasedRouting path='/panen' exact component={Panen} roles={2}/>
               <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
               <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
               <PrivateRoute path='/konfirmasi' exact component={KonfirmasiTransaksi}/>

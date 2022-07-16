@@ -1,18 +1,31 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FaSeedling } from 'react-icons/fa'
-//import { Link } from 'react-router-dom'
 import { AsetContext } from '../../context/AsetContext'
 import './Transaksi.css'
 import { useHistory } from 'react-router'
+import Cookies from 'js-cookie'
+import { UserContext } from '../../context/UserContext'
 
 function ListAsetTransaksi() {
-  const { aset, numberFormat, formatDate, sortData, setCurrentIndex } = useContext(AsetContext)
+  const { numberFormat, formatDate, sortData, setCurrentIndex, elementPos, dataByRole, setGetId } = useContext(AsetContext)
+  const {functionUser} = useContext(UserContext)
+  const {getUserLogin} = functionUser
+  const username = Cookies.get('username')
+  
   let history = useHistory()
-  const handleClick = (e, data, index) => {
-    console.log(data)
+  
+  const handleClick = (e, id) => {
+    setGetId(id)
+    const index = elementPos(id)
     setCurrentIndex(index)
     history.push('/transaksi/buat')
   }
+  
+  useEffect(()=>{
+    getUserLogin(username)
+  },[username])
+
+  const data = dataByRole()
   return (
     <>
         <div className="wrapper">
@@ -24,18 +37,17 @@ function ListAsetTransaksi() {
                     </div>
                 </div>
                 <div className="content">
-                    <div className="content-wrapper-card">
-                        { sortData(aset).map((data, index)=>{
-                            if(data.IsAsset === true) { 
+                    {data.length === 0 ? <p>Aset kosong</p> : 
+                        <div className="content-wrapper-card">
+                            {sortData(data).map((data, index)=>{
                                 return (
-                                    // <Link to='/transaksi/buat' style={{textDecoration: 'none', color: '#1A1305'}}>
-                                    <div className='listAset' value={index} onClick={((e) => handleClick(e, data, index))} key={index}>    
+                                    <div className='listAset' onClick={((e) => handleClick(e, data.id))} key={index}>    
                                         <div className="card">
                                             <div className="card__header">
                                                 <div className="card__icon">
                                                     <FaSeedling className='card__logo' />
                                                 </div>
-                                                <div className='card-name-and-status'>
+                                                <div className='card-name-and-status' style={{width : '100%'}}>
                                                     <b>{data.VarietasBenih}</b>
                                                     <p className="status">{numberFormat(data.KuantitasBenihKg)} Kg</p>
                                                 </div>
@@ -54,11 +66,10 @@ function ListAsetTransaksi() {
                                             </div>
                                         </div>
                                     </div>
-                                    // </Link>
                                 )
-                            }
-                        })}
-                    </div>
+                            })}
+                        </div>
+                    }
                 </div>
             </div>
         </div>

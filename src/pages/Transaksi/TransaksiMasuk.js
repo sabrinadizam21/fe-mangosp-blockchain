@@ -15,7 +15,7 @@ function TransaksiMasuk() {
         }
         else if (confirm === true){
             return (
-                <p className="label-status color-success">DITERIMA</p>
+                <p className="label-status color-success">TERIMA</p>
             )
         }
         else if (reject === true){
@@ -66,8 +66,8 @@ function TransaksiMasuk() {
                                     <div className="card__body">
                                         <div className="quantity-value">
                                             <div className="quantity">
-                                                <span>Penerima</span>
-                                                <p>{data.NamaPenerima}</p>
+                                                <span>Pengirim</span>
+                                                <p>{data.NamaPengirim}</p>
                                             </div>
                                             <div className="quantity">
                                                 <span>Kuantitas</span>

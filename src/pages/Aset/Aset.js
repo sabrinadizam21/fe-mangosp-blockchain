@@ -1,5 +1,5 @@
 import React , { useState, useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import { FaSeedling } from 'react-icons/fa'
 import './Aset.css'
@@ -12,9 +12,17 @@ import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, setCurrentIndex } = useContext(AsetContext)
+  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, 
+    setCurrentIndex, getId, setGetId, dataAset, dataAsetPetani, elementPos
+  } = useContext(AsetContext)
   const {functionUser, error} = useContext(UserContext)
   const {getUserLogin, validateInput} = functionUser
+  let history = useHistory()  
+  const username = Cookies.get('username')
+
+  useEffect(()=>{
+    getUserLogin(username)
+  },[username])
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -24,12 +32,13 @@ function Aset() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    addQtyBenih()
+    addQtyBenih(getId)
     setModalOpen(false)
     validateInput(e)
   }
   
-  const handleEdit = (event) => {
+  const handleEdit = (event, id) => {
+    setGetId(id)
     var index = parseInt(event.target.value)
     setInputTrx({
       KuantitasBenihKg : aset[index].KuantitasBenihKg
@@ -37,19 +46,13 @@ function Aset() {
     setCurrentIndex(index)
   }
 
-  const username = Cookies.get('username')
-  useEffect(()=>{
-    getUserLogin(username)
-  },[username])
-
-  const dataAset = aset.filter(asets => asets.IsAsset === true)
-
-  const dataAsetPetani = aset.filter(data => 
-    // Data belum tanam benih
-    (data.NamaPenerima === username && data.IsConfirmed === true) ||
-    // Data sudah tanam benih atau belum panen && sudah panen
-    (data.NamaPengirim === username && data.Pupuk !== '' && data.IsAsset === true)
-    )
+  const handleClick = (e, id, activity) => {
+    setGetId(id)
+    const index = elementPos(id)
+    setCurrentIndex(index)
+    if (activity === 'plant') history.push('/tanam-benih') 
+    else if (activity === 'harvest') history.push('/panen')
+  }
 
   return (
     <>
@@ -70,130 +73,128 @@ function Aset() {
                 </UnlockAccess>
               </div>
               <div className="content">
-              {dataAset.length === 0 || dataAsetPetani.length === 0 ? <p>Tidak ada aset</p> : (<>
                 <div className="card__wrapper">
-
                   {/* START ASET PENANGKAR */}
                   <UnlockAccess request={1}>
-                  { sortData(dataAset).map((data, index)=>{
-                    return (
-                      <div className="card" key={index}>
-                        <div className="card__header">
-                          <div className="card__icon">
-                            <FaSeedling className='card__logo' />
-                          </div>
-                          <div style={{marginLeft: '15px'}}>
-                            <b>{data.VarietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
-                          </div>                
-                        </div>
-                        <div className="card__body">
-                          <div className="quantity-value">
-                            <div className="quantity">
-                              <span>Kuantitas</span>
-                              <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                    {dataAset.length === 0 ? <p>Tidak ada aset</p> : (<>
+                    { sortData(dataAset).map((data, index)=>{
+                      return (
+                        <div className="card" key={index}>
+                          <div className="card__header">
+                            <div className="card__icon">
+                              <FaSeedling className='card__logo' />
                             </div>
-                            <div className="value">
-                              <span>Umur Benih</span>
-                              <p>{numberFormat(data.UmurBenih)} hari</p>
+                            <div style={{marginLeft: '15px'}}>
+                              <b>{data.VarietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                            </div>                
+                          </div>
+                          <div className="card__body">
+                            <div className="quantity-value">
+                              <div className="quantity">
+                                <span>Kuantitas</span>
+                                <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                              </div>
+                              <div className="value">
+                                <span>Umur Benih</span>
+                                <p>{numberFormat(data.UmurBenih)} hari</p>
+                              </div>
                             </div>
                           </div>
+                          <div className="card__bottom">
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                                onClick={(e) => {
+                                  setModalOpen(true)
+                                  handleEdit(e, data.id)
+                                }}
+                                value={index}
+                              > 
+                              TAMBAH KUANTITAS
+                              </Button>
+                            {modalOpen && 
+                              <Modal setOpenModal={setModalOpen} 
+                                modalTitle={'Tambah Kuantitas'}  
+                                modalBody={
+                                  <>
+                                    <form id='editKuantitas' onSubmit={handleSubmit}>
+                                      <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
+                                      placeholder='Tambah Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
+                                      errorMsg={error.KuantitasBenihKg} required />
+                                    </form>
+                                  </>
+                                } 
+                                cancelBtn ={'BATAL'}
+                                processBtn={'SIMPAN'}
+                                form='editKuantitas'
+                              />
+                              }
+                          </div>
                         </div>
-                        <div className="card__bottom">
-                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                              onClick={(e) => {
-                                setModalOpen(true);
-                                handleEdit(e)
-                              }}
-                              value={index}
-                            > 
-                            TAMBAH KUANTITAS
-                            </Button>
-                          {modalOpen && 
-                            <Modal setOpenModal={setModalOpen} 
-                              modalTitle={'Tambah Kuantitas'}  
-                              modalBody={
-                                <>
-                                  <form id='editKuantitas' onSubmit={handleSubmit}>
-                                    <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
-                                    placeholder='Tambah Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
-                                    errorMsg={error.KuantitasBenihKg} required />
-                                  </form>
-                                </>
-                              } 
-                              cancelBtn ={'BATAL'}
-                              processBtn={'SIMPAN'}
-                              form='editKuantitas'
-                            />
-                            }
-                        </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                    </>)}
                   </UnlockAccess>
-                  {/* END ASET PENANGKAR */}
+                  {/* END ASET PENANGKAR */}                  
 
                   {/* START ASET PETANI */}
                   <UnlockAccess request={2}>
-                  { sortData(dataAsetPetani).map((data, index)=>{
-                    return (
-                      <div className="card" key={index}>
-                        <div className="card__header">
-                          <div className="card__icon">
-                            <FaSeedling className='card__logo' />
-                          </div>
-                          <div style={{marginLeft: '15px'}}>
-                            <b>{data.VarietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
-                          </div>                
-                        </div>
-                        <div className="card__body">
-                          <div className="quantity-value">
-                            <div className="quantity">
-                              <span>Kuantitas</span>
-                              <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                  {dataAsetPetani.length === 0 ? <p>Tidak ada aset</p> : (<>
+                    { sortData(dataAsetPetani).map((data, index)=>{
+                      return (
+                        <div className="card" key={index}>
+                          <div className="card__header">
+                            <div className="card__icon">
+                              <FaSeedling className='card__logo' />
                             </div>
-                            <div className="value">
-                              <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                            <div style={{marginLeft: '15px'}}>
+                              <b>{data.VarietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                            </div>                
+                          </div>
+                          <div className="card__body">
+                            <div className="quantity-value">
+                              <div className="quantity">
+                                <span>Kuantitas</span>
+                                <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                              </div>
+                              <div className="value">
+                                <span>Harga per Kg</span>
+                                <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                              </div>
                             </div>
+                            <div className="seed-age">
+                              <span>Pengirim</span> 
+                              <p>{data.NamaPengirim}</p>
+                            </div>
+                            <div className="seed-age">
+                              <span>Umur Benih</span> 
+                              <p>{data.UmurBenih} hari</p>
+                            </div>
+                            {/* <div className="harvest-age">
+                              <span>Umur Panen</span>
+                              <p>{data.UmurPanen} hari</p>
+                            </div> */}
                           </div>
-                          <div className="seed-age">
-                            <span>Pengirim</span> 
-                            <p>{data.NamaPengirim}</p>
-                          </div>
-                          <div className="seed-age">
-                            <span>Umur Benih</span> 
-                            <p>{data.UmurBenih} hari</p>
-                          </div>
-                          {/* <div className="harvest-age">
-                            <span>Umur Panen</span>
-                            <p>{data.UmurPanen} hari</p>
-                          </div> */}
-                        </div>
-                        <div className="card__bottom">
-                          {data.Pestisida === '' ? 
-                          data.Pupuk === '' ? (
-                            <Link to='/tanam-benih'> 
+                          <div className="card__bottom">
+                            {data.Pestisida === '' ? 
+                            data.Pupuk === '' ?
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'}> TANAM BENIH
+                                buttonStyle={'btn--outline'} onClick={((e) => {handleClick(e, data.TxID1, 'plant')})}> TANAM BENIH
+                              </Button> :
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                              buttonStyle={'btn--outline'} onClick={((e) => handleClick(e, data.ManggaID, 'harvest'))}> PANEN
                               </Button>
-                            </Link>) : (
-                              <Link to='/panen'> 
-                                <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'}> PANEN
-                                </Button>
-                              </Link>
-                            ) : 
-                            <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'} 
-                            disabled > Siap Transaksi
-                            </Button>
-                          }
+                              : 
+                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'} 
+                              disabled > Siap Transaksi
+                              </Button>
+                            }
+                          </div>
                         </div>
-                      </div>
-                    )
-                  })}
-                  </UnlockAccess>
+                      )
+                    })}
+                  </>)}
+                   </UnlockAccess>
                   {/* END ASET PETANI */}
 
                   {/* START ASET PENGUMPUL */}
@@ -298,7 +299,6 @@ function Aset() {
                   </UnlockAccess>
                   {/* END ASET PEDAGANG */}
                 </div>
-              </>)}
               </div>
             </div>
         </div>

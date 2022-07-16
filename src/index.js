@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { AsetProvider } from './context/AsetContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AsetProvider>
+      <App />
+    </AsetProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
