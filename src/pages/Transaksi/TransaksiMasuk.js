@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './Transaksi.css'
 import { FaSeedling } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -6,30 +6,25 @@ import { AsetContext } from '../../context/AsetContext'
 import Cookies from 'js-cookie'
 
 function TransaksiMasuk() {
-    const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue } = useContext(AsetContext)
-  
-    const statusTrx = (confirm, reject) => {
-        if(confirm === false && reject === false) {
-            return (
-                <p className="label-status color-pending">PENDING</p>
-            )
-        }
-        else if (confirm === true){
-            return (
-                <p className="label-status color-success">TERIMA</p>
-            )
-        }
-        else if (reject === true){
-            return (
-                <p className="label-status color-failed">TOLAK</p>
-            )
-        }
-    }
-
+    const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue, setGetId,
+        setGetIdBenih, setGetIdMangga, setGetIdTx2, setQty, setCurrentIndex, elementPos, statusTrx } = useContext(AsetContext)
+    const role = Cookies.get('role')
+    
     const handleFilterInput = (event) => {
         let value = event.target.value
         setSelectedValue(value)
-      }
+    }
+
+    const handleClick = (id, idBenih, idMangga, txID2, kuantitas) => {
+        setGetId(id)
+        const index = elementPos(id)
+        setCurrentIndex(index)
+        setGetIdBenih(idBenih)
+        setGetIdMangga(idMangga)
+        setGetIdTx2(txID2)
+        setQty(kuantitas)
+    }
+
     return (
     <>
         <div className="wrapper">
@@ -70,7 +65,7 @@ function TransaksiMasuk() {
                                                 <span>Pengirim</span>
                                                 <p>{data.NamaPengirim}</p>
                                             </div>
-                                            {Cookies.get('role') === 1 || Cookies.get('role') === 2 ? 
+                                            {role == 1 || role == 2 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
@@ -80,7 +75,7 @@ function TransaksiMasuk() {
                                                     <span>Harga(/Kg)</span>
                                                     <p>Rp{numberFormat(data.HargaBenihKg)}</p>
                                                 </div>
-                                            </> : 
+                                            </> : role == 3 || role == 4 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
@@ -90,11 +85,18 @@ function TransaksiMasuk() {
                                                     <span>Harga(/Kg)</span>
                                                     <p>Rp{numberFormat(data.HargaManggaKg)}</p>
                                                 </div>
-                                            </>
+                                            </> : <p></p>
                                             }
                                         </div>
                                         <div className="detail-btn">
-                                            <Link to='/detail-transaksi'>Lihat Detail</Link>
+                                            { data.IsConfirmed === false && data.IsRejected === false ? 
+                                                <Link to='/konfirmasi' onClick={() => role == 1 || role ==2 ? 
+                                                    handleClick(data.id, data.BenihID, data.ManggaID, data.TxID2, data.KuantitasBenihKg) :
+                                                    handleClick(data.id, data.BenihID, data.ManggaID, data.TxID2, data.KuantitasManggaKg)
+                                                }>Konfirmasi</Link>
+                                            :
+                                                <Link to='/detail-transaksi'>Lihat Detail</Link>
+                                            }
                                         </div>
                                     </div>
                                 </div>

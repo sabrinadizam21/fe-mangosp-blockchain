@@ -40,9 +40,7 @@ export const AsetProvider = props => {
             return datas.filter(data => data.IsRejected === true)
         else if(selectedValue === 'PENDING')
             return datas.filter(data => data.IsConfirmed === false && data.IsRejected === false)
-      }
-    
-    const [qtyBenih, setQtyBenih] = useState("")
+    }
     
     const [aset,setAset] = useState([
         //aset penangkar
@@ -780,10 +778,32 @@ export const AsetProvider = props => {
     ])
     
     const [ getId, setGetId ] = useState('')
+    const [ getIdBenih, setGetIdBenih ] = useState('')
+    const [ getIdMangga, setGetIdMangga ] = useState('')
+    const [ getIdTx2, setGetIdTx2 ] = useState('')
+    const [ qty, setQty ] = useState('')
 
     var elementPos = (id) => {
         const indexArray = aset.map(function(x) {return x.id}).indexOf(id)
         return indexArray
+    }
+
+    const statusTrx = (confirm, reject) => {
+        if(confirm === false && reject === false) {
+            return (
+                <p className="label-status color-pending">PENDING</p>
+            )
+        }
+        else if (confirm === true){
+            return (
+                <p className="label-status color-success">TERIMA</p>
+            )
+        }
+        else if (reject === true){
+            return (
+                <p className="label-status color-failed">TOLAK</p>
+            )
+        }
     }
 
     //======================== START ASET BENIH ========================//
@@ -1177,64 +1197,71 @@ export const AsetProvider = props => {
 
 
     //======================== START CONFIRM/REJECT TRANSAKSI ========================//
-    const rejectTrx = () => {
+    const rejectTrx = (idAset, idTrx, qty) => {
+        const newData = {
+            fcn: "RejectTrxByID",
+            peers: [
+                "peer0.penangkar.example.com",
+                "peer0.petani.example.com",
+                "peer0.pengumpul.example.com",
+                "peer0.pedagang.example.com"
+            ],
+            chaincodeName: "manggasatu_cc",
+            channelName: "channel1",
+            name: Cookies.get('username'),
+            role: Cookies.get('role'),
+            args: [
+                idAset,
+                idTrx,
+                qty,
+                inputTrx.RejectReason
+            ]
+        }
+        console.log(newData)
+        const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
-                fcn: "RejectTrxByID",
-                peers: [
-                    "peer0.penangkar.example.com",
-                    "peer0.petani.example.com",
-                    "peer0.pengumpul.example.com",
-                    "peer0.pedagang.example.com"
-                ],
-                chaincodeName: "manggasatu_cc",
-                channelName: "channel1",
-                name: Cookies.get('username'),
-                role: Cookies.get('role'),
-                args: [
-                    "idAset/Mangga",
-                    "idTransaksi",
-                    2.71,
-                    inputTrx.RejectReason
-                ]
+                RejectReason : inputTrx.RejectReason
             }])
-            setInputTrx({
-                RejectReason : ''
-            })
         }
-    }
+        else {
+            newQty[currentIndex].RejectReason = newData.args[0].RejectReason
+        }
+        setInputTrx({
+            RejectReason : ''
+        })
+    }        
 
-    const confirmTrx = () => {
-        if(currentIndex === -1){
-            setAset([...aset, {
-                fcn: "ConfirmTrxByID",
-                peers: [
-                    "peer0.penangkar.example.com",
-                    "peer0.petani.example.com",
-                    "peer0.pengumpul.example.com",
-                    "peer0.pedagang.example.com"
-                ],
-                chaincodeName: "manggasatu_cc",
-                channelName: "channel1",
-                name: Cookies.get('username'),
-                role: Cookies.get('role'),
-                args: [
-                    "idTransaksi"
-                ]
-            }])
+    const confirmTrx = (idTrx) => {
+        const newData ={
+            fcn: "ConfirmTrxByID",
+            peers: [
+                "peer0.penangkar.example.com",
+                "peer0.petani.example.com",
+                "peer0.pengumpul.example.com",
+                "peer0.pedagang.example.com"
+            ],
+            chaincodeName: "manggasatu_cc",
+            channelName: "channel1",
+            name: Cookies.get('username'),
+            role: Cookies.get('role'),
+            args: [
+                idTrx
+            ]
         }
-        console.log(aset)
+        console.log(newData)
     }
     //======================== END CONFIRM/REJECT TRANSAKSI ========================//
 
     return(
        <AsetContext.Provider value={{ 
            aset, setAset, numberFormat, formatDate, sortData, createBenih, addQtyBenih,
-           qtyBenih, setQtyBenih, currentIndex, setCurrentIndex, inputTrx, setInputTrx, 
+           qty, setQty, currentIndex, setCurrentIndex, inputTrx, setInputTrx, 
            trxPenangkar, setTrxPenangkar, createTrxPenangkar, checked, setChecked, createTrxPetani,
            createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, showData, tanamBenihPetani,
            selectedValue, setSelectedValue, getId, setGetId, dataAsetPenangkar, dataAsetPetani, dataByRole, 
-           elementPos, panenPetani, dataAsetPengumpul
+           elementPos, panenPetani, dataAsetPengumpul, getIdBenih, setGetIdBenih, getIdMangga, setGetIdMangga,
+           getIdTx2, setGetIdTx2, statusTrx
         }}>
         {props.children}
        </AsetContext.Provider>

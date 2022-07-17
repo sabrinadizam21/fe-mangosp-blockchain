@@ -9,13 +9,17 @@ import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { UserContext } from '../../context/UserContext'
 import { AsetContext } from '../../context/AsetContext'
+import Cookies from 'js-cookie'
 
 function KonfirmasiTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalDetTrxOpen, setModalDetTrxOpen] = useState(false)
   const { functionUser, error } = useContext(UserContext)
-  const { aset, rejectTrx, inputTrx, setInputTrx, confirmTrx } = useContext(AsetContext)
+  const { aset, rejectTrx, inputTrx, setInputTrx, confirmTrx, getId, getIdBenih, getIdMangga, getIdTx2, qty, 
+    currentIndex, formatDate, statusTrx } = useContext(AsetContext)
   const { validateInput } = functionUser
+  const role = Cookies.get('role')
+  const data = aset[currentIndex]
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -24,11 +28,14 @@ function KonfirmasiTransaksi() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    rejectTrx()
+    if(role == 2) rejectTrx(getId, getIdBenih, qty)
+    else if (role == 3) rejectTrx(getId, getIdMangga, qty)
+    else if (role == 4) rejectTrx(getId, getIdTx2, qty)
     setModalOpen(false)
     validateInput(e)
     console.log(aset)
   }
+
   return (
     <>
         <div className="wrapper">
@@ -61,18 +68,18 @@ function KonfirmasiTransaksi() {
                 <div className="information">
                   <div className="last-note">
                     <span>Pencatat Transaksi</span>
-                    <p>Pak Penangkar</p>
+                    <p>{data.NamaPengirim}</p>
                   </div>
                   <div className="status-trx">
-                    <p className='status'>Tertunda</p>
-                    <p className="timestamp">20 Januari 2000 - 23:14 wib</p>
+                    {statusTrx(data.IsConfirmed, data.IsRejected)}
+                    <p className="timestamp">{formatDate(data.TanggalTransaksi)}</p>
                   </div>
                 </div>
                 <div className="btn-konfirmasi">
-                    <Button onClick={confirmTrx} buttonSize='btn--small'>TERIMA</Button>
+                    <Button onClick={() => confirmTrx(getId)} buttonSize='btn--small'>TERIMA</Button>
                 </div>
                 <div className="btn-konfirmasi">
-                    <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small'  onClick={() => { setModalOpen(true)}}>TOLAK</Button>
+                    <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small' onClick={() => { setModalOpen(true)}}>TOLAK</Button>
                     {modalOpen && 
                   <Modal setOpenModal={setModalOpen} 
                     modalTitle={'Tolak Transaksi'}  

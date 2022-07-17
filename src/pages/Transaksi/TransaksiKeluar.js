@@ -6,25 +6,7 @@ import { AsetContext } from '../../context/AsetContext'
 import Cookies from 'js-cookie'
 
 function TransaksiKeluar() {
-  const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue } = useContext(AsetContext)
-  
-  const statusTrx = (confirm, reject) => {
-    if(confirm === false && reject === false) {
-        return (
-            <p className="label-status color-pending">PENDING</p>
-        )
-    }
-    else if (confirm === true){
-        return (
-            <p className="label-status color-success">TERIMA</p>
-        )
-    }
-    else if (reject === true){
-        return (
-            <p className="label-status color-failed">TOLAK</p>
-        )
-    }
-  }
+  const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue, statusTrx } = useContext(AsetContext)
   
   const handleFilterInput = (event) => {
     let value = event.target.value
