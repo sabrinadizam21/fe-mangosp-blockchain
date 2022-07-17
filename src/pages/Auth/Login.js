@@ -1,44 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Auth.css'
-import { useHistory } from 'react-router-dom'
-import { Input } from '../../components/Input';
-import { UserContext } from '../../context/UserContext';
-import axios from 'axios'
-import Cookies from 'js-cookie';
+import { Input } from '../../components/Input'
+import { UserContext } from '../../context/UserContext'
 
 function Login() {
 
-  const { input, setInput, setLoginStatus, functionUser, error } = useContext(UserContext)
-  const { validateInput } = functionUser
+  const { input, setInput, functionUser, error, changeBtnText, errorMessage, buttonText } = useContext(UserContext)
+  const { validateInput, functionLoginSubmit } = functionUser
   const [passwordType, setPasswordType] = useState("password")
-  const [ inputText, setInputText] = useState("LOG IN")
-  const [errorMessage, setErrorMessage] = useState('')
-  const changeText = (text) => setInputText(text)
-  
-  let history = useHistory()
-  
-  const functionLoginSubmit = async() => {
-    axios.post(`https://mango-bm.herokuapp.com/api/login`, {
-      userName : input.userName,
-      password : input.password
-    }
-    ).then((res)=>{
-        let access_token = res.data.accessToken
-        let username = input.userName
-        Cookies.set('token', access_token, {expires: 1})
-        Cookies.set('username', username, {expires: 1})
-        setLoginStatus(true)
-        Cookies.set('loginStatus', true, {expires: 1})
-        history.push("/")
-        console.log(res)
-    }).catch(err => {
-      let message = err.response.data
-      if(message.error === 'invalid username') setErrorMessage('Username salah')
-      else if (message.error === 'invalid password') setErrorMessage('Password salah')
-      changeText("LOG IN")
-    })
-}
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -77,12 +47,10 @@ function Login() {
                   <input type="checkbox" onClick={showPassword} /> Lihat password
                 </label>
                 
-                <input type="submit" value={inputText} className="btn-link" disabled={!input.userName.length || !input.password.length}
+                <input type="submit" value={buttonText} className="btn-link" disabled={!input.userName.length || !input.password.length}
                 onClick={() => {
-                  changeText("Loading...");
-                  setTimeout(() => {
-                    changeText("LOG IN");
-                  }, 5000);}} 
+                  changeBtnText("Loading...");
+                  }} 
                 />
 
                 {errorMessage && <p className="errorMessage"> {errorMessage} </p> }

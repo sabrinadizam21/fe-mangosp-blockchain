@@ -124,17 +124,44 @@ export const UserProvider = props => {
             window.location.href ='/login'
         })
     }
+
+    const [errorMessage, setErrorMessage] = useState('')
+    const [ buttonText, setButtonText ] = useState("LOG IN")
+    const changeBtnText = (text) => setButtonText(text)
+    const functionLoginSubmit = async() => {
+      axios.post(`https://mango-bm.herokuapp.com/api/login`, {
+        userName : input.userName,
+        password : input.password
+      }
+      ).then((res)=>{
+          let access_token = res.data.accessToken
+          let username = input.userName
+          Cookies.set('token', access_token, {expires: 1})
+          Cookies.set('username', username, {expires: 1})
+          setLoginStatus(true)
+          Cookies.set('loginStatus', true, {expires: 1})
+          history.push("/")
+          changeBtnText("LOG IN")
+      }).catch(err => {
+        let message = err.response.data
+        if(message.error === 'invalid username') setErrorMessage('Username salah')
+        else if (message.error === 'invalid password') setErrorMessage('Password salah')
+        changeBtnText("LOG IN")
+      })
+    }
     
     const functionUser = {
         functionRegisSubmit,
         getUserLogin,
-        validateInput
+        validateInput,
+        functionLoginSubmit
     }
 
     return(
        <UserContext.Provider value={{ 
            input, setInput, functionUser, inputData, setInputData, loginStatus, setLoginStatus,
-           profile, setProfile, error, setError
+           profile, setProfile, error, setError, errorMessage, setErrorMessage, changeBtnText,
+           buttonText, setButtonText
         }}>
         {props.children}
        </UserContext.Provider>

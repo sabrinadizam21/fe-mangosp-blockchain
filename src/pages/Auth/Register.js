@@ -38,25 +38,6 @@ function Register() {
                     <option id="pedagang" value={4}>Pedagang</option>
                   </select>
                   {error.role && <span className='err'>Pilih salah satu role</span>}
-                  {/* <label className="register__radio-role"> Penangkar
-                    <input type="radio" name="role" id="penangkar" value={1} onChange={handleChange} required/>
-                    <span className="checkmark"></span>
-                  </label>
-
-                  <label className="register__radio-role">Petani
-                    <input type="radio" name="role" value={2} onChange={handleChange} id="petani"/>
-                    <span className="checkmark"></span>
-                  </label>
-
-                  <label className="register__radio-role">Pengumpul
-                    <input type="radio" name="role" value={3} onChange={handleChange} id="pengumpul"/>
-                    <span className="checkmark"></span>
-                  </label>
-
-                  <label className="register__radio-role">Pedagang
-                    <input type="radio" name="role" value={4} onChange={handleChange} id="pedagang"/>
-                    <span className="checkmark"></span>
-                  </label> */}
                 </div>
                 
                 <Input className='text' type="text" name="namaLengkap" id="namaLengkap" placeholder='Nama Lengkap' 
@@ -71,7 +52,7 @@ function Register() {
                 value={inputData.noTelp} onChange={handleChange} label='Nomor Telepon' minLength={10} onBlur={validateInput}
                 errorMsg={error.noTelp} />
 
-                <Input className='date' type="date" name="tglLahir" id="tglLahir" placeholder='Tanggal Lahir' 
+                <Input className='date' type="date" name="tglLahir" id="tglLahir" placeholder="Tanggal Lahir" 
                 value={inputData.tglLahir} onChange={handleChange} label='Tanggal Lahir' onBlur={validateInput}
                 errorMsg={error.tglLahir} />
 
