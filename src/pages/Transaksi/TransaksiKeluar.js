@@ -41,13 +41,13 @@ function TransaksiKeluar() {
                     </div>
                 </div>
                 <div className="content">
-                    {showData(aset, 'out').length === 0 ? <p>Tidak ada transaki keluar</p> : (<>
                     <select name="status" id="status" onChange={handleFilterInput} value={selectedValue}>
                         <option value="ALL">Semua Status</option>
                         <option value="SUCCESS">Terima</option>
                         <option value="PENDING">Pending</option>
                         <option value="FAILED">Tolak</option>
                     </select>
+                    {showData(aset, 'out').length === 0 ? <p>Tidak ada transaki keluar</p> : (<>
                     <div className="card__wrapper">
                         {showData(sortData(aset), 'out').map((data, index) => {                          
                             return(
