@@ -15,7 +15,7 @@ function TransaksiForm() {
   const { validateInput, getUserLogin } = functionUser
   const { 
     createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagang,
-    checked, setChecked, aset, inputTrx, setInputTrx, getId
+    checked, setChecked, aset, inputTrx, setInputTrx, getId, currentIndex
   } = useContext(AsetContext)
   const username = Cookies.get('username')
 
@@ -48,15 +48,13 @@ function TransaksiForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     if(profile.role === 1) createTrxPenangkar(getId)
-    else if(profile.role === 2) createTrxPetani(getId)
-    else if(profile.role === 3) createTrxPengumpul()
-    else if(profile.role === 4) createTrxPedagang()
+    else if(profile.role === 2) createTrxPetani(aset[currentIndex].ManggaID)
+    else if(profile.role === 3) createTrxPengumpul(aset[currentIndex].TxID2)
+    else if(profile.role === 4) createTrxPedagang(aset[currentIndex].TxID3)
     history.push('/detail-transaksi')
     setModalOpen(false)
     console.log(aset)
   }  
-
-  console.log(getId)
 
   return (
     <>

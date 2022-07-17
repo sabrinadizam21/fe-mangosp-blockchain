@@ -49,7 +49,11 @@ function ListAsetTransaksi() {
                                                 </div>
                                                 <div className='card-name-and-status' style={{width : '100%'}}>
                                                     <b>{data.VarietasBenih}</b>
+                                                    {Cookies.get('role') === 1 || Cookies.get('role') === 1 ? 
                                                     <p className="status">{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                    :
+                                                    <p className="status">{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                    }
                                                 </div>
                                             </div>
                                             <div className="card__body">

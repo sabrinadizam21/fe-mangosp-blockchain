@@ -3,6 +3,7 @@ import './Transaksi.css'
 import { FaSeedling } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AsetContext } from '../../context/AsetContext'
+import Cookies from 'js-cookie'
 
 function TransaksiKeluar() {
   const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue } = useContext(AsetContext)
@@ -70,14 +71,28 @@ function TransaksiKeluar() {
                                                 <span>Penerima</span>
                                                 <p>{data.NamaPenerima}</p>
                                             </div>
-                                            <div className="quantity">
-                                                <span>Kuantitas</span>
-                                                <p>{numberFormat(data.KuantitasBenihKg)}Kg</p>
-                                            </div>
-                                            <div className="value">
-                                                <span>Harga per Kg</span>
-                                                <p>Rp{numberFormat(data.HargaBenihKg)}</p>
-                                            </div>
+                                            {Cookies.get('role') === 1 || Cookies.get('role') === 2 ? 
+                                            <>
+                                                <div className="quantity">
+                                                    <span>Kuantitas</span>
+                                                    <p>{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                </div>
+                                                <div className="value">
+                                                    <span>Harga(/Kg)</span>
+                                                    <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                                                </div>
+                                            </> : 
+                                            <>
+                                                <div className="quantity">
+                                                    <span>Kuantitas</span>
+                                                    <p>{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                </div>
+                                                <div className="value">
+                                                    <span>Harga(/Kg)</span>
+                                                    <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                                                </div>
+                                            </>
+                                        }
                                         </div>
                                         {data.RejectReason !== '' &&
                                         <div>

@@ -3,6 +3,7 @@ import './Transaksi.css'
 import { FaSeedling } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AsetContext } from '../../context/AsetContext'
+import Cookies from 'js-cookie'
 
 function TransaksiMasuk() {
     const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue } = useContext(AsetContext)
@@ -69,14 +70,28 @@ function TransaksiMasuk() {
                                                 <span>Pengirim</span>
                                                 <p>{data.NamaPengirim}</p>
                                             </div>
-                                            <div className="quantity">
-                                                <span>Kuantitas</span>
-                                                <p>{numberFormat(data.KuantitasBenihKg)}Kg</p>
-                                            </div>
-                                            <div className="value">
-                                                <span>Harga per Kg</span>
-                                                <p>Rp{numberFormat(data.HargaBenihKg)}</p>
-                                            </div>
+                                            {Cookies.get('role') === 1 || Cookies.get('role') === 2 ? 
+                                            <>
+                                                <div className="quantity">
+                                                    <span>Kuantitas</span>
+                                                    <p>{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                </div>
+                                                <div className="value">
+                                                    <span>Harga(/Kg)</span>
+                                                    <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                                                </div>
+                                            </> : 
+                                            <>
+                                                <div className="quantity">
+                                                    <span>Kuantitas</span>
+                                                    <p>{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                </div>
+                                                <div className="value">
+                                                    <span>Harga(/Kg)</span>
+                                                    <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                                                </div>
+                                            </>
+                                            }
                                         </div>
                                         <div className="detail-btn">
                                             <Link to='/detail-transaksi'>Lihat Detail</Link>
