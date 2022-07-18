@@ -5,7 +5,7 @@ import './Feature.css'
 import Cookies from 'js-cookie'
 import { QrReader } from 'react-qr-reader'
 import { Button } from '../../components/Button'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
 import { FaFire } from 'react-icons/fa'
 import { BsXDiamondFill } from 'react-icons/bs'
@@ -22,18 +22,26 @@ function Home() {
   
   const username = Cookies.get('username')
   const loginStatus = Cookies.get('loginStatus')
+  const [dataQR, setDataQR] = useState('')
+  let history = useHistory()
+
   useEffect(()=>{
     if(username !== undefined) getUserLogin(username)
-  }, [])
-
-  const [dataQR, setDataQR] = useState('');
+  }, [username])
 
   const handleChange = (event) => {
     setDataQR(event.target.value)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    let idTrx = dataQR.text
+    console.log(idTrx)
+    history.push(`/detail-transaksi/${idTrx}`)
+  }
+
   const handleError = (error) => {
-    alert(error);
+    alert(error)
   }
 
   const handleResult = (result) => {
@@ -100,7 +108,7 @@ function Home() {
               style={{ width: '300px' }}
             />
             </div>
-            <form action="">
+            <form onSubmit={handleSubmit}>
               <input className='qrcode__input' type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
               <br />
               <Button type={'submit'} buttonStyle='btn--primary' buttonColor='primary'>LIHAT TRANSAKSI</Button>
