@@ -5,12 +5,15 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { AsetProvider } from './context/AsetContext';
+import { UserProvider } from './context/UserContext';
 
 ReactDOM.render(
   <React.StrictMode>
+    <UserProvider>
     <AsetProvider>
       <App />
     </AsetProvider>
+    </UserProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
