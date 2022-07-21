@@ -5,20 +5,21 @@ import { FaSeedling } from 'react-icons/fa'
 import './Aset.css'
 import Modal from '../../components/Modal'
 import { Input } from '../../components/Input'
-import { AsetContext } from '../../context/AsetContext'
-import UnlockAccess from '../../components/UnlockAccess'
 import { UserContext } from '../../context/UserContext'
+import UnlockAccess from '../../components/UnlockAccess'
+import { AsetContext } from '../../context/AsetContext'
 import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, 
-    setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpul
+  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, errorKuantitas, setErrorKuantitas,
+    setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpul,currentIndex
   } = useContext(AsetContext)
   const {functionUser, error} = useContext(UserContext)
   const {getUserLogin, validateInput} = functionUser
   let history = useHistory()  
   const username = Cookies.get('username')
+  const [ confirmed, setConfirmed ] = useState(true)
 
   useEffect(()=>{
     getUserLogin(username)
@@ -34,9 +35,10 @@ function Aset() {
     e.preventDefault()
     addQtyBenih(getId)
     setModalOpen(false)
+    setConfirmed(true)
     validateInput(e)
   }
-  
+
   const handleEdit = (event, id) => {
     setGetId(id)
     var index = parseInt(event.target.value)
@@ -52,6 +54,10 @@ function Aset() {
     setCurrentIndex(index)
     if (activity === 'plant') history.push('/tanam-benih') 
     else if (activity === 'harvest') history.push('/panen')
+  }
+
+  const handleCheck = () => {
+    setConfirmed(!confirmed)
   }
 
   return (
@@ -117,15 +123,24 @@ function Aset() {
                                 modalBody={
                                   <>
                                     <form id='editKuantitas' onSubmit={handleSubmit}>
+                                      {errorKuantitas && <span className='err'>{errorKuantitas}</span>}
                                       <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
                                       placeholder='Tambah Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
                                       errorMsg={error.KuantitasBenihKg} required />
+                                      <p>Data tidak bisa diubah menjadi lebih kecil dari saat ini</p>
+                                      <div style={{marginTop : '10px'}}>
+                                        <label>
+                                          <input type="checkbox" defaultChecked={false} onChange={handleCheck} /> Saya yakin mengubah data
+                                        </label>
+                                      </div>
                                     </form>
                                   </>
                                 } 
                                 cancelBtn ={'BATAL'}
                                 processBtn={'SIMPAN'}
                                 form='editKuantitas'
+                                setConfirmed={setConfirmed}
+                                disabled={confirmed}
                               />
                               }
                           </div>

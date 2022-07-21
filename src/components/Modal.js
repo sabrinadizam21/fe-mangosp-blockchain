@@ -1,5 +1,5 @@
-import React from "react";
-import "./Modal.css";
+import React from "react"
+import "./Modal.css"
 import { ImCross } from "react-icons/im"
 
 function Modal({ 
@@ -9,7 +9,9 @@ function Modal({
   cancelBtn,
   processBtn,
   hidden,
-  form
+  form,
+  disabled,
+  setConfirmed
  }) {
   return (
     <div className="modal__background">
@@ -20,7 +22,8 @@ function Modal({
             </div>
           <button
             onClick={() => {
-              setOpenModal(false);
+              setOpenModal(false)
+              setConfirmed(true)
             }}
           >
             <ImCross />
@@ -32,13 +35,14 @@ function Modal({
         <div className="modal__footer">
           <button
             onClick={() => {
-              setOpenModal(false);
+              setOpenModal(false)
+              setConfirmed(true)
             }}
             id="cancelButton"
           >
             {cancelBtn}
           </button>
-          <button type='submit' form={form} hidden={hidden}>{processBtn}</button>
+          <button type='submit' form={form} hidden={hidden} disabled={disabled}>{processBtn}</button>
         </div>
       </div>
     </div>

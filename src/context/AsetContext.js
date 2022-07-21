@@ -865,7 +865,6 @@ export const AsetProvider = props => {
                 idBenih           
             ]
           }
-          console.log(newData)
           let newQty = aset
           if(currentIndex === -1){
             newQty = [...aset, {
@@ -873,8 +872,12 @@ export const AsetProvider = props => {
             }]
           }
           else {
-            if(newData.args[0] <= newQty[currentIndex].KuantitasBenihKg) alert("Input tidak boleh lebih kecil dari kuantitas sekarang")
-            else newQty[currentIndex].KuantitasBenihKg = newData.args[0]
+            if(newData.args[0] <= newQty[currentIndex].KuantitasBenihKg) 
+            alert("Input tidak boleh lebih kecil dari kuantitas sekarang. Silahkan ubah kuantitas kembali.")
+            else {
+                console.log(newData)
+                newQty[currentIndex].KuantitasBenihKg = newData.args[0]
+            }
           }
     }
     //======================== END ASET BENIH ========================//

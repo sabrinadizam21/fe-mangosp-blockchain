@@ -97,3 +97,10 @@
     max-width: 7em;
     word-break: break-all;
   }
+
+  button:disabled {
+    background-color: darkgrey !important;
+    color: white !important;
+    border-color: darkgray !important;
+    cursor: no-drop !important;
+  }
