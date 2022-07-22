@@ -53,46 +53,46 @@ function TransaksiMasuk() {
                                         </div>
                                         <div style={{width : '100%'}}>
                                         <div className='card-name-and-status'>
-                                            <b>{data.VarietasBenih}</b>
-                                            {statusTrx(data.IsConfirmed, data.IsRejected)}
+                                            <b>{data.varietasBenih}</b>
+                                            {statusTrx(data.isConfirmed, data.isRejected)}
                                         </div>
-                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
                                         </div>
                                     </div>
                                     <div className="card__body">
                                         <div className="quantity-value">
                                             <div className="quantity">
                                                 <span>Pengirim</span>
-                                                <p>{data.NamaPengirim}</p>
+                                                <p>{data.namaPengirim}</p>
                                             </div>
                                             {role == 1 || role == 2 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                    <p>{numberFormat(data.kuantitasBenihKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                                                    <p>Rp{numberFormat(data.hargaBenihPerKg)}</p>
                                                 </div>
                                             </> : role == 3 || role == 4 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                    <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                                                    <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
                                                 </div>
                                             </> : <p></p>
                                             }
                                         </div>
                                         <div className="detail-btn">
-                                            { data.IsConfirmed === false && data.IsRejected === false ? 
+                                            { data.isConfirmed === false && data.isRejected === false ? 
                                                 <Link to='/konfirmasi' onClick={() => role == 1 || role ==2 ? 
-                                                    handleClick(data.id, data.BenihID, data.ManggaID, data.TxID2, data.KuantitasBenihKg) :
-                                                    handleClick(data.id, data.BenihID, data.ManggaID, data.TxID2, data.KuantitasManggaKg)
+                                                    handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasBenihKg) :
+                                                    handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasManggaKg)
                                                 }>Konfirmasi</Link>
                                             :
                                                 <Link to='/detail-transaksi'>Lihat Detail</Link>

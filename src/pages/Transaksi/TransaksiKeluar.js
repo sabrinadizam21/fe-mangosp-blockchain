@@ -41,45 +41,45 @@ function TransaksiKeluar() {
                                         </div>
                                         <div style={{width : '100%'}}>
                                         <div className='card-name-and-status'>
-                                            <b>{data.VarietasBenih}</b>
-                                            {statusTrx(data.IsConfirmed, data.IsRejected)}
+                                            <b>{data.varietasBenih}</b>
+                                            {statusTrx(data.isConfirmed, data.isRejected)}
                                         </div>
-                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
                                         </div>
                                     </div>
                                     <div className="card__body">
                                         <div className="quantity-value">
                                             <div className="quantity">
                                                 <span>Penerima</span>
-                                                <p>{data.NamaPenerima}</p>
+                                                <p>{data.namaPenerima}</p>
                                             </div>
-                                            {Cookies.get('role') === 1 || Cookies.get('role') === 2 ? 
+                                            {Cookies.get('role') == 1 || Cookies.get('role') == 2 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                    <p>{numberFormat(data.kuantitasBenihKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                                                    <p>Rp{numberFormat(data.hargaBenihPerKg)}</p>
                                                 </div>
                                             </> : 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                    <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                                                    <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
                                                 </div>
                                             </>
                                         }
                                         </div>
-                                        {data.RejectReason !== '' &&
+                                        {data.rejectReason !== '' &&
                                         <div>
                                             <span>Alasan tolak : </span>
-                                            <p>{data.RejectReason}</p>
+                                            <p>{data.rejectReason}</p>
                                         </div>
                                         }
                                         <div className="detail-btn">

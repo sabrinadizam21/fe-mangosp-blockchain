@@ -43,7 +43,7 @@ function Aset() {
     setGetId(id)
     var index = parseInt(event.target.value)
     setInputTrx({
-      KuantitasBenihKg : aset[index].KuantitasBenihKg
+      kuantitasBenihKg : aset[index].kuantitasBenihKg
     })
     setCurrentIndex(index)
   }
@@ -91,19 +91,19 @@ function Aset() {
                               <FaSeedling className='card__logo' />
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                              <b>{data.VarietasBenih}</b>
-                              <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                              <b>{data.varietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.tanggalTanam)}</p>
                             </div>                
                           </div>
                           <div className="card__body">
                             <div className="quantity-value">
                               <div className="quantity">
                                 <span>Kuantitas</span>
-                                <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                                <p>{numberFormat(data.kuantitasBenihKg)} Kg </p>
                               </div>
                               <div className="value">
                                 <span>Umur Benih</span>
-                                <p>{numberFormat(data.UmurBenih)} hari</p>
+                                <p>{numberFormat(data.umurBenih)} hari</p>
                               </div>
                             </div>
                           </div>
@@ -124,9 +124,9 @@ function Aset() {
                                   <>
                                     <form id='editKuantitas' onSubmit={handleSubmit}>
                                       {errorKuantitas && <span className='err'>{errorKuantitas}</span>}
-                                      <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' 
-                                      placeholder='Tambah Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
-                                      errorMsg={error.KuantitasBenihKg} required />
+                                      <Input className='number' label={'Tambah Kuantitas Benih'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' 
+                                      placeholder='Tambah Kuantitas Benih' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} 
+                                      errorMsg={error.kuantitasBenihKg} required />
                                       <p>Data tidak bisa diubah menjadi lebih kecil dari saat ini</p>
                                       <div style={{marginTop : '10px'}}>
                                         <label>
@@ -162,28 +162,28 @@ function Aset() {
                               <FaSeedling className='card__logo' />
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                              <b>{data.VarietasBenih}</b>
-                              <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                              <b>{data.varietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
                             </div>                
                           </div>
                           <div className="card__body">
                             <div className="quantity-value">
                               <div className="quantity">
                                 <span>Kuantitas</span>
-                                <p>{numberFormat(data.KuantitasBenihKg)} Kg </p>
+                                <p>{numberFormat(data.kuantitasBenihKg)} Kg </p>
                               </div>
                               <div className="value">
                                 <span>Harga per Kg</span>
-                                <p>Rp{numberFormat(data.HargaBenihKg)}</p>
+                                <p>Rp{numberFormat(data.hargaBenihPerKg)}</p>
                               </div>
                             </div>
                             <div className="seed-age">
                               <span>Pengirim</span> 
-                              <p>{data.NamaPengirim}</p>
+                              <p>{data.namaPengirim}</p>
                             </div>
                             <div className="seed-age">
                               <span>Umur Benih</span> 
-                              <p>{data.UmurBenih} hari</p>
+                              <p>{data.umurBenih} hari</p>
                             </div>
                             {/* <div className="harvest-age">
                               <span>Umur Panen</span>
@@ -191,13 +191,13 @@ function Aset() {
                             </div> */}
                           </div>
                           <div className="card__bottom">
-                            {data.Pestisida === '' ? 
-                            data.Pupuk === '' ?
+                            {data.pestisida === '' ? 
+                            data.pupuk === '' ?
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'} onClick={((e) => {handleClick(e, data.TxID1, 'plant')})}> TANAM BENIH
+                                buttonStyle={'btn--outline'} onClick={((e) => {handleClick(e, data.txID1, 'plant')})}> TANAM BENIH
                               </Button> :
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                              buttonStyle={'btn--outline'} onClick={((e) => handleClick(e, data.ManggaID, 'harvest'))}> PANEN
+                              buttonStyle={'btn--outline'} onClick={((e) => handleClick(e, data.manggaID, 'harvest'))}> PANEN
                               </Button>
                               : 
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'} 
@@ -222,28 +222,28 @@ function Aset() {
                             <FaSeedling className='card__logo' />
                           </div>
                           <div style={{marginLeft: '15px'}}>
-                            <b>{data.VarietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                            <b>{data.varietasBenih}</b>
+                            <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
                           </div>                
                         </div>
                         <div className="card__body">
                           <div className="quantity-value">
                             <div className="quantity">
                               <span>Kuantitas</span>
-                              <p>{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                              <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
                             </div>
                             <div className="value">
                               <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                              <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
                             </div>
                           </div>
                           <div className="seed-age">
                             <span>Pengirim</span> 
-                            <p>{data.NamaPengirim}</p>
+                            <p>{data.namaPengirim}</p>
                           </div>
                           <div className="seed-age">
                             <span>Umur Benih</span> 
-                            <p>{data.UmurBenih} bulan</p>
+                            <p>{data.umurBenih} bulan</p>
                           </div>
                           {/* <div className="harvest-age">
                             <span>Umur Panen</span>
@@ -273,28 +273,28 @@ function Aset() {
                             <FaSeedling className='card__logo' />
                           </div>
                           <div style={{marginLeft: '15px'}}>
-                            <b>{data.VarietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                            <b>{data.varietasBenih}</b>
+                            <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
                           </div>                
                         </div>
                         <div className="card__body">
                           <div className="quantity-value">
                             <div className="quantity">
                               <span>Kuantitas</span>
-                              <p>{numberFormat(data.KuantitasManggaKg)} Kg </p>
+                              <p>{numberFormat(data.kuantitasManggaKg)} Kg </p>
                             </div>
                             <div className="value">
                               <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.HargaManggaKg)}</p>
+                              <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
                             </div>
                           </div>
                           <div className="seed-age">
                             <span>Pengirim</span> 
-                            <p>{data.NamaPengirim}</p>
+                            <p>{data.namaPengirim}</p>
                           </div>
                           <div className="seed-age">
                             <span>Umur Benih</span> 
-                            <p>{data.UmurBenih} bulan</p>
+                            <p>{data.umurBenih} bulan</p>
                           </div>
                         </div>
                         {/* <div className="card__bottom">

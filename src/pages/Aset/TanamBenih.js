@@ -37,20 +37,20 @@ function TanamBenih() {
                 <div className="information">
                   <div className="last-note">
                     <span>Varietas</span>
-                    <p>{dataBenih.VarietasBenih}</p>
+                    <p>{dataBenih.varietasBenih}</p>
                   </div>
                   <div className="status-trx">
-                    <p className='status'>{dataBenih.KuantitasBenihKg} Kg</p>
-                    <p className="timestamp">{formatDate(dataBenih.TanggalTransaksi)}</p>
+                    <p className='status'>{dataBenih.kuantitasBenihKg} Kg</p>
+                    <p className="timestamp">{formatDate(dataBenih.tanggalTransaksi)}</p>
                   </div>
                 </div>
                 <div>
                     <form id='tanam-benih' onSubmit={handleSubmit}>
-                        <Input label={'Jenis Pupuk'} type='text' name='Pupuk' id='Pupuk' errorMsg={error.Pupuk}
-                        placeholder='Jenis Pupuk' value={inputTrx.Pupuk} onChange={handleChange} onBlur={validateInput} required />
+                        <Input label={'Jenis pupuk'} type='text' name='pupuk' id='pupuk' errorMsg={error.pupuk}
+                        placeholder='Jenis pupuk' value={inputTrx.pupuk} onChange={handleChange} onBlur={validateInput} required />
                         
-                        <Input label={'Lokasi Lahan'} type='text' name='LokasiLahan' id='LokasiLahan' errorMsg={error.LokasiLahan}
-                        placeholder='Lokasi Lahan' value={inputTrx.LokasiLahan} onChange={handleChange} onBlur={validateInput} required />
+                        <Input label={'Lokasi Lahan'} type='text' name='lokasiLahan' id='lokasiLahan' errorMsg={error.lokasiLahan}
+                        placeholder='Lokasi Lahan' value={inputTrx.lokasiLahan} onChange={handleChange} onBlur={validateInput} required />
 
                         <div>
                            <Button 
@@ -58,7 +58,7 @@ function TanamBenih() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!inputTrx.Pupuk || !inputTrx.LokasiLahan } 
+                              disabled = {!inputTrx.pupuk || !inputTrx.lokasiLahan } 
                               style = {{width : '100%'}}
                             >
                               SIMPAN

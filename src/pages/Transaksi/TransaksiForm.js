@@ -48,9 +48,9 @@ function TransaksiForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     if(profile.role === 1) createTrxPenangkar(getId)
-    else if(profile.role === 2) createTrxPetani(aset[currentIndex].ManggaID)
-    else if(profile.role === 3) createTrxPengumpul(aset[currentIndex].TxID2)
-    else if(profile.role === 4) createTrxPedagang(aset[currentIndex].TxID3)
+    else if(profile.role === 2) createTrxPetani(aset[currentIndex].manggaID)
+    else if(profile.role === 3) createTrxPengumpul(aset[currentIndex].txID2)
+    else if(profile.role === 4) createTrxPedagang(aset[currentIndex].txID3)
     history.push('/detail-transaksi')
     setModalOpen(false)
     console.log(aset)
@@ -70,17 +70,17 @@ function TransaksiForm() {
             <form id='buat-transaksi-baru' onSubmit={handleSubmit}>
               <UnlockAccess request={1}> 
                 <>
-                  <Input label={'Kuantitas (Kg)'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' errorMsg={error.KuantitasBenihKg}
-                    placeholder='Kuantitas' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
+                  <Input label={'Kuantitas (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
+                    placeholder='Kuantitas' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
                   
-                  <Input label={'Umur Benih (bulan)'} type='number' name='UmurBenih' id='UmurBenih' errorMsg={error.UmurBenih} 
-                    placeholder='Umur Benih' value ={inputTrx.UmurBenih}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Umur Benih (bulan)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
+                    placeholder='Umur Benih' value ={inputTrx.umurBenih}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Harga Benih (Rp)'} type='number' name='HargaBenihKg' id='HargaBenihKg' errorMsg={error.HargaBenihKg} 
-                    placeholder='Harga Benih' value ={inputTrx.HargaBenihKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Harga Benih (Rp)'} type='number' name='hargaBenihPerKg' id='hargaBenihPerKg' errorMsg={error.hargaBenihPerKg} 
+                    placeholder='Harga Benih' value ={inputTrx.hargaBenihPerKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='text' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima} 
-                    placeholder='Username Penerima' value ={inputTrx.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima} 
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
                         
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
@@ -90,21 +90,21 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='CaraPembayaran' value={inputTrx.CaraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>
               
               <UnlockAccess request={2}>
                 <>
-                  <Input label={'Kuantitas Mangga (Kg)'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
-                    placeholder='Kuantitas Mangga' value ={inputTrx.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
                   <Input  label={'Harga Mangga (Rp)'} type='number' name='HargaManggaPerKg' id='HargaManggaPerKg' errorMsg={error.HargaManggaPerKg} 
                     placeholder='Harga Mangga' value ={inputTrx.HargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='number' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima}
-                    placeholder='Username Penerima' value ={inputTrx.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Penerima'} type='number' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
 
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
@@ -114,30 +114,30 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='CaraPembayaran' value={inputTrx.CaraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>
 
               <UnlockAccess request={3}>
                 <>
-                  <Input label={'Kuantitas Mangga (Kg)'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
-                    placeholder='Kuantitas Mangga' value ={inputTrx.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input label={'Teknik Sorting'} type='text' name='TeknikSorting' id='TeknikSorting' errorMsg={error.TeknikSorting}
-                    placeholder='Teknik Sorting' value ={inputTrx.TeknikSorting}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
+                    placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Harga Mangga (Rp)'} type='text' name='HargaManggaKg' id='HargaManggaKg' errorMsg={error.HargaManggaKg}
-                    placeholder='Harga Mangga' value ={inputTrx.HargaManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Harga Mangga (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
+                    placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Metode Pengemasan'} type='text' name='MetodePengemasan' id='MetodePengemasan' errorMsg={error.MetodePengemasan}
-                    placeholder='Metode Pengemasan' value ={inputTrx.MetodePengemasan}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
+                    placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Pengangkutan'} type='text' name='Pengangkutan' id='Pengangkutan' errorMsg={error.Pengangkutan}
-                    placeholder='Pengangkutan' value ={inputTrx.Pengangkutan}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
+                    placeholder='pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='number' name='NamaPenerima' id='NamaPenerima' errorMsg={error.NamaPenerima}
-                    placeholder='Username Penerima' value ={inputTrx.NamaPenerima}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Penerima'} type='number' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
                       
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
@@ -147,27 +147,27 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='CaraPembayaran' value={inputTrx.CaraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>
               
               <UnlockAccess request={4}>
                 <>
-                <Input label={'Kuantitas Mangga (Kg)'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errorMsg={error.KuantitasManggaKg}
-                    placeholder='Kuantitas Mangga' value ={inputTrx.KuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
+                    placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input label={'Teknik Sorting'} type='text' name='TeknikSorting' id='TeknikSorting' errorMsg={error.TeknikSorting}
-                    placeholder='Teknik Sorting' value ={inputTrx.TeknikSorting}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
+                    placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Harga Mangga (Rp)'} type='text' name='HargaManggaKg' id='HargaManggaKg' errorMsg={error.HargaManggaKg}
-                    placeholder='Harga Mangga' value ={inputTrx.HargaManggaKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'Harga Mangga (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
+                    placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Metode Pengemasan'} type='text' name='MetodePengemasan' id='MetodePengemasan' errorMsg={error.MetodePengemasan}
-                    placeholder='Metode Pengemasan' value ={inputTrx.MetodePengemasan}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
+                    placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Pengangkutan'} type='text' name='Pengangkutan' id='Pengangkutan' errorMsg={error.Pengangkutan}
-                    placeholder='Pengangkutan' value ={inputTrx.Pengangkutan}  onChange={handleChange} onBlur={validateInput} />
+                  <Input label={'pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
+                    placeholder='pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
                     
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
@@ -177,7 +177,7 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='CaraPembayaran' value={inputTrx.CaraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
               </UnlockAccess>

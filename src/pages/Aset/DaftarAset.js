@@ -38,14 +38,14 @@ function DaftarAset() {
               </div>
               <div className="content">
                 <form id='daftar-aset-baru' onSubmit={handleSubmit}>
-                    <Input label={'Varietas Benih'} type='text' name='VarietasBenih' id='VarietasBenih' errorMsg={error.VarietasBenih}
-                        placeholder='Varietas Benih' value={inputTrx.VarietasBenih} onChange={handleChange} onBlur={validateInput} required />
+                    <Input label={'Varietas Benih'} type='text' name='varietasBenih' id='varietasBenih' errorMsg={error.varietasBenih}
+                        placeholder='Varietas Benih' value={inputTrx.varietasBenih} onChange={handleChange} onBlur={validateInput} required />
 
-                    <Input label={'Kuantitas Benih (Kg)'} type='number' name='KuantitasBenihKg' id='KuantitasBenihKg' errorMsg={error.KuantitasBenihKg}
-                        placeholder='Kuantitas Benih' value={inputTrx.KuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
+                    <Input label={'Kuantitas Benih (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
+                        placeholder='Kuantitas Benih' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
                     
-                    <Input label={'Umur Benih (hari)'} type='number' name='UmurBenih' id='UmurBenih' errorMsg={error.UmurBenih}
-                        placeholder='Umur Benih' value={inputTrx.UmurBenih} onChange={handleChange} onBlur={validateInput} required />
+                    <Input label={'Umur Benih (hari)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih}
+                        placeholder='Umur Benih' value={inputTrx.umurBenih} onChange={handleChange} onBlur={validateInput} required />
                     
                     <div className='aset__button'>
                         <div className='btn-links'>
@@ -59,7 +59,7 @@ function DaftarAset() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!inputTrx.VarietasBenih|| !inputTrx.KuantitasBenihKg || !inputTrx.UmurBenih } 
+                              disabled = {!inputTrx.varietasBenih|| !inputTrx.kuantitasBenihKg || !inputTrx.umurBenih } 
                             >
                               SIMPAN
                             </Button>

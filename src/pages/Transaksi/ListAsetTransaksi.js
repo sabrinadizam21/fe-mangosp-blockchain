@@ -48,11 +48,11 @@ function ListAsetTransaksi() {
                                                     <FaSeedling className='card__logo' />
                                                 </div>
                                                 <div className='card-name-and-status' style={{width : '100%'}}>
-                                                    <b>{data.VarietasBenih}</b>
+                                                    <b>{data.varietasBenih}</b>
                                                     {Cookies.get('role') === 1 || Cookies.get('role') === 1 ? 
-                                                    <p className="status">{numberFormat(data.KuantitasBenihKg)} Kg</p>
+                                                    <p className="status">{numberFormat(data.kuantitasBenihKg)} Kg</p>
                                                     :
-                                                    <p className="status">{numberFormat(data.KuantitasManggaKg)} Kg</p>
+                                                    <p className="status">{numberFormat(data.kuantitasManggaKg)} Kg</p>
                                                     }
                                                 </div>
                                             </div>
@@ -60,11 +60,11 @@ function ListAsetTransaksi() {
                                                 <div className="quantity-value">
                                                     <div className="quantity">
                                                         <span>Umur Benih</span>
-                                                        <p>{numberFormat(data.UmurBenih)} hari</p>
+                                                        <p>{numberFormat(data.umurBenih)} hari</p>
                                                     </div>
                                                     <div className="value">
                                                         <span>Tanggal Daftar Aset</span>
-                                                        <p>{formatDate(data.TanggalTransaksi)}</p>
+                                                        <p>{formatDate(data.tanggalTransaksi)}</p>
                                                     </div>
                                                 </div>
                                             </div>

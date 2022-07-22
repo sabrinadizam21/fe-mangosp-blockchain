@@ -68,11 +68,11 @@ function KonfirmasiTransaksi() {
                 <div className="information">
                   <div className="last-note">
                     <span>Pencatat Transaksi</span>
-                    <p>{data.NamaPengirim}</p>
+                    <p>{data.namaPengirim}</p>
                   </div>
                   <div className="status-trx">
-                    {statusTrx(data.IsConfirmed, data.IsRejected)}
-                    <p className="timestamp">{formatDate(data.TanggalTransaksi)}</p>
+                    {statusTrx(data.isConfirmed, data.isRejected)}
+                    <p className="timestamp">{formatDate(data.tanggalTransaksi)}</p>
                   </div>
                 </div>
                 <div className="btn-konfirmasi">
@@ -86,8 +86,8 @@ function KonfirmasiTransaksi() {
                     modalBody={
                       <>  
                         <form id='rejectReason' onSubmit={handleSubmit}>
-                          <Input label={'Alasan'} type='text' name='RejectReason' id='RejectReason' placeholder='Alasan' 
-                          value={inputTrx.RejectReason} onChange={handleChange} onBlur={validateInput} errorMsg={error.RejectReason} required />
+                          <Input label={'Alasan'} type='text' name='rejectReason' id='rejectReason' placeholder='Alasan' 
+                          value={inputTrx.rejectReason} onChange={handleChange} onBlur={validateInput} errorMsg={error.rejectReason} required />
                         </form>
                       </>
                     } 

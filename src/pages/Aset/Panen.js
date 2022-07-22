@@ -37,32 +37,32 @@ return (
               <div className="information">
                 <div className="last-note">
                   <span>Varietas</span>
-                  <p>{dataMangga.VarietasBenih}</p>
+                  <p>{dataMangga.varietasBenih}</p>
                 </div>
                 <div className="status-trx">
-                  <p className='status'>{dataMangga.KuantitasBenihKg} Kg</p>
-                  <p className="timestamp">{formatDate(dataMangga.TanggalTanam)}</p>
+                  <p className='status'>{dataMangga.kuantitasBenihKg} Kg</p>
+                  <p className="timestamp">{formatDate(dataMangga.tanggalTanam)}</p>
                 </div>
               </div>
               <div>
                   <form id='tanam-benih' onSubmit={handleSubmit}>
-                      <Input label={'Jumlah'} type='number' name='KuantitasManggaKg' id='KuantitasManggaKg' errMsg={error.KuantitasManggaKg}
-                      placeholder='Jumlah' value={inputTrx.KuantitasManggaKg} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Jumlah'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errMsg={error.kuantitasManggaKg}
+                      placeholder='Jumlah' value={inputTrx.kuantitasManggaKg} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Ukuran'} type='text' name='Ukuran' id='Ukuran' errMsg={error.Ukuran}
-                      placeholder='Ukuran' value={inputTrx.Ukuran} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'ukuran'} type='text' name='ukuran' id='ukuran' errMsg={error.ukuran}
+                      placeholder='ukuran' value={inputTrx.ukuran} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Pestisida'} type='text' name='Pestisida' id='Pestisida' errMsg={error.Pestisida}
-                      placeholder='Pestisida' value={inputTrx.Pestisida} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'pestisida'} type='text' name='pestisida' id='pestisida' errMsg={error.pestisida}
+                      placeholder='pestisida' value={inputTrx.pestisida} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Kadar Air'} type='number' name='KadarAir' id='KadarAir' errMsg={error.KadarAir}
-                      placeholder='Kadar Air' value={inputTrx.KadarAir} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Kadar Air'} type='number' name='kadarAir' id='kadarAir' errMsg={error.kadarAir}
+                      placeholder='Kadar Air' value={inputTrx.kadarAir} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Perlakuan'} type='text' name='Perlakuan' id='Perlakuan' errMsg={error.Perlakuan}
-                      placeholder='Perlakuan' value={inputTrx.Perlakuan} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'perlakuan'} type='text' name='perlakuan' id='perlakuan' errMsg={error.perlakuan}
+                      placeholder='perlakuan' value={inputTrx.perlakuan} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Produktivitas'} type='text' name='Produktivitas' id='Produktivitas' errMsg={error.Produktivitas}
-                      placeholder='Produktivitas' value={inputTrx.Produktivitas} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'produktivitas'} type='text' name='produktivitas' id='produktivitas' errMsg={error.produktivitas}
+                      placeholder='produktivitas' value={inputTrx.produktivitas} onChange={handleChange} onBlur={validateInput} required />
 
                       <div>
                          <Button 
@@ -70,8 +70,8 @@ return (
                             onClick={()=>{
                               setModalOpen(true);
                             }}
-                            disabled = {!inputTrx.KuantitasManggaKg || !inputTrx.Ukuran || !inputTrx.Pestisida || 
-                              !inputTrx.KadarAir || !inputTrx.Perlakuan || !inputTrx.Produktivitas } 
+                            disabled = {!inputTrx.kuantitasManggaKg || !inputTrx.ukuran || !inputTrx.pestisida || 
+                              !inputTrx.kadarAir || !inputTrx.perlakuan || !inputTrx.produktivitas } 
                             style = {{width : '100%'}}
                           >
                             SIMPAN
