@@ -5,49 +5,59 @@ export const AsetContext = createContext()
 export const AsetProvider = props => {
     
     let history = useHistory()
-    const [currentIndex, setCurrentIndex] = useState(-1)
-    
-    const formatDate = (x) => {
-        if (x.toString().length < 12) { x = x*1000 }
-        const date = new Date(x)
-        const day = date.toLocaleString('default', {day: 'numeric'})
-        const month = date.toLocaleString('default', {month: 'long'})
-        const year = date.toLocaleString('default', {year: 'numeric'})
-        const hour = date.toLocaleString('default', {hour : 'numeric', minute : 'numeric', hour12 : false})
-        return day + ' ' + month + ' ' + year + ' - ' + hour
-    }
-
-    const sortData = (data) => data.sort((a,b) => (a.tanggalTransaksi < b.tanggalTransaksi) ? 1 : -1)
-    
-    function numberFormat(number){
-        return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
-    }
-
-    const [selectedValue, setSelectedValue] = useState('ALL')
-
-    const showData = (datas, trxType) => {
-        if(trxType === 'out'){
-            datas = datas.filter(data => data.isAsset === false && data.namaPengirim === Cookies.get('username'))
-        } else if (trxType === 'in') {
-            datas = datas.filter(data => data.isAsset === false && data.namaPenerima === Cookies.get('username'))
-        }
-
-        if(selectedValue === 'ALL')
-            return datas
-        else if(selectedValue === 'SUCCESS')
-            return datas.filter(data => data.isConfirmed === true)
-        else if(selectedValue === 'FAILED')
-            return datas.filter(data => data.isRejected === true)
-        else if(selectedValue === 'PENDING')
-            return datas.filter(data => data.isConfirmed === false && data.isRejected === false)
-    }
-    
+    const [ currentIndex, setCurrentIndex ] = useState(-1)
+    const [ selectedValue, setSelectedValue ] = useState('ALL')
+    const [ getId, setGetId ] = useState('')
+    const [ getIdBenih, setGetIdBenih ] = useState('')
+    const [ getIdMangga, setGetIdMangga ] = useState('')
+    const [ getIdTx2, setGetIdTx2 ] = useState('')
+    const [ qty, setQty ] = useState('')
+    const [inputTrx, setInputTrx] = useState([
+        {   id : '', 
+            benihID : 0, 
+            manggaID : '', 
+            namaPengirim : '', 
+            namaPenerima : '', 
+            kuantitasBenihKg : '', 
+            hargaBenihPerKg : '', 
+            hargaBenihTotal : '', 
+            kuantitasManggaKg : '', 
+            hargaManggaPerKg : '', 
+            hargaManggaTotal : '', 
+            tanggalTransaksi : '', 
+            varietasBenih : '', 
+            umurBenih : '', 
+            pupuk : '', 
+            tanggalTanam : '', 
+            lokasiLahan : '', 
+            ukuran : '', 
+            pestisida : '', 
+            kadarAir : '', 
+            perlakuan : '', 
+            produktivitas : '', 
+            tanggalPanen : '', 
+            tanggalMasuk : '', 
+            teknikSorting : '', 
+            metodePengemasan : '', 
+            pengangkutan : '', 
+            pembeli : '', 
+            caraPembayaran : '', 
+            txID1 : '', 
+            txID2 : '', 
+            txID3 : '', 
+            txID4 : '', 
+            isAsset : '', 
+            isConfirmed : '', 
+            isEmpty : '', 
+            isRejected : '', 
+            rejectReason : ''}
+    ])    
     const [aset,setAset] = useState([
         //aset penangkar
         {id : 'benih1', 
         benihID : 'benih1', 
         manggaID : '', 
-        namaPengirim : '', 
+        namaPengirim : 'penangkarAgus', 
         namaPenerima : '', 
         kuantitasBenihKg : 10, 
         hargaBenihPerKg : 0, 
@@ -86,7 +96,7 @@ export const AsetProvider = props => {
         {id : 'benih2', 
         benihID : 'benih2', 
         manggaID : '', 
-        namaPengirim : '', 
+        namaPengirim : 'penangkarAgus', 
         namaPenerima : '', 
         kuantitasBenihKg : 15, 
         hargaBenihPerKg : 0, 
@@ -715,7 +725,68 @@ export const AsetProvider = props => {
         rejectReason : ''},
     ])
     
-    const dataAsetPenangkar = aset.filter(asets => asets.isAsset === true && asets.txID1 === '')
+    const formatDate = (x) => {
+        if (x.toString().length < 12) { x = x*1000 }
+        const date = new Date(x)
+        const day = date.toLocaleString('default', {day: 'numeric'})
+        const month = date.toLocaleString('default', {month: 'long'})
+        const year = date.toLocaleString('default', {year: 'numeric'})
+        const hour = date.toLocaleString('default', {hour : 'numeric', minute : 'numeric', hour12 : false})
+        return day + ' ' + month + ' ' + year + ' - ' + hour
+    }
+
+    const sortData = (data) => data.sort((a,b) => (a.tanggalTransaksi < b.tanggalTransaksi) ? 1 : -1)
+    
+    function numberFormat(number){
+        return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+    }
+    
+    // Cari index di array pada data aset
+    var elementPos = (id) => {
+        const indexArray = aset.map(function(x) {return x.id}).indexOf(id)
+        return indexArray
+    }
+
+    // Label Transaksi Masuk atau Keluar
+    const statusTrx = (confirm, reject) => {
+        if(confirm === false && reject === false) {
+            return (
+                <p className="label-status color-pending">PENDING</p>
+            )
+        }
+        else if (confirm === true){
+            return (
+                <p className="label-status color-success">TERIMA</p>
+            )
+        }
+        else if (reject === true){
+            return (
+                <p className="label-status color-failed">TOLAK</p>
+            )
+        }
+    }
+    
+    //======================== START FILTER ASET ========================//
+    // Data Transaksi Masuk atau Keluar
+    const showData = (datas, trxType) => {
+        if(trxType === 'out'){
+            datas = datas.filter(data => data.isAsset === false && data.namaPengirim === Cookies.get('username'))
+        } else if (trxType === 'in') {
+            datas = datas.filter(data => data.isAsset === false && data.namaPenerima === Cookies.get('username'))
+        }
+
+        // Filter Status transaksi
+        if(selectedValue === 'ALL')
+            return datas
+        else if(selectedValue === 'SUCCESS')
+            return datas.filter(data => data.isConfirmed === true && data.isRejected === false)
+        else if(selectedValue === 'FAILED')
+            return datas.filter(data => data.isConfirmed === false && data.isRejected === true)
+        else if(selectedValue === 'PENDING')
+            return datas.filter(data => data.isConfirmed === false && data.isRejected === false)
+    }
+    
+    const dataAsetPenangkar = aset.filter(asets => asets.isAsset === true && asets.txID1 === '' && asets.namaPengirim === Cookies.get('username'))
 
     const dataAsetPetani = aset.filter(data => 
         // Data belum tanam benih
@@ -735,80 +806,117 @@ export const AsetProvider = props => {
         else if (role == 4) var data = dataAsetPengumpul
         return data
     }
+    //======================== END FILTER ASET ========================//
 
-    const [inputTrx, setInputTrx] = useState([
-        {   id : '', 
-            benihID : 0, 
-            manggaID : '', 
-            namaPengirim : '', 
-            namaPenerima : '', 
-            kuantitasBenihKg : '', 
-            hargaBenihPerKg : '', 
-            hargaBenihTotal : '', 
-            kuantitasManggaKg : '', 
-            hargaManggaPerKg : '', 
-            hargaManggaTotal : '', 
-            tanggalTransaksi : '', 
-            varietasBenih : '', 
-            umurBenih : '', 
-            pupuk : '', 
-            tanggalTanam : '', 
-            lokasiLahan : '', 
-            ukuran : '', 
-            pestisida : '', 
-            kadarAir : '', 
-            perlakuan : '', 
-            produktivitas : '', 
-            tanggalPanen : '', 
-            tanggalMasuk : '', 
-            teknikSorting : '', 
-            metodePengemasan : '', 
-            pengangkutan : '', 
-            pembeli : '', 
-            caraPembayaran : '', 
-            txID1 : '', 
-            txID2 : '', 
-            txID3 : '', 
-            txID4 : '', 
-            isAsset : '', 
-            isConfirmed : '', 
-            isEmpty : '', 
-            isRejected : '', 
-            rejectReason : ''}
-    ])
     
-    const [ getId, setGetId ] = useState('')
-    const [ getIdBenih, setGetIdBenih ] = useState('')
-    const [ getIdMangga, setGetIdMangga ] = useState('')
-    const [ getIdTx2, setGetIdTx2 ] = useState('')
-    const [ qty, setQty ] = useState('')
-
-    var elementPos = (id) => {
-        const indexArray = aset.map(function(x) {return x.id}).indexOf(id)
-        return indexArray
+    //======================== START GET DATA ========================//
+    const getAset = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : ["{\"selector\":{\"namaPengirim\":\""+ username + "\", \"isAsset\":" + true + "\", \"isEmpty\":" + false + "}}"]
+        }        
+        console.log(body)
     }
 
-    const statusTrx = (confirm, reject) => {
-        if(confirm === false && reject === false) {
-            return (
-                <p className="label-status color-pending">PENDING</p>
-            )
-        }
-        else if (confirm === true){
-            return (
-                <p className="label-status color-success">TERIMA</p>
-            )
-        }
-        else if (reject === true){
-            return (
-                <p className="label-status color-failed">TOLAK</p>
-            )
-        }
+    // Transaksi Keluar
+    const trxKeluarPending = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPengirim\":\""+ username + 
+                "\", \"isConfirmed\":" + false + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + false + 
+            "}}"]
+        }        
+        console.log(body)
     }
+    const trxKeluarFailed = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPengirim\":\""+ username + 
+                "\", \"isConfirmed\":" + false + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + true + 
+            "}}"]
+        }        
+        console.log(body)
+    }
+    const trxKeluarSuccess = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPengirim\":\""+ username + 
+                "\", \"isConfirmed\":" + true + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + false + 
+            "}}"]
+        }        
+        console.log(body)
+    }
+
+    // Transaksi Masuk
+    const trxMasukPending = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPenerima\":\""+ username + 
+                "\", \"isConfirmed\":" + false + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + false + 
+            "}}"]
+        }        
+        console.log(body)
+    }
+    const trxMasukFailed = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPenerima\":\""+ username + 
+                "\", \"isConfirmed\":" + false + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + true + 
+            "}}"]
+        }        
+        console.log(body)
+    }
+    const trxMasukSuccess = (roleName) => {
+        const username = Cookies.get('username')
+        const body = {
+            peer : "peer0."+roleName+".example.com",
+            fcn  : "GetManggaForQuery",
+            argn : [
+                "{\"selector\":{\"namaPenerima\":\""+ username + 
+                "\", \"isConfirmed\":" + true + 
+                "\", \"isAsset\":" + false + 
+                "\", \"isReject\":" + false + 
+            "}}"]
+        }        
+        console.log(body)
+    }
+    const functionGet = {
+        getAset, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
+        trxMasukPending, trxMasukFailed, trxMasukSuccess
+    }
+    //======================== END GET DATA ========================//
+
 
     //======================== START ASET BENIH ========================//
     const createBenih = () => {        
-        const newData = {
+        const body = {
             fcn : "RegistrasiBenih",
             peers: [
                 "peer0.penangkar.example.com",
@@ -816,25 +924,24 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
             args: [{
                 varietasBenih : inputTrx.varietasBenih,
                 kuantitasBenihKg : parseInt(inputTrx.kuantitasBenihKg),
-                umurBenih : parseInt(inputTrx.umurBenih),
-                tanggalTransaksi : new Date().getTime()
+                umurBenih : parseInt(inputTrx.umurBenih)
             }]
         }
-        console.log(newData)
+        console.log(body)
 
         if(currentIndex === -1){
             setAset([...aset, {
-                varietasBenih : newData.args[0].varietasBenih,
-                kuantitasBenihKg :newData.args[0].kuantitasBenihKg,
-                umurBenih : newData.args[0].umurBenih,
-                tanggalTransaksi : new Date().getTime()
+                varietasBenih : body.args[0].varietasBenih,
+                kuantitasBenihKg :body.args[0].kuantitasBenihKg,
+                umurBenih : body.args[0].umurBenih,
+                tanggalTanam : new Date().getTime()
             }])
             history.push('/aset')
             setInputTrx({
@@ -848,7 +955,7 @@ export const AsetProvider = props => {
 
     const addQtyBenih = (id) => {
         const idBenih = id
-        const newData = {
+        const body = {
             fcn : "AddKuantitasBenihByID",
             peers: [
                 "peer0.penangkar.example.com",
@@ -856,31 +963,32 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
             args: [
-                parseInt(inputTrx.kuantitasBenihKg),
+                inputTrx.kuantitasBenihKg,
                 idBenih           
             ]
         }
         let newQty = aset
         if(currentIndex === -1){
-        newQty = [...aset, {
-            kuantitasBenihKg : newData.args[0]
+            newQty = [...aset, {
+            kuantitasBenihKg : body.args[0]
         }]
         }
         else {
-        if(newData.args[0] <= newQty[currentIndex].kuantitasBenihKg) 
-        alert("Input tidak boleh lebih kecil dari kuantitas sekarang. Silahkan ubah kuantitas kembali.")
-        else {
-            console.log(newData)
-            newQty[currentIndex].kuantitasBenihKg = newData.args[0]
-        }
+            if(body.args[0] <= newQty[currentIndex].kuantitasBenihKg) 
+                alert("Input tidak boleh lebih kecil dari kuantitas sekarang. Silahkan ubah kuantitas kembali.")
+            else {
+                console.log(body)
+                newQty[currentIndex].kuantitasBenihKg = body.args[0]
+                newQty[currentIndex].tanggalTanam = new Date().getTime()
+            }
         }
         setInputTrx({
-        kuantitasBenihKg : ''
+            kuantitasBenihKg : ''
         })
     }
     //======================== END ASET BENIH ========================//
@@ -892,7 +1000,7 @@ export const AsetProvider = props => {
 
     const createTrxPenangkar = (idBenih) => {
         let newTrx = aset
-        const newData = {
+        const body = {
             fcn : "CreateTrxManggaByPenangkar",
             peers: [
                 "peer0.penangkar.example.com",
@@ -900,26 +1008,26 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
             args: [{
                 namaPengirim : Cookies.get('username'),
-                kuantitasBenihKg : inputTrx.kuantitasBenihKg, 
-                umurBenih : inputTrx.umurBenih,  
-                hargaBenihPerKg : inputTrx.hargaBenihPerKg, 
                 namaPenerima : inputTrx.namaPenerima,
+                kuantitasBenihKg : inputTrx.kuantitasBenihKg, 
+                // umurBenih : inputTrx.umurBenih,  
+                hargaBenihPerKg : inputTrx.hargaBenihPerKg, 
                 caraPembayaran : inputTrx.caraPembayaran,
                 }, idBenih
             ]
         }
-        newTrx[currentIndex] = newData.args
-        console.log(newData)
-        //history.push('/transaksi-keluar')
+        newTrx[currentIndex] = body.args
+        console.log(body)
+        history.push('/detail-transaksi')
         setInputTrx({
             kuantitasBenihKg : '', 
-            umurBenih : '',
+            // umurBenih : '',
             hargaBenihPerKg : '', 
             isAsset : false, 
             namaPengirim : '', 
@@ -933,7 +1041,7 @@ export const AsetProvider = props => {
 
     //======================== START TRANSAKSI PETANI ========================//
     const createTrxPetani = (manggaID) => {
-        const newData = {
+        const body = {
             fcn : "CreateTrxManggaByPetani",
             peers: [
                 "peer0.penangkar.example.com",
@@ -941,7 +1049,7 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
@@ -954,7 +1062,7 @@ export const AsetProvider = props => {
                 }, manggaID
             ]
         }
-        console.log(newData)
+        console.log(body)
         const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
@@ -966,11 +1074,11 @@ export const AsetProvider = props => {
             }])
         }
         else {
-            newQty[currentIndex].namaPengirim = newData.args[0].namaPengirim
-            newQty[currentIndex].kuantitasManggaKg = newData.args[0].kuantitasManggaKg
-            newQty[currentIndex].HargaManggaPerKg = newData.args[0].HargaManggaPerKg
-            newQty[currentIndex].namaPenerima = newData.args[0].namaPenerima
-            newQty[currentIndex].caraPembayaran = newData.args[0].caraPembayaran
+            newQty[currentIndex].namaPengirim = body.args[0].namaPengirim
+            newQty[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
+            newQty[currentIndex].HargaManggaPerKg = body.args[0].HargaManggaPerKg
+            newQty[currentIndex].namaPenerima = body.args[0].namaPenerima
+            newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
         }
         //history.push('/transaksi-keluar')
         setInputTrx({
@@ -987,7 +1095,7 @@ export const AsetProvider = props => {
     
     //======================== START TANAM BENIH PETANI ========================//
     const tanamBenihPetani = (txID1) =>{
-        const newData = {
+        const body = {
             fcn : "TanamBenih",
             peers: [
                 "peer0.penangkar.example.com",
@@ -995,7 +1103,7 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
@@ -1006,7 +1114,7 @@ export const AsetProvider = props => {
                 }, txID1
             ]
         }
-        console.log(newData)
+        console.log(body)
         const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
@@ -1015,14 +1123,14 @@ export const AsetProvider = props => {
             }])
         }
         else {
-            newQty[currentIndex].pupuk = newData.args[0].pupuk
-            newQty[currentIndex].lokasiLahan = newData.args[0].lokasiLahan
+            newQty[currentIndex].pupuk = body.args[0].pupuk
+            newQty[currentIndex].lokasiLahan = body.args[0].lokasiLahan
         }
         setInputTrx({
             pupuk : '', 
             lokasiLahan : '',
         })
-        //history.push('/detail-transaksi')
+        history.push('/detail-transaksi')
         console.log(aset)
     }
     //======================== END TANAM BENIH PETANI ========================//
@@ -1030,16 +1138,18 @@ export const AsetProvider = props => {
 
     //======================== START PANEN PETANI ========================//
     const panenPetani = (manggaID) => {
-        const newData = {
-            fcn : "CreateTrxManggaByPenangkar",
+        const body = {
+            fcn : "PanenMangga",
             peers: [
                 "peer0.penangkar.example.com",
                 "peer0.petani.example.com",
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
+            name: Cookies.get('username'),
+            role: Cookies.get('role'),
             args: [{
                 ukuran : inputTrx.ukuran, 
                 pestisida : inputTrx.pestisida, 
@@ -1047,10 +1157,9 @@ export const AsetProvider = props => {
                 perlakuan : inputTrx.perlakuan, 
                 produktivitas : inputTrx.produktivitas, 
                 kuantitasManggaKg : inputTrx.kuantitasManggaKg,
-                tanggalTanam : new Date().getTime(), 
             }, manggaID]
         }
-        console.log(newData)
+        console.log(body)
         const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
@@ -1064,13 +1173,13 @@ export const AsetProvider = props => {
             }])
         }
         else {
-            newQty[currentIndex].ukuran = newData.args[0].ukuran
-            newQty[currentIndex].pestisida = newData.args[0].pestisida
-            newQty[currentIndex].kadarAir = newData.args[0].kadarAir
-            newQty[currentIndex].perlakuan = newData.args[0].perlakuan
-            newQty[currentIndex].produktivitas = newData.args[0].produktivitas
-            newQty[currentIndex].kuantitasManggaKg = newData.args[0].kuantitasManggaKg
-            newQty[currentIndex].tanggalTanam = newData.args[0].tanggalTanam
+            newQty[currentIndex].ukuran = body.args[0].ukuran
+            newQty[currentIndex].pestisida = body.args[0].pestisida
+            newQty[currentIndex].kadarAir = body.args[0].kadarAir
+            newQty[currentIndex].perlakuan = body.args[0].perlakuan
+            newQty[currentIndex].produktivitas = body.args[0].produktivitas
+            newQty[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
+            newQty[currentIndex].tanggalTanam = new Date().getTime()
         }
         setInputTrx({
             ukuran : '', 
@@ -1089,66 +1198,69 @@ export const AsetProvider = props => {
 
     //======================== START TRANSAKSI PENGUMPUL ========================//
     const createTrxPengumpul = (txID2) => {
-        const newData ={
-                fcn : "CreateTrxManggaByPengumpul",
-                peers: [
-                    "peer0.penangkar.example.com",
-                    "peer0.petani.example.com",
-                    "peer0.pengumpul.example.com",
-                    "peer0.pedagang.example.com"
-                ],
-                chaincodeName: "manggasatu_cc",
-                channelName: "channel1",
-                name: Cookies.get('username'),
-                role: Cookies.get('role'),
-                args: [{
-                    kuantitasManggaKg : inputTrx.kuantitasManggaKg,
-                    teknikSorting : inputTrx.teknikSorting,
-                    hargaManggaPerKg : inputTrx.hargaManggaPerKg,
-                    metodePengemasan : inputTrx.metodePengemasan,
-                    pengangkutan : inputTrx.pengangkutan,
-                    namaPenerima : inputTrx.namaPenerima,
-                    caraPembayaran : inputTrx.caraPembayaran,
-                }, txID2]
-            }
-            console.log(newData)
-            const newQty = aset
-            if(currentIndex === -1){
-                setAset([...aset, {
-                    kuantitasManggaKg : inputTrx.kuantitasManggaKg,
-                    teknikSorting : inputTrx.teknikSorting,
-                    hargaManggaPerKg : inputTrx.hargaManggaPerKg,
-                    metodePengemasan : inputTrx.metodePengemasan,
-                    pengangkutan : inputTrx.pengangkutan,
-                    namaPenerima : inputTrx.namaPenerima,
-                    caraPembayaran : inputTrx.caraPembayaran,
-                }])
-            }
-            else {
-                newQty[currentIndex].kuantitasManggaKg = newData.args[0].kuantitasManggaKg
-                newQty[currentIndex].teknikSorting = newData.args[0].teknikSorting
-                newQty[currentIndex].hargaManggaPerKg = newData.args[0].hargaManggaPerKg
-                newQty[currentIndex].metodePengemasan = newData.args[0].metodePengemasan
-                newQty[currentIndex].pengangkutan = newData.args[0].pengangkutan
-                newQty[currentIndex].namaPenerima = newData.args[0].namaPenerima
-                newQty[currentIndex].caraPembayaran = newData.args[0].caraPembayaran
-            }
-            //history.push('/transaksi-keluar')
-            setInputTrx({
-                kuantitasManggaKg : '',
-                teknikSorting : '',
-                hargaManggaPerKg : '',
-                metodePengemasan : '',
-                pengangkutan : '',
-                namaPenerima : '',
-                caraPembayaran : []
-            })
+        const body ={
+            fcn : "CreateTrxManggaByPengumpul",
+            peers: [
+                "peer0.penangkar.example.com",
+                "peer0.petani.example.com",
+                "peer0.pengumpul.example.com",
+                "peer0.pedagang.example.com"
+            ],
+            chaincodeName: "manggach1_cc",
+            channelName: "channel1",
+            name: Cookies.get('username'),
+            role: Cookies.get('role'),
+            args: [{
+                namaPengirim : Cookies.get('username'),
+                namaPenerima : inputTrx.namaPenerima,
+                kuantitasManggaKg : inputTrx.kuantitasManggaKg,
+                hargaManggaPerKg : inputTrx.hargaManggaPerKg,
+                teknikSorting : inputTrx.teknikSorting,
+                metodePengemasan : inputTrx.metodePengemasan,
+                pengangkutan : inputTrx.pengangkutan,
+                caraPembayaran : inputTrx.caraPembayaran,
+            }, txID2]
+        }
+        console.log(body)
+        const newQty = aset
+        if(currentIndex === -1){
+            setAset([...aset, {
+                namaPengirim : Cookies.get('username'),
+                kuantitasManggaKg : inputTrx.kuantitasManggaKg,
+                teknikSorting : inputTrx.teknikSorting,
+                hargaManggaPerKg : inputTrx.hargaManggaPerKg,
+                metodePengemasan : inputTrx.metodePengemasan,
+                pengangkutan : inputTrx.pengangkutan,
+                namaPenerima : inputTrx.namaPenerima,
+                caraPembayaran : inputTrx.caraPembayaran,
+            }])
+        }
+        else {
+            newQty[currentIndex].namaPengirim = body.args[0].namaPengirim
+            newQty[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
+            newQty[currentIndex].teknikSorting = body.args[0].teknikSorting
+            newQty[currentIndex].hargaManggaPerKg = body.args[0].hargaManggaPerKg
+            newQty[currentIndex].metodePengemasan = body.args[0].metodePengemasan
+            newQty[currentIndex].pengangkutan = body.args[0].pengangkutan
+            newQty[currentIndex].namaPenerima = body.args[0].namaPenerima
+            newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
+        }
+        history.push('/detail-transaksi')
+        setInputTrx({
+            kuantitasManggaKg : '',
+            teknikSorting : '',
+            hargaManggaPerKg : '',
+            metodePengemasan : '',
+            pengangkutan : '',
+            namaPenerima : '',
+            caraPembayaran : []
+        })
     }
     //======================== END TRANSAKSI PENGUMPUL ========================//
 
     //======================== START TRANSAKSI PEDAGANG ========================//
     const createTrxPedagang = (txID3) => {
-        const newData = {
+        const body = {
             fcn : "CreateTrxManggaByPedagang",
             peers: [
                 "peer0.penangkar.example.com",
@@ -1156,11 +1268,12 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
             args: [{
+                namaPengirim : Cookies.get('username'),
                 kuantitasManggaKg : inputTrx.kuantitasManggaKg,
                 teknikSorting : inputTrx.teknikSorting,
                 hargaManggaPerKg : inputTrx.hargaManggaPerKg,
@@ -1169,10 +1282,11 @@ export const AsetProvider = props => {
                 caraPembayaran : inputTrx.caraPembayaran,
             }, txID3]
         }
-        console.log(newData)
+        console.log(body)
         const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
+                namaPengirim : Cookies.get('username'),
                 kuantitasManggaKg : inputTrx.kuantitasManggaKg,
                 teknikSorting : inputTrx.teknikSorting,
                 hargaManggaPerKg : inputTrx.hargaManggaPerKg,
@@ -1182,14 +1296,15 @@ export const AsetProvider = props => {
             }])
         }
         else {
-            newQty[currentIndex].kuantitasManggaKg = newData.args[0].kuantitasManggaKg
-            newQty[currentIndex].teknikSorting = newData.args[0].teknikSorting
-            newQty[currentIndex].hargaManggaPerKg = newData.args[0].hargaManggaPerKg
-            newQty[currentIndex].metodePengemasan = newData.args[0].metodePengemasan
-            newQty[currentIndex].pengangkutan = newData.args[0].pengangkutan
-            newQty[currentIndex].caraPembayaran = newData.args[0].caraPembayaran
+            newQty[currentIndex].namaPengirim = body.args[0].namaPengirim
+            newQty[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
+            newQty[currentIndex].teknikSorting = body.args[0].teknikSorting
+            newQty[currentIndex].hargaManggaPerKg = body.args[0].hargaManggaPerKg
+            newQty[currentIndex].metodePengemasan = body.args[0].metodePengemasan
+            newQty[currentIndex].pengangkutan = body.args[0].pengangkutan
+            newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
         }
-        //history.push('/transaksi-keluar')
+        history.push('/detail-transaksi')
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -1204,7 +1319,7 @@ export const AsetProvider = props => {
 
     //======================== START CONFIRM/REJECT TRANSAKSI ========================//
     const rejectTrx = (idAset, idTrx, qty) => {
-        const newData = {
+        const body = {
             fcn: "RejectTrxByID",
             peers: [
                 "peer0.penangkar.example.com",
@@ -1212,7 +1327,7 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
@@ -1223,7 +1338,7 @@ export const AsetProvider = props => {
                 inputTrx.rejectReason
             ]
         }
-        console.log(newData)
+        console.log(body)
         const newQty = aset
         if(currentIndex === -1){
             setAset([...aset, {
@@ -1231,7 +1346,7 @@ export const AsetProvider = props => {
             }])
         }
         else {
-            newQty[currentIndex].rejectReason = newData.args[0].rejectReason
+            newQty[currentIndex].rejectReason = body.args[0].rejectReason
         }
         setInputTrx({
             rejectReason : ''
@@ -1239,7 +1354,7 @@ export const AsetProvider = props => {
     }        
 
     const confirmTrx = (idTrx) => {
-        const newData ={
+        const body ={
             fcn: "ConfirmTrxByID",
             peers: [
                 "peer0.penangkar.example.com",
@@ -1247,7 +1362,7 @@ export const AsetProvider = props => {
                 "peer0.pengumpul.example.com",
                 "peer0.pedagang.example.com"
             ],
-            chaincodeName: "manggasatu_cc",
+            chaincodeName: "manggach1_cc",
             channelName: "channel1",
             name: Cookies.get('username'),
             role: Cookies.get('role'),
@@ -1255,7 +1370,7 @@ export const AsetProvider = props => {
                 idTrx
             ]
         }
-        console.log(newData)
+        console.log(body)
     }
     //======================== END CONFIRM/REJECT TRANSAKSI ========================//
 
@@ -1267,7 +1382,7 @@ export const AsetProvider = props => {
            createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, showData, tanamBenihPetani,
            selectedValue, setSelectedValue, getId, setGetId, dataAsetPenangkar, dataAsetPetani, dataByRole, 
            elementPos, panenPetani, dataAsetPengumpul, getIdBenih, setGetIdBenih, getIdMangga, setGetIdMangga,
-           getIdTx2, setGetIdTx2, statusTrx
+           getIdTx2, setGetIdTx2, statusTrx, functionGet
         }}>
         {props.children}
        </AsetContext.Provider>

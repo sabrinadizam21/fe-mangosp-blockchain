@@ -73,8 +73,8 @@ function TransaksiForm() {
                   <Input label={'Kuantitas (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
                     placeholder='Kuantitas' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
                   
-                  <Input label={'Umur Benih (bulan)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
-                    placeholder='Umur Benih' value ={inputTrx.umurBenih}  onChange={handleChange} onBlur={validateInput} />
+                  {/* <Input label={'Umur Benih (bulan)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
+                    placeholder='Umur Benih' value ={inputTrx.umurBenih}  onChange={handleChange} onBlur={validateInput} /> */}
                         
                   <Input  label={'Harga Benih (Rp)'} type='number' name='hargaBenihPerKg' id='hargaBenihPerKg' errorMsg={error.hargaBenihPerKg} 
                     placeholder='Harga Benih' value ={inputTrx.hargaBenihPerKg}  onChange={handleChange} onBlur={validateInput} />
@@ -180,29 +180,15 @@ function TransaksiForm() {
                     <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
                   </div>
                 </>
-              </UnlockAccess>
-
-              
+              </UnlockAccess>             
                     
               <div className='aset__button'>
                 <div className='btn-links'>
                   <Button 
-                    className="openModalBtn" buttonSize='btn--medium' type={'button'} 
+                    className="openModalBtn" buttonStyle='btn--primary' buttonSize='btn--medium' type={'button'} 
                     onClick={()=>{
                       setModalOpen(true);
                     }}
-                    // disabled = {
-                    //   !input1.kuantitas.length || !input1.umurBenih || !input1.umurPanen ||
-                    //   !input1.hargaBenih || !input1.penerima || 
-                    //   !input2.benih || !input2.kuantitasMangga || !input2.ukuran ||
-                    //   !input2.pestisida || !input2.kadarAir || !input2.perlakuan ||
-                    //   !input2.produktivitas || !input2.penerima ||
-                    //   !input3.kuantitasMangga || !input3.teknikSorting || !input3.hargaMangga || 
-                    //   !input3.metodePengemasan || !input3.pengangkutan || !input3.penerima || 
-                    //     !input4.kuantitasMangga || !input4.teknikSorting ||
-                    //   !input4.hargaMangga || !input4.metodePengemasan || !input4.kadarAir ||
-                    //   !input4.penerima 
-                    // } 
                   >
                   SIMPAN
                   </Button>
