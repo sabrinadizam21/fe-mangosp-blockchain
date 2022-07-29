@@ -103,7 +103,7 @@ function TransaksiForm() {
                   <Input  label={'Harga Mangga (Rp)'} type='number' name='HargaManggaPerKg' id='HargaManggaPerKg' errorMsg={error.HargaManggaPerKg} 
                     placeholder='Harga Mangga' value ={inputTrx.HargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='number' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
 
                   <div>
@@ -136,7 +136,7 @@ function TransaksiForm() {
                   <Input label={'pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
                     placeholder='pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='number' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
                       
                   <div>
