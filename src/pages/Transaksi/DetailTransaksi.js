@@ -13,9 +13,11 @@ import { Button } from '../../components/Button'
 import { UserContext } from '../../context/UserContext'
 import { Input } from '../../components/Input'
 import Cookies from 'js-cookie'
+import SpeechBubble from '../../components/SpeechBubble'
 
 function DetailTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [bubbleOpen, setBubbleOpen] = useState(true)
   const [modalRejectOpen, setModalRejectOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
   const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, qty, 
@@ -60,27 +62,36 @@ function DetailTransaksi() {
   return (
     <>
         <div className="wrapper">
-            <div className="section">
+            <div className="section">           
               <div className="detailTrx__header">
-                <span className="title">Detail Transaksi</span>
-                <button  onClick={() => { setModalOpen(true) }}>
-                  <MdQrCodeScanner className='detailTrx__qrcode' />
-                </button>
+                <span className="title">Detail Transaksi</span>    
+                <div style={{position : 'relative'}}>           
+                  {bubbleOpen && 
+                  <SpeechBubble 
+                    setBubbleOpen={setBubbleOpen} 
+                    text={'Klik untuk melihat QR Code dan ID Transaksi disini.'} />
+                  }
+                  <button  onClick={() => { setModalOpen(true) }}>
+                    <MdQrCodeScanner className='detailTrx__qrcode' />
+                  </button>
+                </div>
                 {modalOpen && 
                   <Modal setOpenModal={setModalOpen} 
                     modalTitle={'QR CODE'}  
                     modalBody={
                       <>  
-                        <img src="https://ipb.link/User/QrCode?shortlink=modul-toga&domain=ipb.link" alt="qr-code" />
+                        <div className="img-qr">
+                          <img width='150px' src={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}!&size=400x400&bgcolor=ffffff`} alt="qr-code" />
+                        </div>
                         <div className='qrcode-input'>
-                          <input type="text" value={text} onChange={handleChange} disabled />
-                          <button onClick={copyClipboard} disabled={!text}><MdContentCopy /></button>
+                          <input type="text" value={idTrx} onChange={handleChange} disabled />
+                          <button onClick={copyClipboard} disabled={!idTrx}><MdContentCopy /></button>
                         </div>
                       </>
                     } 
                     cancelBtn ={'TUTUP'}
                     processBtn={
-                      <a className='btn-download' href='https://ipb.link/User/QrCode?shortlink=modul-toga&domain=ipb.link' download>Unduh QR Code</a>
+                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}!&size=400x400&bgcolor=ffffff`} download>Unduh QR Code</a>
                     }
                   />
                 }
