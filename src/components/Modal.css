@@ -86,15 +86,11 @@
   }
 
   td:first-child {
-    width: 14em;
-    min-width: 14em;
-    max-width: 14em;
+    width: 10em;
     word-break: break-all;
   }
   td:nth-child(2){
-    width: 7em;
-    min-width: 7em;
-    max-width: 7em;
+    width: 12em;
     word-break: break-all;
   }
 

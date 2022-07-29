@@ -12,7 +12,6 @@ function TransaksiKeluar() {
     let value = event.target.value
     setSelectedValue(value)
   }
-  
   return (
     <>
         <div className="wrapper">
@@ -83,7 +82,7 @@ function TransaksiKeluar() {
                                         </div>
                                         }
                                         <div className="detail-btn">
-                                            <Link to='/detail-transaksi'>Lihat Detail</Link>
+                                            <Link to={`/detail-transaksi/${data.id}`}>Lihat Detail</Link>
                                         </div>
                                     </div>
                                 </div>

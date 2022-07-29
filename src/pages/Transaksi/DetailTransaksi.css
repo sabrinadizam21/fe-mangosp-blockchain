@@ -17,6 +17,10 @@
     border-radius: 5px;
 }
 
+.iconNotActive {
+    color: #DBDBDB;
+}
+
 .detailTrx__icon {
     font-size: 40px;
 }
@@ -116,7 +120,6 @@
 }
 
 .timeline-content {
-    display: flex;
     align-items: center;
 }
 
@@ -143,4 +146,48 @@
     border: none; 
     background : none;
     cursor: pointer;
+}
+
+.btn-download {
+    text-decoration: none;
+    color: white;
+}
+
+.all-set-card {
+    display : flex; 
+    margin-top : 15px;
+}
+
+.dash-style {
+    margin-top : 0px !important;
+    margin-right: 10px;
+    position: sticky;
+}
+.dash-style::after{
+    content: '';
+    position: absolute;
+    width: 3px;
+    top: 0;
+    bottom: 0;
+    margin-left: -3px;
+    border-left: 2px dashed #a6a6a6;
+}
+
+/* Container around content */
+.bullet-style {
+    position: relative;
+    background-color: inherit;
+}
+  
+  /* The circles on the timeline */
+.bullet-style::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    right: -9px;
+    background-color: white;
+    border: 3px solid #FFBF34;
+    border-radius: 50%;
+    z-index: 1;
 }

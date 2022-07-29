@@ -90,12 +90,12 @@ function TransaksiMasuk() {
                                         </div>
                                         <div className="detail-btn">
                                             { data.isConfirmed === false && data.isRejected === false ? 
-                                                <Link to='/konfirmasi' onClick={() => role == 1 || role ==2 ? 
+                                                <Link to={`/detail-transaksi/${data.id}`} onClick={() => role == 1 || role ==2 ? 
                                                     handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasBenihKg) :
                                                     handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasManggaKg)
                                                 }>Konfirmasi</Link>
                                             :
-                                                <Link to='/detail-transaksi'>Lihat Detail</Link>
+                                                <Link to={`/detail-transaksi/${data.id}`}>Lihat Detail</Link>
                                             }
                                         </div>
                                     </div>
