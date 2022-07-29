@@ -16,6 +16,7 @@ import Cookies from 'js-cookie'
 
 function DetailTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [modalRejectOpen, setModalRejectOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
   const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, qty, 
     } = useContext(AsetContext)
@@ -124,9 +125,9 @@ function DetailTransaksi() {
                       <Button onClick={() => confirmTrx(idTrx)} buttonSize='btn--small'>TERIMA</Button>
                   </div>
                   <div className="btn-konfirmasi">
-                      <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small' onClick={() => { setModalOpen(true)}}>TOLAK</Button>
-                      {modalOpen && 
-                    <Modal setOpenModal={setModalOpen} 
+                      <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small' onClick={() => { setModalRejectOpen(true)}}>TOLAK</Button>
+                      {modalRejectOpen && 
+                    <Modal setOpenModal={setModalRejectOpen} 
                       modalTitle={'Tolak Transaksi'}  
                       modalBody={
                         <>  
