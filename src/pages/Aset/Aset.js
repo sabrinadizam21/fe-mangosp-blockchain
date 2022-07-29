@@ -12,8 +12,8 @@ import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, errorKuantitas, setErrorKuantitas,
-    setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpul,currentIndex
+  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, errorKuantitas,
+    setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpulPedagang,
   } = useContext(AsetContext)
   const {functionUser, error} = useContext(UserContext)
   const {getUserLogin, validateInput} = functionUser
@@ -214,7 +214,7 @@ function Aset() {
 
                   {/* START ASET PENGUMPUL */}
                   <UnlockAccess request={3}>
-                  { sortData(dataAsetPengumpul).map((data, index)=>{
+                  { sortData(dataAsetPengumpulPedagang).map((data, index)=>{
                     return ( 
                       <div className="card" key={index}>
                         <div className="card__header">
@@ -265,7 +265,7 @@ function Aset() {
 
                   {/* START ASET PEDAGANG */}
                   <UnlockAccess request={4}>
-                  { sortData(dataAsetPengumpul).map((data, index)=>{
+                  { sortData(dataAsetPengumpulPedagang).map((data, index)=>{
                     return ( 
                       <div className="card" key={index}>
                         <div className="card__header">

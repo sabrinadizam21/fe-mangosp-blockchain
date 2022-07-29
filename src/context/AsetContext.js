@@ -51,7 +51,7 @@ export const AsetProvider = props => {
             isEmpty : '', 
             isRejected : '', 
             rejectReason : ''}
-    ])    
+    ])
     const [aset,setAset] = useState([
         //aset penangkar
         {id : 'benih1', 
@@ -66,7 +66,7 @@ export const AsetProvider = props => {
         hargaManggaPerKg : 0, 
         hargaManggaTotal : 0, 
         tanggalTransaksi : 0, 
-        varietasBenih : 'Benih ABC', 
+        varietasBenih : 'Benih A', 
         umurBenih : 2, 
         pupuk : '', 
         tanggalTanam : 1648757753, 
@@ -91,6 +91,7 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
     
         {id : 'benih2', 
@@ -130,7 +131,8 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
-        rejectReason : ''},     
+        isPanen : false,
+        rejectReason : ''},    
         
         //trx penangkar -> petani
         {id : 'trxPenangkarkePetani1', 
@@ -145,7 +147,7 @@ export const AsetProvider = props => {
         hargaManggaPerKg : 0, 
         hargaManggaTotal : 0, 
         tanggalTransaksi : 1648757753, 
-        varietasBenih : 'Benih AA', 
+        varietasBenih : 'Benih A', 
         umurBenih : 3, 
         pupuk : '', 
         tanggalTanam : 0, 
@@ -170,8 +172,9 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
-
+    
         {id : 'trxPenangkarkePetani2', 
         benihID : 'benih2', 
         manggaID : '', 
@@ -184,7 +187,7 @@ export const AsetProvider = props => {
         hargaManggaPerKg : 0, 
         hargaManggaTotal : 0, 
         tanggalTransaksi : 1641967200, 
-        varietasBenih : 'Benih AB', 
+        varietasBenih : 'Benih B', 
         umurBenih : 3, 
         pupuk : '', 
         tanggalTanam : 0, 
@@ -209,10 +212,11 @@ export const AsetProvider = props => {
         isConfirmed : true, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
-
+    
         {id : 'trxPenangkarkePetani3', 
-        benihID : 'benih3', 
+        benihID : 'benih2', 
         manggaID : '', 
         namaPengirim : 'penangkarAgus', 
         namaPenerima : 'petani1', 
@@ -223,7 +227,7 @@ export const AsetProvider = props => {
         hargaManggaPerKg : 0, 
         hargaManggaTotal : 0, 
         tanggalTransaksi : 1645668000, 
-        varietasBenih : 'Benih ABC', 
+        varietasBenih : 'Benih C', 
         umurBenih : 6, 
         pupuk : '', 
         tanggalTanam : 0, 
@@ -249,49 +253,12 @@ export const AsetProvider = props => {
         isEmpty : false, 
         isRejected : true, 
         rejectReason : 'Harga terlalu mahal'},
-
-        //aset petani
-        {id : 'trxPenangkarkePetani2', 
-        benihID : 'benih2', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : 'petani1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1641967200, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : '', 
-        tanggalTanam : 0, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani2', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        rejectReason : ''},
+    
+        //aset petani == Transaksi Masuk  && isConfirmed true
+    
         //data sudah tanam benih
         {id : 'asetTanamBenih1', 
-        benihID : 'benih3', 
+        benihID : 'benih1', 
         manggaID : 'asetTanamBenih1', 
         namaPengirim : 'petani1', 
         namaPenerima : '', 
@@ -327,10 +294,11 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : true,
         rejectReason : ''},
         //data sudah panen
         {id : 'asetTanamBenih2', 
-        benihID : 'benih4', 
+        benihID : 'benih2', 
         manggaID : 'asetTanamBenih2', 
         namaPengirim : 'petani1', 
         namaPenerima : '', 
@@ -341,7 +309,7 @@ export const AsetProvider = props => {
         hargaManggaPerKg : 0, 
         hargaManggaTotal : 0, 
         tanggalTransaksi : 1641967200, 
-        varietasBenih : 'Benih ABCC', 
+        varietasBenih : 'Benih AB', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1657589200, 
@@ -358,7 +326,7 @@ export const AsetProvider = props => {
         pengangkutan : '', 
         pembeli : '', 
         caraPembayaran : [], 
-        txID1 : 'trxPenangkarkePetani2', 
+        txID1 : 'trxPenangkarkePetani3', 
         txID2 : '', 
         txID3 : '', 
         txID4 : '', 
@@ -366,22 +334,23 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
-
+    
         // trx petani -> pengumpul
         {id : 'trxPetanikePengumpul1', 
-        benihID : 'benih3', 
+        benihID : 'benih1', 
         manggaID : 'asetTanamBenih1', 
         namaPengirim : 'petani1', 
         namaPenerima : 'pengumpul1', 
-        kuantitasBenihKg : 14, 
-        hargaBenihPerKg : 5000, 
-        hargaBenihTotal : 70000, 
+        kuantitasBenihKg : 3, 
+        hargaBenihPerKg : 10000, 
+        hargaBenihTotal : 50000, 
         kuantitasManggaKg : 10, 
         hargaManggaPerKg : 10000, 
         hargaManggaTotal : 100000, 
         tanggalTransaksi : 1657589335, 
-        varietasBenih : 'Benih ABCD', 
+        varietasBenih : 'Benih AA', 
         umurBenih : 6, 
         pupuk : 'pupuk ABC', 
         tanggalTanam : 1647589335, 
@@ -406,6 +375,7 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
     
         {id : 'trxPetanikePengumpul3', 
@@ -445,21 +415,22 @@ export const AsetProvider = props => {
         isConfirmed : true, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
     
         {id : 'trxPetanikePengumpul2', 
-        benihID : 'benih4', 
+        benihID : 'benih1', 
         manggaID : 'asetTanamBenih2', 
         namaPengirim : 'petani1', 
         namaPenerima : 'pengumpul123', 
-        kuantitasBenihKg : 7, 
+        kuantitasBenihKg : 2, 
         hargaBenihPerKg : 9000, 
         hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 10, 
+        kuantitasManggaKg : 2, 
         hargaManggaPerKg : 15000, 
-        hargaManggaTotal : 150000, 
+        hargaManggaTotal : 30000, 
         tanggalTransaksi : 1651967400, 
-        varietasBenih : 'Benih AB', 
+        varietasBenih : 'Benih AC', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1657589200, 
@@ -485,61 +456,23 @@ export const AsetProvider = props => {
         isEmpty : false, 
         isRejected : true, 
         rejectReason : 'Kuantitas Kurang'},
-
-        //aset pengumpul
-        {id : 'trxPetanikePengumpul3', 
-        benihID : 'benih2', 
+    
+        //aset pengumpul == trx masuk && isConfirmed true
+        
+        //trx pengumpul -> pedagang
+        {id : 'trxPengumpulkePedagang1', 
+        benihID : 'benih1', 
         manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'petani1', 
-        namaPenerima : 'pengumpul1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
+        namaPengirim : 'pengumpul1', 
+        namaPenerima : 'pedagang1', 
+        kuantitasBenihKg : 5, 
+        hargaBenihPerKg : 10000, 
+        hargaBenihTotal : 50000, 
         kuantitasManggaKg : 10, 
         hargaManggaPerKg : 15000, 
         hargaManggaTotal : 150000, 
         tanggalTransaksi : 1647585225, 
         varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bandung', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul3', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        rejectReason : ''},
-        
-        //trx pengumpul -> pedagang
-        {id : 'trxPengumpulkePedagang1', 
-        benihID : 'benih2', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'pengumpul1', 
-        namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 15000, 
-        hargaManggaTotal : 150000, 
-        tanggalTransaksi : 1647585225, 
-        varietasBenih : 'Benih AB Pending', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1647580225, 
@@ -564,21 +497,22 @@ export const AsetProvider = props => {
         isConfirmed : false, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
         
         {id : 'trxPengumpulkePedagang2', 
-        benihID : 'benih7', 
+        benihID : 'benih2', 
         manggaID : 'asetTanamBenih9', 
         namaPengirim : 'pengumpul1', 
         namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 10, 
+        kuantitasBenihKg : 7, 
         hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 90000, 
-        kuantitasManggaKg : 12, 
-        hargaManggaPerKg : 12000, 
-        hargaManggaTotal : 144000, 
+        hargaBenihTotal : 63000, 
+        kuantitasManggaKg : 9, 
+        hargaManggaPerKg : 18000, 
+        hargaManggaTotal : 162000, 
         tanggalTransaksi : 1677985325, 
-        varietasBenih : 'Benih AB Terima', 
+        varietasBenih : 'Benih AB', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1647580225, 
@@ -603,6 +537,7 @@ export const AsetProvider = props => {
         isConfirmed : true, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
     
         {id : 'trxPengumpulkePedagang3', 
@@ -610,14 +545,14 @@ export const AsetProvider = props => {
         manggaID : 'asetTanamBenih2', 
         namaPengirim : 'pengumpul1', 
         namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 5, 
-        hargaBenihPerKg : 1000, 
-        hargaBenihTotal : 5000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 10000, 
-        hargaManggaTotal : 100000, 
+        kuantitasBenihKg : 7, 
+        hargaBenihPerKg : 9000, 
+        hargaBenihTotal : 63000, 
+        kuantitasManggaKg : 1, 
+        hargaManggaPerKg : 5000, 
+        hargaManggaTotal : 5000, 
         tanggalTransaksi : 1667589525, 
-        varietasBenih : 'Benih AB Tolak', 
+        varietasBenih : 'Benih AB', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1647580225, 
@@ -643,61 +578,23 @@ export const AsetProvider = props => {
         isEmpty : false, 
         isRejected : true, 
         rejectReason : 'Harga terlalu murah'},
-
-        //aset pedagang
-        {id : 'trxPengumpulkePedagang2', 
-        benihID : 'benih7', 
-        manggaID : 'asetTanamBenih9', 
-        namaPengirim : 'pengumpul1', 
-        namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 10, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 90000, 
-        kuantitasManggaKg : 12, 
-        hargaManggaPerKg : 12000, 
-        hargaManggaTotal : 144000, 
-        tanggalTransaksi : 1677985325, 
-        varietasBenih : 'Benih AB Terima', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bandung', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul2', 
-        txID3 : 'trxPengumpulkePedagang2',
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        rejectReason : ''},
-
+    
+        //aset pedagang === trx masuk && isConfirmed true
+    
         //trx pedagang
         {id : 'trxPedagang1', 
-        benihID : 'benih7', 
+        benihID : 'benih1', 
         manggaID : 'asetTanamBenih7', 
         namaPengirim : 'pedagang1', 
         namaPenerima : '-', 
-        kuantitasBenihKg : 10, 
+        kuantitasBenihKg : 7, 
         hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 90000, 
-        kuantitasManggaKg : 12, 
-        hargaManggaPerKg : 12000, 
-        hargaManggaTotal : 144000, 
+        hargaBenihTotal : 63000, 
+        kuantitasManggaKg : 9, 
+        hargaManggaPerKg : 20000, 
+        hargaManggaTotal : 180000, 
         tanggalTransaksi : 1677985325, 
-        varietasBenih : 'Benih ABC', 
+        varietasBenih : 'Benih AB', 
         umurBenih : 3, 
         pupuk : 'pupuk AA', 
         tanggalTanam : 1647580225, 
@@ -722,6 +619,7 @@ export const AsetProvider = props => {
         isConfirmed : true, 
         isEmpty : false, 
         isRejected : false, 
+        isPanen : false,
         rejectReason : ''},
     ])
     
@@ -790,20 +688,22 @@ export const AsetProvider = props => {
 
     const dataAsetPetani = aset.filter(data => 
         // Data belum tanam benih
-        (data.namaPenerima === Cookies.get('username') && data.isAsset === true) ||
-        // Data sudah tanam benih atau belum panen && sudah panen
-        (data.namaPengirim === Cookies.get('username') && data.pupuk !== '' && data.isAsset === true)
+        (data.namaPenerima === Cookies.get('username') && data.isAsset === false && data.isConfirmed === true && data.isRejected === false) ||
+        // Data sudah tanam benih atau belum panen 
+        (data.namaPengirim === Cookies.get('username') && data.isPanen !== true && data.isAsset === true) || 
+        // Data sudah panen 
+        (data.namaPengirim === Cookies.get('username') && data.isPanen !== false && data.isAsset === true)
     )
 
-    const dataAsetPengumpul = aset.filter(data => data.namaPenerima === Cookies.get('username') && data.isAsset === true)
+    const dataAsetPengumpulPedagang = aset.filter(data => data.namaPenerima === Cookies.get('username') && data.isAsset === false && data.isConfirmed === true && data.isRejected === false)
     
     // Data untuk list aset yang akan di Transaksi
     const dataByRole = () => {
         const role = Cookies.get('role')
-        if(role == 1) var data = dataAsetPenangkar
-        else if (role == 2) var data = aset.filter(asets => asets.tanggalPanen !== 0 && asets.isAsset === true)
-        else if (role == 3) var data = dataAsetPengumpul
-        else if (role == 4) var data = dataAsetPengumpul
+        if(role == 1) var data = dataAsetPenangkar.filter(data => data.isEmpty === false)
+        else if (role == 2) var data = aset.filter(asets => asets.tanggalPanen !== 0 && asets.isAsset === true && asets.isEmpty === false)
+        else if (role == 3) var data = dataAsetPengumpulPedagang.filter(data => data.isEmpty === false)
+        else if (role == 4) var data = dataAsetPengumpulPedagang.filter(data => data.isEmpty === false)
         return data
     }
     //======================== END FILTER ASET ========================//
@@ -1024,7 +924,7 @@ export const AsetProvider = props => {
         }
         newTrx[currentIndex] = body.args
         console.log(body)
-        history.push('/detail-transaksi')
+        //history.push('/detail-transaksi')
         setInputTrx({
             kuantitasBenihKg : '', 
             // umurBenih : '',
@@ -1068,7 +968,7 @@ export const AsetProvider = props => {
             setAset([...aset, {
                 namaPengirim : Cookies.get('username'),
                 kuantitasManggaKg : inputTrx.kuantitasManggaKg,
-                HargaManggaPerKg : inputTrx.HargaManggaPerKg,
+                hargaManggaPerKg : inputTrx.hargaManggaPerKg,
                 namaPenerima : inputTrx.namaPenerima,
                 caraPembayaran : inputTrx.caraPembayaran
             }])
@@ -1076,7 +976,7 @@ export const AsetProvider = props => {
         else {
             newQty[currentIndex].namaPengirim = body.args[0].namaPengirim
             newQty[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
-            newQty[currentIndex].HargaManggaPerKg = body.args[0].HargaManggaPerKg
+            newQty[currentIndex].hargaManggaPerKg = body.args[0].hargaManggaPerKg
             newQty[currentIndex].namaPenerima = body.args[0].namaPenerima
             newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
         }
@@ -1084,7 +984,7 @@ export const AsetProvider = props => {
         setInputTrx({
             namaPengirim : '',
             kuantitasManggaKg : '',
-            HargaManggaPerKg : '',
+            hargaManggaPerKg : '',
             namaPenerima : '',
             caraPembayaran : ''
         })
@@ -1130,7 +1030,7 @@ export const AsetProvider = props => {
             pupuk : '', 
             lokasiLahan : '',
         })
-        history.push('/detail-transaksi')
+        //history.push('/detail-transaksi')
         console.log(aset)
     }
     //======================== END TANAM BENIH PETANI ========================//
@@ -1190,7 +1090,7 @@ export const AsetProvider = props => {
             kuantitasManggaKg : '',
             tanggalTanam : '' 
         })
-        history.push('/detail-transaksi')
+        //history.push('/detail-transaksi')
         console.log(aset)
     }
     //======================== END PANEN PETANI ========================//
@@ -1245,7 +1145,7 @@ export const AsetProvider = props => {
             newQty[currentIndex].namaPenerima = body.args[0].namaPenerima
             newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
         }
-        history.push('/detail-transaksi')
+        //history.push('/detail-transaksi')
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -1304,7 +1204,7 @@ export const AsetProvider = props => {
             newQty[currentIndex].pengangkutan = body.args[0].pengangkutan
             newQty[currentIndex].caraPembayaran = body.args[0].caraPembayaran
         }
-        history.push('/detail-transaksi')
+        //history.push('/detail-transaksi')
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -1381,7 +1281,7 @@ export const AsetProvider = props => {
            trxPenangkar, setTrxPenangkar, createTrxPenangkar, checked, setChecked, createTrxPetani,
            createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, showData, tanamBenihPetani,
            selectedValue, setSelectedValue, getId, setGetId, dataAsetPenangkar, dataAsetPetani, dataByRole, 
-           elementPos, panenPetani, dataAsetPengumpul, getIdBenih, setGetIdBenih, getIdMangga, setGetIdMangga,
+           elementPos, panenPetani, dataAsetPengumpulPedagang, getIdBenih, setGetIdBenih, getIdMangga, setGetIdMangga,
            getIdTx2, setGetIdTx2, statusTrx, functionGet
         }}>
         {props.children}
