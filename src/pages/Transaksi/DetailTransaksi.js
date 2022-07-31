@@ -81,7 +81,7 @@ function DetailTransaksi() {
                     modalBody={
                       <>  
                         <div className="img-qr">
-                          <img width='150px' src={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}!&size=400x400&bgcolor=ffffff`} alt="qr-code" />
+                          <img width='150px' src={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} alt="qr-code" />
                         </div>
                         <div className='qrcode-input'>
                           <input type="text" value={idTrx} onChange={handleChange} disabled />
@@ -91,7 +91,7 @@ function DetailTransaksi() {
                     } 
                     cancelBtn ={'TUTUP'}
                     processBtn={
-                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}!&size=400x400&bgcolor=ffffff`} download>Unduh QR Code</a>
+                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} download>Unduh QR Code</a>
                     }
                   />
                 }
