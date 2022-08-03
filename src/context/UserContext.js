@@ -4,8 +4,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 export const UserContext = createContext()
-export const UserProvider = props => {
-  const [ loginStatus, setLoginStatus ] = useState(false)    
+export const UserProvider = props => {  
   const [ profile, setProfile ] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
   const [ buttonText, setButtonText ] = useState("LOG IN")
@@ -145,6 +144,7 @@ export const UserProvider = props => {
           Cookies.remove('token')
           Cookies.remove('username')
           Cookies.remove('role')
+          Cookies.remove('idTrx')
           Cookies.set('loginStatus', false)
           window.location.href ='/login'
       })
@@ -160,7 +160,6 @@ export const UserProvider = props => {
         let username = input.userName
         Cookies.set('token', access_token, {expires: 1})
         Cookies.set('username', username, {expires: 1})
-        setLoginStatus(true)
         Cookies.set('loginStatus', true, {expires: 1})
         await history.push("/")
         changeBtnText("LOG IN")
@@ -181,7 +180,7 @@ export const UserProvider = props => {
 
   return(
       <UserContext.Provider value={{ 
-          input, setInput, functionUser, inputData, setInputData, loginStatus, setLoginStatus,
+          input, setInput, functionUser, inputData, setInputData, 
           profile, setProfile, error, setError, errorMessage, setErrorMessage, changeBtnText,
           buttonText, setButtonText
       }}>

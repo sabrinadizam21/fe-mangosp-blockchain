@@ -12,6 +12,7 @@ import Cookies from 'js-cookie'
 
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
+  const [ confirmed, setConfirmed ] = useState(true)
   const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, errorKuantitas,
     setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpulPedagang,
   } = useContext(AsetContext)
@@ -19,7 +20,6 @@ function Aset() {
   const {getUserLogin, validateInput} = functionUser
   let history = useHistory()  
   const username = Cookies.get('username')
-  const [ confirmed, setConfirmed ] = useState(true)
 
   useEffect(()=>{
     getUserLogin(username)
@@ -52,8 +52,8 @@ function Aset() {
     setGetId(id)
     const index = elementPos(id)
     setCurrentIndex(index)
-    if (activity === 'plant') history.push('/tanam-benih') 
-    else if (activity === 'harvest') history.push('/panen')
+    if (activity === 'plant') history.push(`/tanam-benih/${id}`) 
+    else if (activity === 'harvest') history.push(`/panen/${id}`)
   }
 
   const handleCheck = () => {
@@ -101,10 +101,10 @@ function Aset() {
                                 <span>Kuantitas</span>
                                 <p>{numberFormat(data.kuantitasBenihKg)} Kg </p>
                               </div>
-                              <div className="value">
+                              {/* <div className="value">
                                 <span>Umur Benih</span>
                                 <p>{numberFormat(data.umurBenih)} hari</p>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="card__bottom">

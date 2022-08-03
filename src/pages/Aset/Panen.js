@@ -4,13 +4,15 @@ import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
 import { AsetContext } from '../../context/AsetContext'
+import { useParams } from 'react-router-dom'
 
 function Panen() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { inputTrx, setInputTrx, panenPetani, getId, currentIndex, aset, formatDate } = useContext(AsetContext)
+  const { inputTrx, setInputTrx, panenPetani, elementPos, aset, formatDate } = useContext(AsetContext)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
-  const dataMangga = aset[currentIndex]
+  const { id } = useParams()
+  const dataMangga = aset[elementPos(id)]
 
   const handleChange = (event) => {
       let {value, name} = event.target
@@ -19,7 +21,7 @@ function Panen() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    panenPetani(getId)
+    panenPetani(id)
     setModalOpen(false)
   }
 
@@ -46,23 +48,23 @@ return (
               </div>
               <div>
                   <form id='tanam-benih' onSubmit={handleSubmit}>
-                      <Input label={'Jumlah'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errMsg={error.kuantitasManggaKg}
-                      placeholder='Jumlah' value={inputTrx.kuantitasManggaKg} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errMsg={error.kuantitasManggaKg}
+                      placeholder='Kuantitas Mangga' value={inputTrx.kuantitasManggaKg} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'ukuran'} type='text' name='ukuran' id='ukuran' errMsg={error.ukuran}
-                      placeholder='ukuran' value={inputTrx.ukuran} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Ukuran'} type='text' name='ukuran' id='ukuran' errMsg={error.ukuran}
+                      placeholder='Besar / Sedang / Kecil' value={inputTrx.ukuran} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'pestisida'} type='text' name='pestisida' id='pestisida' errMsg={error.pestisida}
-                      placeholder='pestisida' value={inputTrx.pestisida} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Pestisida'} type='text' name='pestisida' id='pestisida' errMsg={error.pestisida}
+                      placeholder='Pestisida' value={inputTrx.pestisida} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'Kadar Air'} type='number' name='kadarAir' id='kadarAir' errMsg={error.kadarAir}
+                      <Input label={'Kadar Air (%)'} type='number' name='kadarAir' id='kadarAir' errMsg={error.kadarAir}
                       placeholder='Kadar Air' value={inputTrx.kadarAir} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'perlakuan'} type='text' name='perlakuan' id='perlakuan' errMsg={error.perlakuan}
-                      placeholder='perlakuan' value={inputTrx.perlakuan} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Perlakuan'} type='text' name='perlakuan' id='perlakuan' errMsg={error.perlakuan}
+                      placeholder='Perlakuan' value={inputTrx.perlakuan} onChange={handleChange} onBlur={validateInput} required />
 
-                      <Input label={'produktivitas'} type='text' name='produktivitas' id='produktivitas' errMsg={error.produktivitas}
-                      placeholder='produktivitas' value={inputTrx.produktivitas} onChange={handleChange} onBlur={validateInput} required />
+                      <Input label={'Produktivitas'} type='text' name='produktivitas' id='produktivitas' errMsg={error.produktivitas}
+                      placeholder='Produktivitas' value={inputTrx.produktivitas} onChange={handleChange} onBlur={validateInput} required />
 
                       <div>
                          <Button 

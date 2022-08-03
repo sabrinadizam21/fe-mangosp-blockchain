@@ -86,7 +86,7 @@
   }
 
   td:first-child {
-    width: 10em;
+    width: 12em;
     word-break: break-all;
   }
   td:nth-child(2){

@@ -20,7 +20,7 @@ function Timeline({
                     <b>{title}</b>              
                 </div>
                 <div className="timeline-card__body">
-                    <p className="timestamp">{formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
                 </div>
                 <div className="timeline-card__bottom">
                     <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true) }}>Lihat Detail</button>
