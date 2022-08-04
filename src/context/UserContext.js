@@ -145,7 +145,7 @@ export const UserProvider = props => {
           setProfile(profile) 
           Cookies.set('role', profile.role)
       }).catch((res)=>{
-          alert("Sesi Log In Anda telah berakhir, silahkan Log In kembali")
+          alert("Terjadi kesalahan silahkan login kembali")
           console.log(res)
           Cookies.remove('token')
           Cookies.remove('username')
