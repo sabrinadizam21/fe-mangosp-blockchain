@@ -18,7 +18,6 @@ import TanamBenih from '../pages/Aset/TanamBenih'
 import Panen from '../pages/Aset/Panen'
 import { UserProvider } from '../context/UserContext'
 import RoleBasedRouting from '../components/RoleBasedRouting'
-import KonfirmasiTransaksi from '../pages/Transaksi/KonfirmasiTransaksi'
 import Profil from '../pages/Profile/Profil'
 import ListAsetTransaksi from '../pages/Transaksi/ListAsetTransaksi'
 
@@ -53,13 +52,12 @@ function Routes() {
               <PrivateRoute path='/detail-transaksi/:idTrx' exact component={DetailTransaksi} />
               <PrivateRoute path='/transaksi/masuk' exact component={TransaksiMasuk} />
               <PrivateRoute path='/transaksi/keluar' exact component={TransaksiKeluar} />
-              {/* <PrivateRoute path='/konfirmasi' exact component={KonfirmasiTransaksi}/> */}
               <PrivateRoute path='/transaksi/pilih-aset' exact component={ListAsetTransaksi} />
               <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
               <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
               <Switch>
-                <RoleBasedRouting path='/tanam-benih' exact component={TanamBenih} roles={2} />
-                <RoleBasedRouting path='/panen' exact component={Panen} roles={2}/>
+                <RoleBasedRouting path='/tanam-benih/:id' exact component={TanamBenih} roles={2} />
+                <RoleBasedRouting path='/panen/:id' exact component={Panen} roles={2}/>
               </Switch>
             </AsetProvider>    
         </Switch>

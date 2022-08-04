@@ -20,7 +20,7 @@ function DetailTransaksi() {
   const [bubbleOpen, setBubbleOpen] = useState(true)
   const [modalRejectOpen, setModalRejectOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
-  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, qty, 
+  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, 
     } = useContext(AsetContext)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
@@ -49,10 +49,10 @@ function DetailTransaksi() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(role == 2) rejectTrx(idTrx, idBenih, qty)
-    else if (role == 3) rejectTrx(idTrx, idMangga, qty)
-    else if (role == 4) rejectTrx(idTrx, idTx2, qty)
-    setModalOpen(false)
+    if(role == 2) rejectTrx(idTrx, idBenih, data.kuantitasBenihKg)
+    else if (role == 3) rejectTrx(idTrx, idMangga, data.kuantitasManggaKg)
+    else if (role == 4) rejectTrx(idTrx, idTx2, data.kuantitasManggaKg)
+    setModalRejectOpen(false)
     validateInput(e)
     console.log(aset)
   }
@@ -128,7 +128,7 @@ function DetailTransaksi() {
                   </div>
                   <div className="status-trx">
                     {statusTrx(data.isConfirmed, data.isRejected)}
-                    <p className="timestamp">{formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
                   </div>
                 </div>
                 {pendingCondition && <>
@@ -138,21 +138,21 @@ function DetailTransaksi() {
                   <div className="btn-konfirmasi">
                       <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small' onClick={() => { setModalRejectOpen(true)}}>TOLAK</Button>
                       {modalRejectOpen && 
-                    <Modal setOpenModal={setModalRejectOpen} 
-                      modalTitle={'Tolak Transaksi'}  
-                      modalBody={
-                        <>  
-                          <form id='rejectReason' onSubmit={handleSubmit}>
-                            <Input label={'Alasan'} type='text' name='rejectReason' id='rejectReason' placeholder='Alasan' 
-                            value={inputTrx.rejectReason} onChange={handleReject} onBlur={validateInput} errorMsg={error.rejectReason} required />
-                          </form>
-                        </>
-                      } 
-                      cancelBtn ={'TUTUP'}
-                      processBtn={'SIMPAN'}
-                      form={'rejectReason'}
-                    />
-                  }
+                      <Modal setOpenModal={setModalRejectOpen} 
+                        modalTitle={'Tolak Transaksi'}  
+                        modalBody={
+                          <>  
+                            <form id='rejectReason' onSubmit={handleSubmit}>
+                              <Input label={'Alasan'} type='text' name='rejectReason' id='rejectReason' placeholder='Alasan' 
+                              value={inputTrx.rejectReason} onChange={handleReject} onBlur={validateInput} errorMsg={error.rejectReason} required />
+                            </form>
+                          </>
+                        } 
+                        cancelBtn ={'TUTUP'}
+                        processBtn={'SIMPAN'}
+                        form={'rejectReason'}
+                      />
+                    }
                   </div>
                 </>
                 }
@@ -168,7 +168,7 @@ function DetailTransaksi() {
                     { data.txID2 !== '' &&
                       <Timeline title={'Petani menjual mangga'} data={aset[elementPos(data.txID2)]} />
                     } 
-                    { data.kuantitasManggaKg !== '' && data.manggaID !== '' &&
+                    { data.kuantitasManggaKg !== 0 && data.manggaID !== '' &&
                       <Timeline title={'Petani memanen mangga'} data={aset[elementPos(data.manggaID)]} />
                     }
                     { data.pupuk !== '' && data.manggaID !== '' &&

@@ -4,13 +4,15 @@ import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
 import { AsetContext } from '../../context/AsetContext'
+import { useParams } from 'react-router-dom'
 
 function TanamBenih() {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [ modalOpen, setModalOpen ] = useState(false)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
-  const { inputTrx, setInputTrx, tanamBenihPetani, getId, currentIndex, aset, formatDate} = useContext(AsetContext)
-  const dataBenih = aset[currentIndex]
+  const { inputTrx, setInputTrx, tanamBenihPetani, elementPos, aset, formatDate} = useContext(AsetContext)
+  const { id } = useParams()
+  const dataBenih = aset[elementPos(id)]
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -19,7 +21,7 @@ function TanamBenih() {
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    tanamBenihPetani(getId)
+    tanamBenihPetani(id)
     setModalOpen(false)
   }
   
@@ -48,6 +50,9 @@ function TanamBenih() {
                     <form id='tanam-benih' onSubmit={handleSubmit}>
                         <Input label={'Jenis pupuk'} type='text' name='pupuk' id='pupuk' errorMsg={error.pupuk}
                         placeholder='Jenis pupuk' value={inputTrx.pupuk} onChange={handleChange} onBlur={validateInput} required />
+                        
+                        <Input label={'Kuantitas Benih (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
+                        placeholder='Kuantitas Benih (Kg)' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
                         
                         <Input label={'Lokasi Lahan'} type='text' name='lokasiLahan' id='lokasiLahan' errorMsg={error.lokasiLahan}
                         placeholder='Lokasi Lahan' value={inputTrx.lokasiLahan} onChange={handleChange} onBlur={validateInput} required />

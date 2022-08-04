@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 
 function TransaksiMasuk() {
     const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue, setGetId,
-        setGetIdBenih, setGetIdMangga, setGetIdTx2, setQty, setCurrentIndex, elementPos, statusTrx } = useContext(AsetContext)
+        setQty, setCurrentIndex, elementPos, statusTrx } = useContext(AsetContext)
     const role = Cookies.get('role')
     
     const handleFilterInput = (event) => {
@@ -15,14 +15,9 @@ function TransaksiMasuk() {
         setSelectedValue(value)
     }
 
-    const handleClick = (id, idBenih, idMangga, txID2, kuantitas) => {
-        setGetId(id)
+    const handleClick = (id) => {
         const index = elementPos(id)
         setCurrentIndex(index)
-        setGetIdBenih(idBenih)
-        setGetIdMangga(idMangga)
-        setGetIdTx2(txID2)
-        setQty(kuantitas)
     }
 
     return (
@@ -90,10 +85,7 @@ function TransaksiMasuk() {
                                         </div>
                                         <div className="detail-btn">
                                             { data.isConfirmed === false && data.isRejected === false ? 
-                                                <Link to={`/detail-transaksi/${data.id}`} onClick={() => role == 1 || role ==2 ? 
-                                                    handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasBenihKg) :
-                                                    handleClick(data.id, data.benihID, data.manggaID, data.TxID2, data.kuantitasManggaKg)
-                                                }>Konfirmasi</Link>
+                                                <Link to={`/detail-transaksi/${data.id}`} onClick={() => handleClick(data.id)}>Konfirmasi</Link>
                                             :
                                                 <Link to={`/detail-transaksi/${data.id}`}>Lihat Detail</Link>
                                             }

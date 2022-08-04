@@ -7,15 +7,19 @@ import Cookies from 'js-cookie'
 import { UserContext } from '../../context/UserContext'
 
 function ListAsetTransaksi() {
-  const { numberFormat, formatDate, sortData, setCurrentIndex, elementPos, dataByRole, setGetId } = useContext(AsetContext)
+  const { numberFormat, formatDate, sortData, setCurrentIndex, elementPos, dataByRole } = useContext(AsetContext)
   const {functionUser} = useContext(UserContext)
   const {getUserLogin} = functionUser
   const username = Cookies.get('username')
+  const role = Cookies.get('role')
   
   let history = useHistory()
   
-  const handleClick = (e, id) => {
-    setGetId(id)
+  const handleClick = (e, id, manggaID, txID2, txID3) => {
+    if(role == 1) Cookies.set("idTrx", id)
+    else if(role == 2) Cookies.set("idTrx", manggaID)
+    else if(role == 3) Cookies.set("idTrx", txID2)
+    else if(role == 4) Cookies.set("idTrx", txID3)
     const index = elementPos(id)
     setCurrentIndex(index)
     history.push('/transaksi/buat')
@@ -41,7 +45,7 @@ function ListAsetTransaksi() {
                         <div className="content-wrapper-card">
                             {sortData(data).map((data, index)=>{
                                 return (
-                                    <div className='listAset' onClick={((e) => handleClick(e, data.id))} key={index}>    
+                                    <div className='listAset' onClick={((e) => handleClick(e, data.id, data.manggaID, data.txID2, data.txID3))} key={index}>    
                                         <div className="card">
                                             <div className="card__header">
                                                 <div className="card__icon">

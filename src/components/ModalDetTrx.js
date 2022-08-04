@@ -26,7 +26,7 @@ function ModalDetTrx({
     {atribute : "Petani", value : data.namaPengirim},
     {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenihKg) + ' Kg'},
     {atribute : "Pupuk", value : data.pupuk},
-    {atribute : "Lokasi lahan", value : 'Rp' + data.lokasiLahan},
+    {atribute : "Lokasi lahan", value : data.lokasiLahan},
     {atribute : "Tanggal Tanam", value : formatDate(data.tanggalTanam)},
   ]
   const panenMangga = [
@@ -69,8 +69,8 @@ function ModalDetTrx({
   const detailData = data.txID4 !== '' ? trxByPedagang :
                     data.txID3 !== '' ? trxByPengumpul :
                     data.txID2 !== '' ? trxByPetani :
-                    data.manggaID !== '' ? panenMangga :
-                    data.manggaID !== '' ? tanamBenih : 
+                    data.manggaID !== '' && data.pupuk !== '' ? tanamBenih : 
+                    data.manggaID !== '' && data.kuantitasManggaKg !== 0 ? panenMangga :
                     data.txID1 !== '' ? trxByPenangkar :
                     data.benihID !== '' ? createBenih : ''
   return (

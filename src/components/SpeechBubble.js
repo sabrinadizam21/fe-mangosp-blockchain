@@ -7,7 +7,7 @@ function SpeechBubble({
 }) {
   return (
     <>
-        <div class="speech top">
+        <div className="speech top">
             <p>{text}</p>
             <button onClick={() => {setBubbleOpen(false)}} className="close-speech-bubble">
                 Tutup
