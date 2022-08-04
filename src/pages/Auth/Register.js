@@ -17,6 +17,7 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault()
     functionRegisSubmit()
+    console.log(inputData)
   }
   return (
     <>
@@ -76,7 +77,26 @@ function Register() {
                 id="confirmPassword" placeholder='Konfirmasi Password' value={inputData.confirmPassword} 
                 onChange={handleChange} label='Konfirmasi Password' minLength={6} onBlur={validateInput} 
                 errorMsg={error.confirmPassword} />
-
+                
+                {inputData.role != 1 && inputData.role !='' ? 
+                  <div>
+                    <p>Skala Transaksi Anda<span style={{color: 'red'}}>*</span> </p>
+                    <div>
+                      <label>
+                        <input type="radio" name="jalur" id="pedagangBesar" value={1} onChange={handleChange} required/> Lintas Provinsi
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <input type="radio" name="jalur" id="pedagangKecil" value={2} onChange={handleChange} /> Lintas daerah
+                      </label>
+                    </div>
+                  </div>
+                : 
+                <>
+                  <input type="number" name='jalur' id='Semua' onChange={handleChange} value={0} required hidden /> 
+                </>
+                }
                 <input type="submit" value={'REGISTER'} className="btn-link" 
                 disabled={!inputData.namaLengkap || !inputData.alamat || !inputData.noTelp || !inputData.tglLahir || 
                 !inputData.nik || !inputData.email || !inputData.userName || !inputData.password || 

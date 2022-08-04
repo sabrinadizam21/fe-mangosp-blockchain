@@ -28,7 +28,8 @@ export const UserProvider = props => {
       email : '',
       password : '',
       confirmPassword : '',
-      role: ''
+      role: '',
+      jalur:''
   })
 
   const [error, setError] = useState({
@@ -96,11 +97,15 @@ export const UserProvider = props => {
         email : inputData.email,
         userName : inputData.userName,
         password : inputData.password,
-        role : inputData.role
+        role : parseInt(inputData.role),
+        jalur : parseInt(inputData.jalur)
     }).then((e)=>{
         console.log(e.data)
         history.push('/login')
-    }).catch(err=> console.log(err))
+    }).catch((err)=> {
+      let message = err.response.data
+      alert(message.error)
+    })
 
     const body = {
       fcn: "CreateUser",
@@ -121,7 +126,8 @@ export const UserProvider = props => {
         email : inputData.email,
         userName : inputData.userName,
         password : inputData.password,
-        role : inputData.role
+        role : parseInt(inputData.role),
+        jalur : parseInt(inputData.jalur)
       }]
     }
     console.log(body)
