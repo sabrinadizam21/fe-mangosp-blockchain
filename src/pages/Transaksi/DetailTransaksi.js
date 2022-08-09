@@ -49,9 +49,9 @@ function DetailTransaksi() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if(role == 2) rejectTrx(idTrx, idBenih, data.kuantitasBenihKg)
-    else if (role == 3) rejectTrx(idTrx, idMangga, data.kuantitasManggaKg)
-    else if (role == 4) rejectTrx(idTrx, idTx2, data.kuantitasManggaKg)
+    if(role === 'Org2') rejectTrx(idTrx, idBenih, data.kuantitasBenih)
+    else if (role === 'Org3') rejectTrx(idTrx, idMangga, data.kuantitasManggaKg)
+    else if (role === 'Org4') rejectTrx(idTrx, idTx2, data.kuantitasManggaKg)
     setModalRejectOpen(false)
     validateInput(e)
     console.log(aset)

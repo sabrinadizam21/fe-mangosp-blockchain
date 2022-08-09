@@ -1,6 +1,7 @@
 import { useState, createContext } from 'react'
 import { useHistory } from 'react-router'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 export const AsetContext = createContext()
 export const AsetProvider = props => {
     
@@ -18,8 +19,8 @@ export const AsetProvider = props => {
             manggaID : '', 
             namaPengirim : '', 
             namaPenerima : '', 
-            kuantitasBenihKg : '', 
-            hargaBenihPerKg : '', 
+            kuantitasBenih : '', 
+            hargaBenihPerBuah : '', 
             hargaBenihTotal : '', 
             kuantitasManggaKg : '', 
             hargaManggaPerKg : '', 
@@ -52,576 +53,7 @@ export const AsetProvider = props => {
             isRejected : '', 
             rejectReason : ''}
     ])
-    const [aset,setAset] = useState([
-        //aset penangkar
-        {id : 'benih1', 
-        benihID : 'benih1', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : '', 
-        kuantitasBenihKg : 10, 
-        hargaBenihPerKg : 0, 
-        hargaBenihTotal : 0, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 0, 
-        varietasBenih : 'Benih A', 
-        umurBenih : 2, 
-        pupuk : '', 
-        tanggalTanam : 1648757753, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : '', 
-        txID1 : '', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'benih2', 
-        benihID : 'benih2', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : '', 
-        kuantitasBenihKg : 15, 
-        hargaBenihPerKg : 0, 
-        hargaBenihTotal : 0, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 0, 
-        varietasBenih : 'Benih B', 
-        umurBenih : 6, 
-        pupuk : '', 
-        tanggalTanam : 1648054793, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : '', 
-        txID1 : '', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},    
-        
-        //trx penangkar -> petani
-        {id : 'trxPenangkarkePetani1', 
-        benihID : 'benih1', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : 'petani1', 
-        kuantitasBenihKg : 5, 
-        hargaBenihPerKg : 10000, 
-        hargaBenihTotal : 50000, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1648757753, 
-        varietasBenih : 'Benih A', 
-        umurBenih : 3, 
-        pupuk : '', 
-        tanggalTanam : 0, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Transfer via Bank', 'Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'trxPenangkarkePetani2', 
-        benihID : 'benih2', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : 'petani1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1641967200, 
-        varietasBenih : 'Benih B', 
-        umurBenih : 3, 
-        pupuk : '', 
-        tanggalTanam : 0, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani2', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : true, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'trxPenangkarkePetani3', 
-        benihID : 'benih2', 
-        manggaID : '', 
-        namaPengirim : 'penangkarAgus', 
-        namaPenerima : 'petani1', 
-        kuantitasBenihKg : 14, 
-        hargaBenihPerKg : 5000, 
-        hargaBenihTotal : 70000, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1645668000, 
-        varietasBenih : 'Benih C', 
-        umurBenih : 6, 
-        pupuk : '', 
-        tanggalTanam : 0, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung', 'Transfer via Bank'], 
-        txID1 : 'trxPenangkarkePetani3', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : true, 
-        rejectReason : 'Harga terlalu mahal'},
-    
-        //aset petani == Transaksi Masuk  && isConfirmed true
-    
-        //data sudah tanam benih
-        {id : 'asetTanamBenih1', 
-        benihID : 'benih1', 
-        manggaID : 'asetTanamBenih1', 
-        namaPengirim : 'petani1', 
-        namaPenerima : '', 
-        kuantitasBenihKg : 5, 
-        hargaBenihPerKg : 10000, 
-        hargaBenihTotal : 50000, 
-        kuantitasManggaKg : 0, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1657589335, 
-        varietasBenih : 'Benih AA', 
-        umurBenih : 3, 
-        pupuk : 'pupuk Kompos', 
-        tanggalTanam : 1657589210, 
-        lokasiLahan : '', 
-        ukuran : '', 
-        pestisida : '', 
-        kadarAir : 0, 
-        perlakuan : '', 
-        produktivitas : '', 
-        tanggalPanen : 0, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : [], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : true,
-        rejectReason : ''},
-        //data sudah panen
-        {id : 'asetTanamBenih2', 
-        benihID : 'benih2', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'petani1', 
-        namaPenerima : '', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 0, 
-        hargaManggaTotal : 0, 
-        tanggalTransaksi : 1641967200, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1657589200, 
-        lokasiLahan : '', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1657589335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : [], 
-        txID1 : 'trxPenangkarkePetani3', 
-        txID2 : '', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : true, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        // trx petani -> pengumpul
-        {id : 'trxPetanikePengumpul1', 
-        benihID : 'benih1', 
-        manggaID : 'asetTanamBenih1', 
-        namaPengirim : 'petani1', 
-        namaPenerima : 'pengumpul1', 
-        kuantitasBenihKg : 3, 
-        hargaBenihPerKg : 10000, 
-        hargaBenihTotal : 50000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 10000, 
-        hargaManggaTotal : 100000, 
-        tanggalTransaksi : 1657589335, 
-        varietasBenih : 'Benih AA', 
-        umurBenih : 6, 
-        pupuk : 'pupuk ABC', 
-        tanggalTanam : 1647589335, 
-        lokasiLahan : 'Bogor', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1657589335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung', 'Transfer via Bank'], 
-        txID1 : 'trxPenangkarkePetani3', 
-        txID2 : 'trxPetanikePengumpul1', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'trxPetanikePengumpul3', 
-        benihID : 'benih2', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'petani1', 
-        namaPenerima : 'pengumpul1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 15000, 
-        hargaManggaTotal : 150000, 
-        tanggalTransaksi : 1647585225, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bogor', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul3', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : true, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'trxPetanikePengumpul2', 
-        benihID : 'benih1', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'petani1', 
-        namaPenerima : 'pengumpul123', 
-        kuantitasBenihKg : 2, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 2, 
-        hargaManggaPerKg : 15000, 
-        hargaManggaTotal : 30000, 
-        tanggalTransaksi : 1651967400, 
-        varietasBenih : 'Benih AC', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1657589200, 
-        lokasiLahan : 'Bogor', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1657589335, 
-        tanggalMasuk : 0, 
-        teknikSorting : '', 
-        metodePengemasan : '', 
-        pengangkutan : '', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani2', 
-        txID2 : 'trxPetanikePengumpul2', 
-        txID3 : '', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : true, 
-        rejectReason : 'Kuantitas Kurang'},
-    
-        //aset pengumpul == trx masuk && isConfirmed true
-        
-        //trx pengumpul -> pedagang
-        {id : 'trxPengumpulkePedagang1', 
-        benihID : 'benih1', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'pengumpul1', 
-        namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 5, 
-        hargaBenihPerKg : 10000, 
-        hargaBenihTotal : 50000, 
-        kuantitasManggaKg : 10, 
-        hargaManggaPerKg : 15000, 
-        hargaManggaTotal : 150000, 
-        tanggalTransaksi : 1647585225, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : '', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : 'AAA', 
-        metodePengemasan : 'BBB', 
-        pengangkutan : 'CCCC', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul3', 
-        txID3 : 'trxPengumpulkePedagang1', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-        
-        {id : 'trxPengumpulkePedagang2', 
-        benihID : 'benih2', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'pengumpul1', 
-        namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 9, 
-        hargaManggaPerKg : 18000, 
-        hargaManggaTotal : 162000, 
-        tanggalTransaksi : 1677985325, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bandung', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : 'AAA', 
-        metodePengemasan : 'BBB', 
-        pengangkutan : 'CCCC', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul2', 
-        txID3 : 'trxPengumpulkePedagang2', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : true, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    
-        {id : 'trxPengumpulkePedagang3', 
-        benihID : 'benih2', 
-        manggaID : 'asetTanamBenih2', 
-        namaPengirim : 'pengumpul1', 
-        namaPenerima : 'pedagang1', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 1, 
-        hargaManggaPerKg : 5000, 
-        hargaManggaTotal : 5000, 
-        tanggalTransaksi : 1667589525, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bandung', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : 'AAA', 
-        metodePengemasan : 'BBB', 
-        pengangkutan : 'CCCC', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul1', 
-        txID3 : 'trxPengumpulkePedagang3', 
-        txID4 : '', 
-        isAsset : false, 
-        isConfirmed : false, 
-        isEmpty : false, 
-        isRejected : true, 
-        rejectReason : 'Harga terlalu murah'},
-    
-        //aset pedagang === trx masuk && isConfirmed true
-    
-        //trx pedagang
-        {id : 'trxPedagang1', 
-        benihID : 'benih1', 
-        manggaID : 'asetTanamBenih7', 
-        namaPengirim : 'pedagang1', 
-        namaPenerima : '-', 
-        kuantitasBenihKg : 7, 
-        hargaBenihPerKg : 9000, 
-        hargaBenihTotal : 63000, 
-        kuantitasManggaKg : 9, 
-        hargaManggaPerKg : 20000, 
-        hargaManggaTotal : 180000, 
-        tanggalTransaksi : 1677985325, 
-        varietasBenih : 'Benih AB', 
-        umurBenih : 3, 
-        pupuk : 'pupuk AA', 
-        tanggalTanam : 1647580225, 
-        lokasiLahan : 'Bandung', 
-        ukuran : 'Besar', 
-        pestisida : 'Lorem ipsum', 
-        kadarAir : 90, 
-        perlakuan : 'Shading net', 
-        produktivitas : 'lorem ipsum', 
-        tanggalPanen : 1647585335, 
-        tanggalMasuk : 0, 
-        teknikSorting : 'AAA', 
-        metodePengemasan : 'BBB', 
-        pengangkutan : 'CCCC', 
-        pembeli : '', 
-        caraPembayaran : ['Bayar Langsung'], 
-        txID1 : 'trxPenangkarkePetani1', 
-        txID2 : 'trxPetanikePengumpul2', 
-        txID3 : 'trxPengumpulkePedagang2', 
-        txID4 : 'trxPedagang1', 
-        isAsset : false, 
-        isConfirmed : true, 
-        isEmpty : false, 
-        isRejected : false, 
-        isPanen : false,
-        rejectReason : ''},
-    ])
+    const [aset,setAset] = useState([])
     
     const formatDate = (x) => {
         if (x.toString().length < 12) { x = x*1000 }
@@ -684,7 +116,8 @@ export const AsetProvider = props => {
             return datas.filter(data => data.isConfirmed === false && data.isRejected === false)
     }
     
-    const dataAsetPenangkar = aset.filter(asets => asets.isAsset === true && asets.txID1 === '' && asets.namaPengirim === Cookies.get('username'))
+    const { dataAsetPenangkar, setDataAsetPenangkar } = useState([])
+    //aset.filter(asets => asets.isAsset === true && asets.txID1 === '' && asets.namaPengirim === Cookies.get('username'))
 
     const dataAsetPetani = aset.filter(data => 
         // Data belum tanam benih
@@ -698,13 +131,10 @@ export const AsetProvider = props => {
     const dataAsetPengumpulPedagang = aset.filter(data => data.namaPenerima === Cookies.get('username') && data.isAsset === false && data.isConfirmed === true && data.isRejected === false)
     
     // Data untuk list aset yang akan di Transaksi
-    const dataByRole = () => {
+    const dataByRole = (data) => {
         const role = Cookies.get('role')
-        if(role == 1) var data = dataAsetPenangkar.filter(data => data.isEmpty === false)
-        else if (role == 2) var data = aset.filter(asets => asets.tanggalPanen !== 0 && asets.isAsset === true && asets.isEmpty === false)
-        else if (role == 3) var data = dataAsetPengumpulPedagang.filter(data => data.isEmpty === false)
-        else if (role == 4) var data = dataAsetPengumpulPedagang.filter(data => data.isEmpty === false)
-        return data
+        if(role === 'Org2') return data.filter(datas => datas.Record.kuantitasBenih > 0)
+        else return data.filter(datas => datas.Record.isEmpty === false)
     }
 
     const newTrx = aset.map((u)=>{
@@ -717,14 +147,81 @@ export const AsetProvider = props => {
     //======================== START GET DATA ========================//
     const getAset = (roleName) => {
         const username = Cookies.get('username')
-        const body = {
-            peer : "peer0."+roleName+".example.com",
-            fcn  : "GetManggaForQuery",
-            argn : ["{\"selector\":{\"namaPengirim\":\""+ username + "\", \"isAsset\":" + true + "\", \"isEmpty\":" + false + "}}"]
-        }        
-        console.log(body)
+        const token = "Bearer " + Cookies.get('token')
+        const role = Cookies.get('role').toLowerCase()
+        axios.get(`http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,{
+            headers : {
+                Authorization : token
+            },
+            params : {
+                peer : "peer0." + role + ".example.com",
+                fcn  : "GetManggaForQuery",
+                args : '["' + 
+                            '{\\"selector\\":{\\"namaPengirim\\":\\"' +
+                            username +
+                            '\\", \\"isAsset\\":true' + 
+                            "}}" +
+                        '"]'
+            }
+        })
+        .then((res)=>{
+            let data = res.data.result
+            setDataAsetPenangkar(data)
+        })
+        .catch((err) => alert(err))
+    }   
+    const { mangga, setMangga } = useState([])
+    const getManggaById = async (id) => {
+        const idAset = id
+        const token = "Bearer " + Cookies.get('token')
+        const role = Cookies.get('role').toLowerCase()
+        try {
+            const res = await axios.get(`http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,{
+                headers : {
+                    Authorization : token
+                },
+                params : {
+                    peer : "peer0." + role + ".example.com",
+                    fcn  : "GetManggaByID",
+                    args : '["' + idAset + '"]'
+                }
+            })
+            let output = res.data.result
+            console.log(output)
+            history.push('/aset')
+            setMangga('output')
+            console.log(mangga)
+        } catch (err) {
+            console.log(err)
+        }
+        // .then((res)=>{
+        //     let data = res.data.result
+        //     console.log(data)
+        //     setMangga(data)
+        //     console.log(mangga)
+        // })
+        // .catch((err) => console.log(err))
     }
-
+    const getAsetForPanen = () =>{
+        const username = Cookies.get('username')
+        const role = Cookies.get('role').toLowerCase()
+        axios.get(`http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`, {
+            headers :{
+                Authorization : 'Bearer ' + Cookies.get('token')
+            },
+            params : {
+                peer : "peer0." + role + ".example.com",
+                fcn : "GetManggaForQuery",
+                args : '["' +
+                            '{\\"selector\\":{\\"namaPengirim\\":\\"' + username + 
+                            '\\",\\"isAsset\\":true,\\"isPanen\\":false' + '}}' + 
+                        '"]'
+            }
+        }).then((res)=>{
+            const data = res.data.result
+            console.log(data)
+        }).catch((err) => console.log(err))
+    }
     // Transaksi Keluar
     const trxKeluarPending = (roleName) => {
         const username = Cookies.get('username')
@@ -813,8 +310,9 @@ export const AsetProvider = props => {
         console.log(body)
     }
     const functionGet = {
-        getAset, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
-        trxMasukPending, trxMasukFailed, trxMasukSuccess
+        getAset, getManggaById, getAsetForPanen,
+        trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
+        trxMasukPending, trxMasukFailed, trxMasukSuccess, 
     }
     //======================== END GET DATA ========================//
 
@@ -824,16 +322,16 @@ export const AsetProvider = props => {
         const body = {
             fcn : "RegistrasiBenih",
             peers: [
-                "peer0.penangkar.example.com",
-                "peer0.petani.example.com",
-                "peer0.pengumpul.example.com",
-                "peer0.pedagang.example.com"
+                "peer0.org1.example.com",
+                "peer0.org2.example.com",
+                "peer0.org3.example.com",
+                "peer0.org4.example.com",
             ],
             chaincodeName: "manggach1_cc",
             channelName: "channel1",
             args: [{
                 varietasBenih : inputTrx.varietasBenih,
-                kuantitasBenihKg : parseInt(inputTrx.kuantitasBenihKg),
+                kuantitasBenih : parseInt(inputTrx.kuantitasBenih),
                 namaPengirim : Cookies.get('username')
             }]
         }
@@ -843,7 +341,7 @@ export const AsetProvider = props => {
             id : 'newBenih',
             benihID : 'newBenih',
             varietasBenih : body.args[0].varietasBenih,
-            kuantitasBenihKg :body.args[0].kuantitasBenihKg,
+            kuantitasBenih :body.args[0].kuantitasBenih,
             namaPengirim : body.args[0].namaPengirim,
             kuantitasManggaKg : '',
             tanggalTanam : new Date().getTime(),
@@ -860,38 +358,37 @@ export const AsetProvider = props => {
         history.push(`/detail-transaksi/${idTrx}`)
         setInputTrx({
             varietasBenih :'', 
-            kuantitasBenihKg : '',
+            kuantitasBenih : '',
         })
         console.log(aset)
     }
 
     const addQtyBenih = (id) => {
         const idBenih = id
-        const body = {
-            fcn : "AddKuantitasBenihByID",
-            peers: [
-                "peer0.penangkar.example.com",
-                "peer0.petani.example.com",
-                "peer0.pengumpul.example.com",
-                "peer0.pedagang.example.com"
-            ],
-            chaincodeName: "manggach1_cc",
-            channelName: "channel1",
-            args: [
-                inputTrx.kuantitasBenihKg,
-                idBenih           
-            ]
-        }
-        let newQty = aset
-        if(body.args[0] <= newQty[currentIndex].kuantitasBenihKg) 
-            alert("Input tidak boleh lebih kecil dari kuantitas sekarang. Silahkan ubah kuantitas kembali.")
-        else {
-            console.log(body)
-            newQty[currentIndex].kuantitasBenihKg = body.args[0]
-            newQty[currentIndex].tanggalTanam = new Date().getTime()
-        }
-        setInputTrx({
-            kuantitasBenihKg : ''
+        const quantity = qty
+        const token = "Bearer " + Cookies.get('token')
+        axios({
+            method : 'post',
+            url : 'http://localhost:4000/channels/channel1/chaincodes/manggach1_cc',
+            headers : {
+                Authorization : token
+            },
+            data : {
+                fcn: "AddKuantitasBenihByID",
+                peers: [
+                    "peer0.org1.example.com",
+                    "peer0.org2.example.com",
+                    "peer0.org3.example.com",
+                    "peer0.org4.example.com",
+                ],
+                chaincodeName:"manggach1_cc",
+                channelName:"channel1",
+                args:[quantity, idBenih]
+            }
+        })       
+        .then((res)=>{
+            console.log(res.data)
+            window.location.reload()
         })
     }
     //======================== END ASET BENIH ========================//
@@ -899,63 +396,52 @@ export const AsetProvider = props => {
     
     //======================== START TRANSAKSI PENANGKAR ========================//
     const [checked, setChecked] = useState([])
-
-    const createTrxPenangkar = (idBenih) => {
-        const body = {
-            fcn : "CreateTrxManggaByPenangkar",
-            peers: [
-                "peer0.penangkar.example.com",
-                "peer0.petani.example.com",
-                "peer0.pengumpul.example.com",
-                "peer0.pedagang.example.com"
-            ],
-            chaincodeName: "manggach1_cc",
-            channelName: "channel1",
-            args: [{
-                namaPenerima : inputTrx.namaPenerima,
-                kuantitasBenihKg : parseInt(inputTrx.kuantitasBenihKg), 
-                umurBenih : inputTrx.umurBenih,  
-                hargaBenihPerKg : parseInt(inputTrx.hargaBenihPerKg), 
-                caraPembayaran : inputTrx.caraPembayaran,
-                }, idBenih
-            ]
-        }
-        console.log(body)
-        
-        const newTrx =  {
-            kuantitasBenihKg : body.args[0].kuantitasBenihKg, 
-            umurBenih : body.args[0].umurBenih,
-            hargaBenihPerKg : body.args[0].hargaBenihPerKg, 
-            namaPengirim : Cookies.get('username'), 
-            namaPenerima : body.args[0].namaPenerima, 
-            caraPembayaran : body.args[0].caraPembayaran,
-            isAsset : false, 
-            isConfirmed: false,
-            isEmpty: false,
-            isPanen: false,
-            isRejected: false,
-            tanggalTanam : 0,
-            tanggalTransaksi : new Date().getTime(),
-            hargaManggaPerKg : 0,
-            id : 'newTrxPetani',
-            txID4 : '',
-            txID3 : '',
-            txID2 : '',
-            kuantitasManggaKg : 0,
-            manggaID : '',
-            pupuk : '',
-            txID1 : 'newTrxPetani',
-            benihID : idBenih,
-        }
-        aset.push(newTrx)
-        console.log(aset)
-        const idTrx = newTrx.id
-        Cookies.remove('idTrx')
-        history.push(`/detail-transaksi/${idTrx}`)
+    
+    const createTrxPenangkar = async () => {
+        const token = "Bearer " + Cookies.get('token')
+        await axios({
+            method : 'post',
+            url : 'http://localhost:4000/channels/channel1/chaincodes/manggach1_cc',
+            headers : {
+                Authorization : token
+            },
+            data : {
+                fcn : "CreateTrxManggaByPenangkar",
+                peers: [
+                    "peer0.org1.example.com",
+                    "peer0.org2.example.com",
+                    "peer0.org3.example.com",
+                    "peer0.org4.example.com",
+                ],
+                chaincodeName: "manggach1_cc",
+                channelName: "channel1",
+                args: [
+                    '{\"namaPenerima\":\"' + inputTrx.namaPenerima + 
+                    '\",\"varietasBenih\":\"' + inputTrx.varietasBenih + 
+                    '\",\"kuantitasBenih\":' + parseInt(inputTrx.kuantitasBenih) + 
+                    ',\"umurBenih\":\"' + inputTrx.umurBenih + ' bulan' + 
+                    '\",\"hargaBenihPerBuah\":' + parseInt(inputTrx.hargaBenihPerBuah) + 
+                    ',\"caraPembayaran\":\"' + inputTrx.caraPembayaran + '\"}',   
+                    "a85a967547685448669206c848e02f597f428ae894fcb4a673eb038b7b488657"                   
+                ]
+            }
+        })
+        .then((res)=>{
+            console.log(res.data)
+            let idTrx = res.data.result.result.txid
+            console.log(res.data)
+            console.log(idTrx)
+            Cookies.remove('idTrx')
+            history.push('/transaksi/keluar')
+            //history.push(`/detail-transaksi/${idTrx}`)
+        })
+        .catch((err)=>console.log(err))
+       
         setInputTrx({
-            kuantitasBenihKg : '', 
+            kuantitasBenih : '', 
+            varietasBenih : '',
             umurBenih : '',
-            hargaBenihPerKg : '', 
+            hargaBenihPerBuah : '', 
             isAsset : false, 
             namaPengirim : '', 
             namaPenerima : '', 
@@ -1015,46 +501,42 @@ export const AsetProvider = props => {
     
     //======================== START TANAM BENIH PETANI ========================//
     const tanamBenihPetani = (txID1) =>{
-        const body = {
-            fcn : "TanamBenih",
-            peers: [
-                "peer0.penangkar.example.com",
-                "peer0.petani.example.com",
-                "peer0.pengumpul.example.com",
-                "peer0.pedagang.example.com"
-            ],
-            chaincodeName: "manggach1_cc",
-            channelName: "channel1",
-            args: [{
-                    pupuk : inputTrx.pupuk, 
-                    lokasiLahan : inputTrx.lokasiLahan,
-                    kuantitasBenihKg : inputTrx.kuantitasBenihKg
-                }, txID1
-            ]
-        }
-        console.log(body)
-        if(currentIndex !== -1){
-            newTrx[currentIndex].pupuk = body.args[0].pupuk
-            newTrx[currentIndex].lokasiLahan = body.args[0].lokasiLahan
-            newTrx[currentIndex].kuantitasBenihKg = body.args[0].kuantitasBenihKg
-            newTrx[currentIndex].id = 'asetTanamBenih'
-            newTrx[currentIndex].manggaID = 'asetTanamBenih'
-            newTrx[currentIndex].isAsset = true 
-            newTrx[currentIndex].isConfirmed= false
-            newTrx[currentIndex].isEmpty= false
-            newTrx[currentIndex].isPanen= true
-            newTrx[currentIndex].isRejected= false
-            newTrx[currentIndex].tanggalTanam = new Date().getTime()
-            newTrx[currentIndex].tanggalTransaksi = 0 
-        }
-        aset.push(newTrx[currentIndex])
-        const index = aset.length - 1
-        console.log(aset)
-        const idTrx = aset[index].id
-        history.push(`/detail-transaksi/${idTrx}`)
+        axios({
+            method : 'post',
+            url : `http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,
+            headers : {
+                Authorization : 'Bearer ' + Cookies.get('token')
+            },
+            data : {
+                fcn : "TanamBenih",
+                peers: [
+                    "peer0.org1.example.com",
+                    "peer0.org2.example.com",
+                    "peer0.org3.example.com",
+                    "peer0.org4.example.com",
+                ],
+                chaincodeName: "manggach1_cc",
+                channelName: "channel1",
+                args: [ 
+                    '{\"pupuk\":\"' + inputTrx.pupuk + 
+                    '\",\"lokasiLahan\":\"' + inputTrx.lokasiLahan + 
+                    '\",\"kuantitasBenih\":' + parseInt(inputTrx.kuantitasBenih) + '}',                    
+                    txID1 
+                ]
+            }           
+        }).then((res)=>{
+            let data = res.data.result
+            console.log(data)
+            history.push('/aset')
+            //const idTrx = data.idTrx
+            // history.push(`/detail-transaksi/${idTrx}`)
+        }).catch((err)=> {
+            console.log(err)
+        })
         setInputTrx({
             pupuk : '', 
             lokasiLahan : '',
+            kuantitasBenih :''
         })
     }
     //======================== END TANAM BENIH PETANI ========================//
@@ -1062,46 +544,39 @@ export const AsetProvider = props => {
 
     //======================== START PANEN PETANI ========================//
     const panenPetani = (manggaID) => {
-        const body = {
-            fcn : "PanenMangga",
-            peers: [
-                "peer0.penangkar.example.com",
-                "peer0.petani.example.com",
-                "peer0.pengumpul.example.com",
-                "peer0.pedagang.example.com"
-            ],
-            chaincodeName: "manggach1_cc",
-            channelName: "channel1",
-            args: [{
-                ukuran : inputTrx.ukuran, 
-                pestisida : inputTrx.pestisida, 
-                kadarAir : parseInt(inputTrx.kadarAir), 
-                perlakuan : inputTrx.perlakuan, 
-                produktivitas : inputTrx.produktivitas, 
-                kuantitasManggaKg : parseInt(inputTrx.kuantitasManggaKg),
-            }, manggaID]
-        }
-        console.log(body)
-        if(currentIndex !== -1){
-            newTrx[currentIndex].ukuran = body.args[0].ukuran
-            newTrx[currentIndex].pestisida = body.args[0].pestisida
-            newTrx[currentIndex].kadarAir = body.args[0].kadarAir
-            newTrx[currentIndex].perlakuan = body.args[0].perlakuan
-            newTrx[currentIndex].produktivitas = body.args[0].produktivitas
-            newTrx[currentIndex].kuantitasManggaKg = body.args[0].kuantitasManggaKg
-            newTrx[currentIndex].tanggalTransaksi = 0
-            newTrx[currentIndex].tanggalPanen = new Date().getTime()
-            newTrx[currentIndex].namaPengirim = Cookies.get('username')
-            newTrx[currentIndex].id = 'asetPanen'
-            newTrx[currentIndex].pupuk = 'Pupuk kompos'
-            newTrx[currentIndex].isPanen = false
-            newTrx[currentIndex].isAsset = false
-        }
-        aset.push(newTrx[currentIndex])
-        const index = aset.length - 1
-        console.log(aset)
-        const idTrx = aset[index].id
-        history.push(`/detail-transaksi/${idTrx}`)
+        axios({
+            method : 'post',
+            url : `http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,
+            headers : {
+                Authorization : 'Bearer ' + Cookies.get('token')
+            },
+            data : {
+                fcn : "PanenMangga",
+                peers: [
+                    "peer0.org1.example.com",
+                    "peer0.org2.example.com",
+                    "peer0.org3.example.com",
+                    "peer0.org4.example.com"
+                ],
+                chaincodeName: "manggach1_cc",
+                channelName: "channel1",
+                args: [
+                    '{\"ukuran\":\"' + inputTrx.ukuran + 
+                    '\",\"pestisida\":\"' + inputTrx.pestisida + 
+                    '\",\"kadarAir\":' +  parseInt(inputTrx.kadarAir) + 
+                    ',\"perlakuan\":\"' + inputTrx.perlakuan + 
+                    '\",\"produktivitas\":\"' + inputTrx.produktivitas + 
+                    '\",\"kuantitasManggaKg\":' + parseInt(inputTrx.kuantitasManggaKg) + '}', 
+                    manggaID
+                ]
+            }
+        }).then((res)=>{
+            let data = res.data.result
+            console.log(data)
+            history.push('/aset')
+            // const idTrx = data.idtrx
+            // history.push(`/detail-transaksi/${idTrx}`)
+        }).catch((err)=>console.log(err))
         setInputTrx({
             ukuran : '', 
             pestisida : '', 

@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 import { UserContext } from '../../context/UserContext'
 
 function ListAsetTransaksi() {
-  const { numberFormat, formatDate, sortData, setCurrentIndex, elementPos, dataByRole } = useContext(AsetContext)
+  const { numberFormat, formatDate, sortData, setCurrentIndex, elementPos, dataByRole, dataAsetPenangkar } = useContext(AsetContext)
   const {functionUser} = useContext(UserContext)
   const {getUserLogin} = functionUser
   const username = Cookies.get('username')
@@ -28,8 +28,11 @@ function ListAsetTransaksi() {
   useEffect(()=>{
     getUserLogin(username)
   },[username])
+  var dataAsetPetani = dataByRole(dataAsetPenangkar).filter(data => data.Record.isPanen === true)
+  var data = (role === 'Org1' ? dataByRole(dataAsetPenangkar) : role === 'Org2' ? dataAsetPetani : 0)
+  console.log(data)
 
-  const data = dataByRole()
+  //const data = dataByRole()
   return (
     <>
         <div className="wrapper">
@@ -52,9 +55,9 @@ function ListAsetTransaksi() {
                                                     <FaSeedling className='card__logo' />
                                                 </div>
                                                 <div className='card-name-and-status' style={{width : '100%'}}>
-                                                    <b>{data.varietasBenih}</b>
-                                                    {Cookies.get('role') == 1 || Cookies.get('role') == 2 ? 
-                                                    <p className="status">{numberFormat(data.kuantitasBenihKg)} Kg</p>
+                                                    <b>{data.Record.varietasBenih}</b>
+                                                    {Cookies.get('role') === 'Org1' || Cookies.get('role') === 'Org2' ? 
+                                                    <p className="status">{numberFormat(data.Record.kuantitasBenih)} Kg</p>
                                                     :
                                                     <p className="status">{numberFormat(data.kuantitasManggaKg)} Kg</p>
                                                     }

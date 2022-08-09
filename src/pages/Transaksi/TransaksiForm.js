@@ -45,10 +45,10 @@ function TransaksiForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const id = Cookies.get('idTrx')
-    if(profile.role === 1) createTrxPenangkar(id)
-    else if(profile.role === 2) createTrxPetani(id)
-    else if(profile.role === 3) createTrxPengumpul(id)
-    else if(profile.role === 4) createTrxPedagang(id)
+    if(profile.role === 'Org1') createTrxPenangkar()
+    else if(profile.role === 'Org2') createTrxPetani(id)
+    else if(profile.role === 'Org3') createTrxPengumpul(id)
+    else if(profile.role === 'Org4') createTrxPedagang(id)
     setChecked([])
     setModalOpen(false)
   }  
@@ -67,14 +67,17 @@ function TransaksiForm() {
             <form id='buat-transaksi-baru' onSubmit={handleSubmit}>
               <UnlockAccess request={1}> 
                 <>
-                  <Input label={'Kuantitas (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
-                    placeholder='Kuantitas' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
-                  
+                  <Input label={'Varietas Benih'} type='text' name='varietasBenih' id='varietasBenih' errorMsg={error.varietasBenih}
+                    placeholder='Varietas Benih' value={inputTrx.varietasBenih} onChange={handleChange} onBlur={validateInput} required />
+
+                  <Input label={'Kuantitas'} type='number' name='kuantitasBenih' id='kuantitasBenih' errorMsg={error.kuantitasBenih}
+                    placeholder='Kuantitas' value={inputTrx.kuantitasBenih} onChange={handleChange} onBlur={validateInput} />   
+
                   <Input label={'Umur Benih (bulan)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
                     placeholder='Umur Benih' value ={inputTrx.umurBenih}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Harga Benih (Rp)'} type='number' name='hargaBenihPerKg' id='hargaBenihPerKg' errorMsg={error.hargaBenihPerKg} 
-                    placeholder='Harga Benih' value ={inputTrx.hargaBenihPerKg}  onChange={handleChange} onBlur={validateInput} />
+                  <Input  label={'Harga Benih per Satuan (Rp)'} type='number' name='hargaBenihPerBuah' id='hargaBenihPerBuah' errorMsg={error.hargaBenihPerBuah} 
+                    placeholder='Harga Benih' value ={inputTrx.hargaBenihPerBuah}  onChange={handleChange} onBlur={validateInput} />
 
                   <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima} 
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />

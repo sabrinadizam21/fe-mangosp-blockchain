@@ -41,8 +41,8 @@ function DaftarAset() {
                     <Input label={'Varietas Benih'} type='text' name='varietasBenih' id='varietasBenih' errorMsg={error.varietasBenih}
                         placeholder='Varietas Benih' value={inputTrx.varietasBenih} onChange={handleChange} onBlur={validateInput} required />
 
-                    <Input label={'Kuantitas Benih (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
-                        placeholder='Kuantitas Benih' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
+                    <Input label={'Kuantitas Benih (Kg)'} type='number' name='kuantitasBenih' id='kuantitasBenih' errorMsg={error.kuantitasBenih}
+                        placeholder='Kuantitas Benih' value={inputTrx.kuantitasBenih} onChange={handleChange} onBlur={validateInput} required />
                     
                     <div className='aset__button'>
                         <div className='btn-links'>
@@ -56,7 +56,7 @@ function DaftarAset() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!inputTrx.varietasBenih|| !inputTrx.kuantitasBenihKg } 
+                              disabled = {!inputTrx.varietasBenih|| !inputTrx.kuantitasBenih } 
                             >
                               SIMPAN
                             </Button>

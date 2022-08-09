@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../components/Button'
 import './Transaksi.css'
 import { GrLinkBottom, GrLinkTop } from "react-icons/gr"
+import Cookies from 'js-cookie'
 
 function Transaksi() {
   return (
@@ -15,9 +16,15 @@ function Transaksi() {
                         <div className="subtitle">Daftar transaksi yang anda lakukan</div>
                     </div>
                     <div className="btn-header">
-                    <Link to='/transaksi/pilih-aset'>
-                        <Button buttonColor='primary'>BUAT TRANSAKSI</Button>
-                    </Link>
+                    {Cookies.get('role') === 'Org1' ? 
+                        <Link to='/transaksi/buat'>
+                            <Button buttonColor='primary'>BUAT TRANSAKSI</Button>
+                        </Link> 
+                        : 
+                        <Link to='/transaksi/pilih-aset'>
+                            <Button buttonColor='primary'>BUAT TRANSAKSI</Button>
+                        </Link>
+                    }
                     </div>
                 </div>
                 <div className="content">

@@ -36,23 +36,23 @@ function TanamBenih() {
                 </div>
               </div>
               <div className="content">
-                <div className="information">
+                {/* <div className="information">
                   <div className="last-note">
                     <span>Varietas</span>
                     <p>{dataBenih.varietasBenih}</p>
                   </div>
                   <div className="status-trx">
-                    <p className='status'>{dataBenih.kuantitasBenihKg} Kg</p>
+                    <p className='status'>{dataBenih.kuantitasBenih} Kg</p>
                     <p className="timestamp">{formatDate(dataBenih.tanggalTransaksi)}</p>
                   </div>
-                </div>
+                </div> */}
                 <div>
                     <form id='tanam-benih' onSubmit={handleSubmit}>
-                        <Input label={'Jenis pupuk'} type='text' name='pupuk' id='pupuk' errorMsg={error.pupuk}
+                        <Input label={'Jenis Pupuk'} type='text' name='pupuk' id='pupuk' errorMsg={error.pupuk}
                         placeholder='Jenis pupuk' value={inputTrx.pupuk} onChange={handleChange} onBlur={validateInput} required />
                         
-                        <Input label={'Kuantitas Benih (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
-                        placeholder='Kuantitas Benih (Kg)' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} required />
+                        <Input label={'Kuantitas Benih'} type='number' name='kuantitasBenih' id='kuantitasBenih' errorMsg={error.kuantitasBenih}
+                        placeholder='Kuantitas Benih' value={inputTrx.kuantitasBenih} onChange={handleChange} onBlur={validateInput} required />
                         
                         <Input label={'Lokasi Lahan'} type='text' name='lokasiLahan' id='lokasiLahan' errorMsg={error.lokasiLahan}
                         placeholder='Lokasi Lahan' value={inputTrx.lokasiLahan} onChange={handleChange} onBlur={validateInput} required />
@@ -63,7 +63,7 @@ function TanamBenih() {
                               onClick={()=>{
                                 setModalOpen(true);
                               }}
-                              disabled = {!inputTrx.pupuk || !inputTrx.lokasiLahan } 
+                              disabled = {!inputTrx.pupuk || !inputTrx.lokasiLahan || !inputTrx.kuantitasBenih } 
                               style = {{width : '100%'}}
                             >
                               SIMPAN

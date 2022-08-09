@@ -36,16 +36,16 @@ return (
               </div>
             </div>
             <div className="content">
-              <div className="information">
+              {/* <div className="information">
                 <div className="last-note">
                   <span>Varietas</span>
                   <p>{dataMangga.varietasBenih}</p>
                 </div>
                 <div className="status-trx">
-                  <p className='status'>{dataMangga.kuantitasBenihKg} Kg</p>
+                  <p className='status'>{dataMangga.kuantitasBenih} Kg</p>
                   <p className="timestamp">{formatDate(dataMangga.tanggalTanam)}</p>
                 </div>
-              </div>
+              </div> */}
               <div>
                   <form id='tanam-benih' onSubmit={handleSubmit}>
                       <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errMsg={error.kuantitasManggaKg}

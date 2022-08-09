@@ -56,11 +56,11 @@ function TransaksiKeluar() {
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.kuantitasBenihKg)} Kg</p>
+                                                    <p>{numberFormat(data.Record.kuantitasBenih)}</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.hargaBenihPerKg)}</p>
+                                                    <p>Rp{numberFormat(data.Record.hargaBenihPerBuah)}</p>
                                                 </div>
                                             </> : 
                                             <>

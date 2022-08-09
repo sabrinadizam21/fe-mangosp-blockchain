@@ -13,9 +13,11 @@ import Cookies from 'js-cookie'
 function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
   const [ confirmed, setConfirmed ] = useState(true)
-  const { aset, numberFormat, formatDate, sortData, inputTrx, setInputTrx, addQtyBenih, errorKuantitas,
-    setCurrentIndex, getId, setGetId, dataAsetPenangkar, dataAsetPetani, elementPos, dataAsetPengumpulPedagang,
+  const { aset, numberFormat, formatDate, sortData, addQtyBenih, errorKuantitas, dataByRole,
+    setCurrentIndex, getId, setGetId, dataAsetPenangkar, elementPos, dataAsetPengumpulPedagang,
+    functionGet, dataTrxMasukSuccess, inputTrx, setInputTrx
   } = useContext(AsetContext)
+  const { getAset, trxMasukSuccess } = functionGet
   const {functionUser, error} = useContext(UserContext)
   const {getUserLogin, validateInput} = functionUser
   let history = useHistory()  
@@ -23,6 +25,8 @@ function Aset() {
 
   useEffect(()=>{
     getUserLogin(username)
+    getAset()
+    trxMasukSuccess()
   },[username])
 
   const handleChange = (event) => {
@@ -59,6 +63,10 @@ function Aset() {
   const handleCheck = () => {
     setConfirmed(!confirmed)
   }
+  var dataForTanamBenih = dataTrxMasukSuccess
+  var dataForPanen = dataByRole(dataAsetPenangkar).filter(data => data.Record.isPanen === false)
+  var dataForTrx = dataByRole(dataAsetPenangkar).filter(data => data.Record.isPanen === true)
+  var dataAsetPetani = [...dataForTanamBenih, ...dataForPanen, ...dataForTrx]
 
   return (
     <>
@@ -99,7 +107,7 @@ function Aset() {
                             <div className="quantity-value">
                               <div className="quantity">
                                 <span>Kuantitas</span>
-                                <p>{numberFormat(data.kuantitasBenihKg)} Kg </p>
+                                <p>{numberFormat(data.Record.kuantitasBenih)} Kg </p>
                               </div>
                               {/* <div className="value">
                                 <span>Umur Benih</span>
@@ -152,7 +160,7 @@ function Aset() {
                   {/* END ASET PENANGKAR */}                  
 
                   {/* START ASET PETANI */}
-                  <UnlockAccess request={2}>
+                  <UnlockAccess request={'Org2'}>
                   {dataAsetPetani.length === 0 ? <p>Tidak ada aset</p> : (<>
                     { sortData(dataAsetPetani).map((data, index)=>{
                       return (
@@ -162,19 +170,23 @@ function Aset() {
                               <FaSeedling className='card__logo' />
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                              <b>{data.varietasBenih}</b>
-                              <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
+                              <b>{data.Record.varietasBenih}</b>
+                              <p className="card__timestamp">
+                                {data.Record.isAsset === false ? formatDate(data.Record.tanggalTransaksi) : 
+                                data.Record.isPanen === false ? formatDate(data.Record.tanggalTanam) : 
+                                formatDate(data.Record.tanggalPanen)}
+                              </p>
                             </div>                
                           </div>
                           <div className="card__body">
                             <div className="quantity-value">
                               <div className="quantity">
                                 <span>Kuantitas</span>
-                                <p>{numberFormat(data.kuantitasBenihKg)} Kg </p>
+                                <p>{numberFormat(data.Record.kuantitasBenih)}</p>
                               </div>
                               <div className="value">
                                 <span>Harga per Kg</span>
-                                <p>Rp{numberFormat(data.hargaBenihPerKg)}</p>
+                                <p>Rp{numberFormat(data.Record.hargaBenihPerBuah)}</p>
                               </div>
                             </div>
                             <div className="seed-age">
@@ -183,7 +195,7 @@ function Aset() {
                             </div>
                             <div className="seed-age">
                               <span>Umur Benih</span> 
-                              <p>{data.umurBenih} hari</p>
+                              <p>{data.Record.umurBenih}</p>
                             </div>
                             {/* <div className="harvest-age">
                               <span>Umur Panen</span>
@@ -191,14 +203,14 @@ function Aset() {
                             </div> */}
                           </div>
                           <div className="card__bottom">
-                            {data.pestisida === '' ? 
-                            data.pupuk === '' ?
-                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'} onClick={((e) => {handleClick(e, data.txID1, 'plant')})}> TANAM BENIH
-                              </Button> :
-                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                              buttonStyle={'btn--outline'} onClick={((e) => handleClick(e, data.manggaID, 'harvest'))}> PANEN
-                              </Button>
+                            {data.Record.isPanen === false ? 
+                              data.Record.pupuk === '' ?
+                                <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                                  buttonStyle={'btn--outline'} onClick={((e) => {handleClick(e, data.Record.txID1, 'plant')})}> TANAM BENIH
+                                </Button> :
+                                <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
+                                buttonStyle={'btn--outline'} onClick={((e) => handleClick(e, data.Record.manggaID, 'harvest'))}> PANEN
+                                </Button>
                               : 
                               <Button className="openModalBtn" buttonSize={'btn--small'} buttonStyle={'btn--outline'} 
                               disabled > Siap Transaksi
