@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import { MdQrCodeScanner } from "react-icons/md"
 import { GiSeedling, GiFarmer, GiShop } from "react-icons/gi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
@@ -20,14 +20,26 @@ function DetailTransaksi() {
   const [bubbleOpen, setBubbleOpen] = useState(true)
   const [modalRejectOpen, setModalRejectOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
-  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, 
+  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet, mangga,
     } = useContext(AsetContext)
+  const { getManggaById } = functionGet
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
   const role = Cookies.get('role')
-  let { idTrx } = useParams()
-  
-  const data = aset[elementPos(idTrx)]
+  const { idTrx } = useParams()
+
+//   useEffect(()=>{
+
+// },[])
+  const test = async() => {
+    await getManggaById(idTrx)
+    //console.log(mangga)
+  }
+
+  test()
+
+  const data = mangga[0]
+  console.log(data)
   const idBenih = data.benihID
   const idMangga = data.manggaID
   const idTx2 = data.txID2

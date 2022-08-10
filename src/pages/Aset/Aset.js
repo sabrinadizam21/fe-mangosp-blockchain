@@ -14,7 +14,7 @@ function Aset() {
   const [modalOpen, setModalOpen] = useState(false)
   const [ confirmed, setConfirmed ] = useState(true)
   const { aset, numberFormat, formatDate, sortData, addQtyBenih, errorKuantitas, dataByRole,
-    setCurrentIndex, getId, setGetId, dataAsetPenangkar, elementPos, dataAsetPengumpulPedagang,
+    setCurrentIndex, getId, setGetId, dataAset, elementPos,
     functionGet, dataTrxMasukSuccess, inputTrx, setInputTrx
   } = useContext(AsetContext)
   const { getAset, trxMasukSuccess } = functionGet
@@ -63,9 +63,9 @@ function Aset() {
   const handleCheck = () => {
     setConfirmed(!confirmed)
   }
-  var dataForTanamBenih = dataTrxMasukSuccess
-  var dataForPanen = dataByRole(dataAsetPenangkar).filter(data => data.Record.isPanen === false)
-  var dataForTrx = dataByRole(dataAsetPenangkar).filter(data => data.Record.isPanen === true)
+  var dataForTanamBenih = dataByRole(dataTrxMasukSuccess)
+  var dataForPanen = dataByRole(dataAset).filter(data => data.Record.isPanen === false)
+  var dataForTrx = dataByRole(dataAset).filter(data => data.Record.isPanen === true)
   var dataAsetPetani = [...dataForTanamBenih, ...dataForPanen, ...dataForTrx]
 
   return (
@@ -78,7 +78,7 @@ function Aset() {
                   <div className="title">Aset</div>
                   <div className="subtitle">Aset yang Anda miliki</div>
                 </div>
-                <UnlockAccess request={1}>
+                <UnlockAccess request={'Org1'}>
                   <div className="btn-header">
                     <Link to='/aset/daftaraset'>
                       <Button buttonColor='primary'>DAFTAR ASET</Button>
@@ -89,9 +89,9 @@ function Aset() {
               <div className="content">
                 <div className="card__wrapper">
                   {/* START ASET PENANGKAR */}
-                  <UnlockAccess request={1}>
-                    {dataAsetPenangkar.length === 0 ? <p>Tidak ada aset</p> : (<>
-                    { sortData(dataAsetPenangkar).map((data, index)=>{
+                  <UnlockAccess request={'Org1'}>
+                    {dataAset.length === 0 ? <p>Tidak ada aset</p> : (<>
+                    { sortData(dataAset).map((data, index)=>{
                       return (
                         <div className="card" key={index}>
                           <div className="card__header">
@@ -99,8 +99,8 @@ function Aset() {
                               <FaSeedling className='card__logo' />
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                              <b>{data.varietasBenih}</b>
-                              <p className="card__timestamp">{formatDate(data.tanggalTanam)}</p>
+                              <b>{data.Record.varietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.Record.tanggalTanam)}</p>
                             </div>                
                           </div>
                           <div className="card__body">
@@ -109,10 +109,6 @@ function Aset() {
                                 <span>Kuantitas</span>
                                 <p>{numberFormat(data.Record.kuantitasBenih)} Kg </p>
                               </div>
-                              {/* <div className="value">
-                                <span>Umur Benih</span>
-                                <p>{numberFormat(data.umurBenih)} hari</p>
-                              </div> */}
                             </div>
                           </div>
                           <div className="card__bottom">
@@ -181,8 +177,15 @@ function Aset() {
                           <div className="card__body">
                             <div className="quantity-value">
                               <div className="quantity">
-                                <span>Kuantitas</span>
-                                <p>{numberFormat(data.Record.kuantitasBenih)}</p>
+                                {data.Record.isPanen === true ? 
+                                <>
+                                  <span>Kuantitas Mangga</span>
+                                  <p>{numberFormat(data.Record.kuantitasManggaKg)}</p>
+                                </> : <>
+                                  <span>Kuantitas Benih</span>
+                                  <p> {numberFormat(data.Record.kuantitasBenih)}</p>
+                                </>
+                                }
                               </div>
                               <div className="value">
                                 <span>Harga per Kg</span>
@@ -191,7 +194,7 @@ function Aset() {
                             </div>
                             <div className="seed-age">
                               <span>Pengirim</span> 
-                              <p>{data.namaPengirim}</p>
+                              <p>{data.Record.namaPengirim}</p>
                             </div>
                             <div className="seed-age">
                               <span>Umur Benih</span> 
@@ -225,100 +228,86 @@ function Aset() {
                   {/* END ASET PETANI */}
 
                   {/* START ASET PENGUMPUL */}
-                  <UnlockAccess request={3}>
-                  { sortData(dataAsetPengumpulPedagang).map((data, index)=>{
-                    return ( 
-                      <div className="card" key={index}>
-                        <div className="card__header">
-                          <div className="card__icon">
-                            <FaSeedling className='card__logo' />
-                          </div>
-                          <div style={{marginLeft: '15px'}}>
-                            <b>{data.varietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
-                          </div>                
-                        </div>
-                        <div className="card__body">
-                          <div className="quantity-value">
-                            <div className="quantity">
-                              <span>Kuantitas</span>
-                              <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
+                  <UnlockAccess request={'Org3'}>
+                  {dataForTanamBenih.length === 0 ? <p>Tidak ada aset</p> : (<>
+                    { sortData(dataForTanamBenih).map((data, index)=>{
+                      return ( 
+                        <div className="card" key={index}>
+                          <div className="card__header">
+                            <div className="card__icon">
+                              <FaSeedling className='card__logo' />
                             </div>
-                            <div className="value">
-                              <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
+                            <div style={{marginLeft: '15px'}}>
+                              <b>{data.Record.varietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.Record.tanggalTransaksi)}</p>
+                            </div>                
+                          </div>
+                          <div className="card__body">
+                            <div className="quantity-value">
+                              <div className="quantity">
+                                <span>Kuantitas</span>
+                                <p>{numberFormat(data.Record.kuantitasManggaKg)} Kg</p>
+                              </div>
+                              <div className="value">
+                                <span>Harga per Kg</span>
+                                <p>Rp{numberFormat(data.Record.hargaManggaPerKg)}</p>
+                              </div>
+                            </div>
+                            <div className="seed-age">
+                              <span>Pengirim</span> 
+                              <p>{data.Record.namaPengirim}</p>
+                            </div>
+                            <div className="seed-age">
+                              <span>Umur Benih</span> 
+                              <p>{data.Record.umurBenih}</p>
                             </div>
                           </div>
-                          <div className="seed-age">
-                            <span>Pengirim</span> 
-                            <p>{data.namaPengirim}</p>
-                          </div>
-                          <div className="seed-age">
-                            <span>Umur Benih</span> 
-                            <p>{data.umurBenih} bulan</p>
-                          </div>
-                          {/* <div className="harvest-age">
-                            <span>Umur Panen</span>
-                            <p>6 hari</p>
-                          </div> */}
                         </div>
-                        {/* <div className="card__bottom">
-                            <Link to='/tanam-benih'> 
-                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'}> TANAM BENIH
-                              </Button>
-                            </Link>
-                        </div> */}
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </>)}
                   </UnlockAccess>
                   {/* END ASET PENGUMPUL */}
 
                   {/* START ASET PEDAGANG */}
-                  <UnlockAccess request={4}>
-                  { sortData(dataAsetPengumpulPedagang).map((data, index)=>{
-                    return ( 
-                      <div className="card" key={index}>
-                        <div className="card__header">
-                          <div className="card__icon">
-                            <FaSeedling className='card__logo' />
-                          </div>
-                          <div style={{marginLeft: '15px'}}>
-                            <b>{data.varietasBenih}</b>
-                            <p className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
-                          </div>                
-                        </div>
-                        <div className="card__body">
-                          <div className="quantity-value">
-                            <div className="quantity">
-                              <span>Kuantitas</span>
-                              <p>{numberFormat(data.kuantitasManggaKg)} Kg </p>
+                  <UnlockAccess request={'Org4'}>
+                  {dataForTanamBenih.length === 0 ? <p>Tidak ada aset</p> : (<>
+                    { sortData(dataForTanamBenih).map((data, index)=>{
+                      return ( 
+                        <div className="card" key={index}>
+                          <div className="card__header">
+                            <div className="card__icon">
+                              <FaSeedling className='card__logo' />
                             </div>
-                            <div className="value">
-                              <span>Harga per Kg</span>
-                              <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
+                            <div style={{marginLeft: '15px'}}>
+                              <b>{data.Record.varietasBenih}</b>
+                              <p className="card__timestamp">{formatDate(data.Record.tanggalTransaksi)}</p>
+                            </div>                
+                          </div>
+                          <div className="card__body">
+                            <div className="quantity-value">
+                              <div className="quantity">
+                                <span>Kuantitas</span>
+                                <p>{numberFormat(data.Record.kuantitasManggaKg)} Kg </p>
+                              </div>
+                              <div className="value">
+                                <span>Harga per Kg</span>
+                                <p>Rp{numberFormat(data.Record.hargaManggaPerKg)}</p>
+                              </div>
+                            </div>
+                            <div className="seed-age">
+                              <span>Pengirim</span> 
+                              <p>{data.Record.namaPengirim}</p>
+                            </div>
+                            <div className="seed-age">
+                              <span>Umur Benih</span> 
+                              <p>{data.Record.umurBenih}</p>
                             </div>
                           </div>
-                          <div className="seed-age">
-                            <span>Pengirim</span> 
-                            <p>{data.namaPengirim}</p>
-                          </div>
-                          <div className="seed-age">
-                            <span>Umur Benih</span> 
-                            <p>{data.umurBenih} bulan</p>
-                          </div>
                         </div>
-                        {/* <div className="card__bottom">
-                            <Link to='/tanam-benih'> 
-                              <Button className="openModalBtn" buttonSize={'btn--small'} buttonColor={'primary'}
-                                buttonStyle={'btn--outline'}> TANAM BENIH
-                              </Button>
-                            </Link>
-                        </div> */}
-                      </div>
-                     )
-                  })} 
+                      )
+                    })} 
+                  </>)}
                   </UnlockAccess>
                   {/* END ASET PEDAGANG */}
                 </div>

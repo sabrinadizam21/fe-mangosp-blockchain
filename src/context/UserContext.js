@@ -29,7 +29,7 @@ export const UserProvider = props => {
       password : '',
       confirmPassword : '',
       role: '',
-      jalur:''
+      jalur: 0
   })
 
   const [error, setError] = useState({
@@ -88,16 +88,17 @@ export const UserProvider = props => {
   }
 
   const functionRegisSubmit = () => {
-    axios.post(`https://mango-bm.herokuapp.com/api/registrasi`, {
+    //axios.post(`https://mango-bm.herokuapp.com/api/registrasi`, {
+    axios.post(`http://localhost:4000/register`, {
         namaLengkap : inputData.namaLengkap,
         alamat : inputData.alamat,
         noTelp : inputData.noTelp,
         tglLahir : inputData.tglLahir,
         nik : inputData.nik,
         email : inputData.email,
-        userName : inputData.userName,
+        username : inputData.userName,
         password : inputData.password,
-        role : parseInt(inputData.role),
+        role : inputData.role,
         jalur : parseInt(inputData.jalur)
     }).then((e)=>{
         console.log(e.data)
@@ -106,7 +107,7 @@ export const UserProvider = props => {
       let message = err.response.data
       alert(message.error)
     })
-
+    
     const body = {
       fcn: "CreateUser",
       peers: [
@@ -124,18 +125,22 @@ export const UserProvider = props => {
         tglLahir : inputData.tglLahir,
         nik : inputData.nik,
         email : inputData.email,
-        userName : inputData.userName,
+        username : inputData.userName,
         password : inputData.password,
-        role : parseInt(inputData.role),
+        role : inputData.role,
         jalur : parseInt(inputData.jalur)
       }]
     }
+
+    // axios.post(`http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`, {
+    //   body
+    // })
     console.log(body)
   }
 
   const getUserLogin = async(username) => {
       const token = "Bearer " + Cookies.get('token')
-      axios.get(`https://mango-bm.herokuapp.com/api/profile/${username}`, {
+      axios.get(`http://localhost:4000/profile/${username}`, {
           headers : {
               Authorization : token
           }
@@ -144,6 +149,14 @@ export const UserProvider = props => {
           let profile = res.data[0]
           setProfile(profile) 
           Cookies.set('role', profile.role)
+          if(profile.jalur === 1) {
+            Cookies.set('chaincodeName', 'manggach1_cc')
+            Cookies.set('channelName', 'channel1')
+          }
+          else if (profile.jalur === 2) {
+            Cookies.set('chaincodeName', 'manggach2_cc')
+            Cookies.set('channelName', 'channel2')
+          }
       }).catch((res)=>{
           alert("Terjadi kesalahan silahkan login kembali")
           console.log(res)
@@ -157,12 +170,12 @@ export const UserProvider = props => {
   }
 
   const functionLoginSubmit = async() => {
-    await axios.post(`https://mango-bm.herokuapp.com/api/login`, {
-      userName : input.userName,
+    await axios.post(`http://localhost:4000/login`, {
+      username : input.userName,
       password : input.password
     }
     ).then(async (res)=>{
-        let access_token = res.data.accessToken
+        let access_token = res.data.message.token
         let username = input.userName
         Cookies.set('token', access_token, {expires: 1})
         Cookies.set('username', username, {expires: 1})
@@ -176,12 +189,22 @@ export const UserProvider = props => {
       changeBtnText("LOG IN")
     })
   }
+
+  const logoutFunction = async() => {
+    Cookies.remove('token')
+    Cookies.remove('username')
+    Cookies.remove('role')
+    Cookies.remove('chaincodeName')
+    Cookies.remove('channelName')
+    Cookies.set('loginStatus', false)
+  }
     
   const functionUser = {
       functionRegisSubmit,
       getUserLogin,
       validateInput,
-      functionLoginSubmit
+      functionLoginSubmit,
+      logoutFunction
   }
 
   return(

@@ -6,9 +6,16 @@ import { AsetContext } from '../../context/AsetContext'
 import Cookies from 'js-cookie'
 
 function TransaksiMasuk() {
-    const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue, setGetId,
-        setQty, setCurrentIndex, elementPos, statusTrx } = useContext(AsetContext)
+    const { numberFormat, formatDate, sortData, showDataFiltered, selectedValue, setSelectedValue, 
+        setCurrentIndex, elementPos, statusTrx, functionGet, dataTrxMasukPending, dataTrxMasukFailed, dataTrxMasukSuccess } = useContext(AsetContext)
+    const { trxMasukPending, trxMasukFailed, trxMasukSuccess } = functionGet
     const role = Cookies.get('role')
+
+    useEffect(()=>{
+        trxMasukPending()
+        trxMasukFailed()
+        trxMasukSuccess()
+    },[])
     
     const handleFilterInput = (event) => {
         let value = event.target.value
@@ -20,6 +27,8 @@ function TransaksiMasuk() {
         setCurrentIndex(index)
     }
 
+    const data = [...dataTrxMasukPending, ...dataTrxMasukFailed, ...dataTrxMasukSuccess]
+    
     return (
     <>
         <div className="wrapper">
@@ -37,9 +46,9 @@ function TransaksiMasuk() {
                         <option value="PENDING">Tertunda</option>
                         <option value="FAILED">Tolak</option>
                     </select>
-                    {showData(aset, 'in').length === 0 ? <p>Tidak ada transaksi masuk</p> : (<>
+                    {showDataFiltered(data).length === 0 ? <p>Tidak ada transaksi masuk</p> : (<>
                     <div className="card__wrapper">
-                        {showData(sortData(aset), 'in').map((data, index) => {
+                        {showDataFiltered(sortData(data)).map((data, index) => {
                             return(
                                 <div className="card" key={index}>
                                     <div className="card__header">
@@ -48,46 +57,46 @@ function TransaksiMasuk() {
                                         </div>
                                         <div style={{width : '100%'}}>
                                         <div className='card-name-and-status'>
-                                            <b>{data.varietasBenih}</b>
-                                            {statusTrx(data.isConfirmed, data.isRejected)}
+                                            <b>{data.Record.varietasBenih}</b>
+                                            {statusTrx(data.Record.isConfirmed, data.Record.isRejected)}
                                         </div>
-                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
+                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.Record.tanggalTransaksi)}</p>
                                         </div>
                                     </div>
                                     <div className="card__body">
                                         <div className="quantity-value">
                                             <div className="quantity">
                                                 <span>Pengirim</span>
-                                                <p>{data.namaPengirim}</p>
+                                                <p>{data.Record.namaPengirim}</p>
                                             </div>
-                                            {role == 1 || role == 2 ? 
+                                            {role === 'Org1' || role === 'Org2' ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.Record.kuantitasBenih)}</p>
+                                                    <p>{numberFormat(data.Record.kuantitasBenih)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
                                                     <p>Rp{numberFormat(data.Record.hargaBenihPerBuah)}</p>
                                                 </div>
-                                            </> : role == 3 || role == 4 ? 
+                                            </> : role === 'Org3' || role === 'Org4' ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
+                                                    <p>{numberFormat(data.Record.kuantitasManggaKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
+                                                    <p>Rp{numberFormat(data.Record.hargaManggaPerKg)}</p>
                                                 </div>
                                             </> : <p></p>
                                             }
                                         </div>
                                         <div className="detail-btn">
-                                            { data.isConfirmed === false && data.isRejected === false ? 
-                                                <Link to={`/detail-transaksi/${data.id}`} onClick={() => handleClick(data.id)}>Konfirmasi</Link>
+                                            { data.Record.isConfirmed === false && data.Record.isRejected === false ? 
+                                                <Link to={`/detail-transaksi/${data.Record.id}`} onClick={() => handleClick(data.Record.id)}>Konfirmasi</Link>
                                             :
-                                                <Link to={`/detail-transaksi/${data.id}`}>Lihat Detail</Link>
+                                                <Link to={`/detail-transaksi/${data.Record.id}`}>Lihat Detail</Link>
                                             }
                                         </div>
                                     </div>

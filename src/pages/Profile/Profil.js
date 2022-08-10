@@ -9,10 +9,10 @@ function Profil() {
   const { getUserLogin } = functionUser
   
   const userRole = (role) => {
-    if (role === 1) return 'Penangkar'
-    else if (role === 2) return 'Petani'
-    else if (role === 3) return 'Pengumpul'
-    else if (role === 4) return 'Pedagang'
+    if (role === 'Org1') return 'Penangkar'
+    else if (role === 'Org2') return 'Petani'
+    else if (role === 'Org3') return 'Pengumpul'
+    else if (role === 'Org4') return 'Pedagang'
   }
 
   useEffect(()=>{

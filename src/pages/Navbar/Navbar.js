@@ -28,7 +28,7 @@ function Navbar() {
     Cookies.remove('token')
     Cookies.remove('username')
     Cookies.remove('role')
-    await setLoginStatus(false)
+    //await setLoginStatus(false)
     Cookies.set('loginStatus', false)
     window.location.href ='/login'
   }

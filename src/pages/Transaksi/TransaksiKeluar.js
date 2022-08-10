@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './Transaksi.css'
 import { FaSeedling } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -6,12 +6,23 @@ import { AsetContext } from '../../context/AsetContext'
 import Cookies from 'js-cookie'
 
 function TransaksiKeluar() {
-  const { aset, numberFormat, formatDate, sortData, showData, selectedValue, setSelectedValue, statusTrx } = useContext(AsetContext)
+  const { numberFormat, formatDate, sortData, showDataFiltered, selectedValue, setSelectedValue, statusTrx, functionGet, 
+    dataTrxKeluarPending, dataTrxKeluarFailed, dataTrxKeluarSuccess } = useContext(AsetContext)
+  const { trxKeluarPending, trxKeluarFailed, trxKeluarSuccess } = functionGet
   
+  useEffect(()=>{
+    trxKeluarPending()
+    trxKeluarFailed()
+    trxKeluarSuccess()
+  },[])
+
   const handleFilterInput = (event) => {
     let value = event.target.value
     setSelectedValue(value)
   }
+
+  const data = [...dataTrxKeluarPending, ...dataTrxKeluarFailed, ...dataTrxKeluarSuccess]
+  
   return (
     <>
         <div className="wrapper">
@@ -29,9 +40,9 @@ function TransaksiKeluar() {
                         <option value="PENDING">Pending</option>
                         <option value="FAILED">Tolak</option>
                     </select>
-                    {showData(aset, 'out').length === 0 ? <p>Tidak ada transaki keluar</p> : (<>
+                    {showDataFiltered(data).length === 0 ? <p>Tidak ada transaki keluar</p> : (<>
                     <div className="card__wrapper">
-                        {showData(sortData(aset), 'out').map((data, index) => {                          
+                        {showDataFiltered(sortData(data)).map((data, index) => {                          
                             return(
                                 <div className="card" key={index}>
                                     <div className="card__header">
@@ -40,23 +51,25 @@ function TransaksiKeluar() {
                                         </div>
                                         <div style={{width : '100%'}}>
                                         <div className='card-name-and-status'>
-                                            <b>{data.varietasBenih}</b>
-                                            {statusTrx(data.isConfirmed, data.isRejected)}
+                                            <b>{data.Record.varietasBenih}</b>
+                                            {statusTrx(data.Record.isConfirmed, data.Record.isRejected)}
                                         </div>
-                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.tanggalTransaksi)}</p>
+                                        <p style={{marginLeft: '15px'}} className="card__timestamp">{formatDate(data.Record.tanggalTransaksi)}</p>
                                         </div>
                                     </div>
                                     <div className="card__body">
                                         <div className="quantity-value">
                                             <div className="quantity">
                                                 <span>Penerima</span>
-                                                <p>{data.namaPenerima}</p>
+                                                {Cookies.get('role') === 'Org4' ? <p>-</p> : 
+                                                    <p>{data.Record.namaPenerima}</p>
+                                                }
                                             </div>
-                                            {Cookies.get('role') == 1 || Cookies.get('role') == 2 ? 
+                                            {Cookies.get('role') === 'Org1' || Cookies.get('role') === 'Org2' ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.Record.kuantitasBenih)}</p>
+                                                    <p>{numberFormat(data.Record.kuantitasBenih)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
@@ -66,23 +79,23 @@ function TransaksiKeluar() {
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.kuantitasManggaKg)} Kg</p>
+                                                    <p>{numberFormat(data.Record.kuantitasManggaKg)} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>
-                                                    <p>Rp{numberFormat(data.hargaManggaPerKg)}</p>
+                                                    <p>Rp{numberFormat(data.Record.hargaManggaPerKg)}</p>
                                                 </div>
                                             </>
                                         }
                                         </div>
-                                        {data.rejectReason !== '' &&
+                                        {data.Record.rejectReason !== '' &&
                                         <div>
                                             <span>Alasan tolak : </span>
-                                            <p>{data.rejectReason}</p>
+                                            <p>{data.Record.rejectReason}</p>
                                         </div>
                                         }
                                         <div className="detail-btn">
-                                            <Link to={`/detail-transaksi/${data.id}`}>Lihat Detail</Link>
+                                            <Link to={`/detail-transaksi/${data.Record.id}`}>Lihat Detail</Link>
                                         </div>
                                     </div>
                                 </div>
