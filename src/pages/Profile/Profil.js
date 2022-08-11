@@ -37,7 +37,7 @@ function Profil() {
             <div className="bottom-profile">
               <div className="profile-detail">
                 <p>Username</p>
-                <p>{profile.userName}</p>
+                <p>{profile.username}</p>
               </div>
               <div className="profile-detail">
                 <p>Email</p>
