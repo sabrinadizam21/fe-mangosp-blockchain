@@ -199,6 +199,10 @@ export const UserProvider = props => {
             Cookies.set('chaincodeName', 'manggach2_cc', {expires: 1})
             Cookies.set('channelName', 'channel2', {expires: 1})
           }
+          else {
+            Cookies.set('chaincodeName', 'manggach1_cc', {expires: 1})
+            Cookies.set('channelName', 'channel1', {expires: 1})
+          }
       }).catch((res)=>{
           alert("Terjadi kesalahan silahkan login kembali")
           console.log(res)

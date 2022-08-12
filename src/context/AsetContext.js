@@ -12,6 +12,12 @@ export const AsetProvider = props => {
     const [ getIdBenih, setGetIdBenih ] = useState('')
     const [ getIdMangga, setGetIdMangga ] = useState('')
     const [ getIdTx2, setGetIdTx2 ] = useState('')
+    const [dataTrxKeluarPending, setDataTrxKeluarPending] = useState([]) 
+    const [dataTrxKeluarFailed, setDataTrxKeluarFailed] = useState([]) 
+    const [dataTrxKeluarSuccess, setDataTrxKeluarSuccess] = useState([]) 
+    const [dataTrxMasukPending, setDataTrxMasukPending] = useState([]) 
+    const [dataTrxMasukFailed, setDataTrxMasukFailed] = useState([]) 
+    const [dataTrxMasukSuccess, setDataTrxMasukSuccess] = useState([]) 
     const [ inputTrx, setInputTrx ] = useState([
         {   id : '', 
             benihID : 0, 
@@ -52,7 +58,8 @@ export const AsetProvider = props => {
             isRejected : '', 
             rejectReason : ''}
     ])
-    const [aset, setAset] = useState([])
+    const [ aset, setAset ] = useState([])
+    const [ detail, setDetail ] = useState([])
     const chaincodeName = Cookies.get('chaincodeName')
     const channelName = Cookies.get('channelName')
     const header = {
@@ -101,12 +108,6 @@ export const AsetProvider = props => {
     }
     
     //======================== START FILTER ASET ========================//
-    const [dataTrxKeluarPending, setDataTrxKeluarPending] = useState([]) 
-    const [dataTrxKeluarFailed, setDataTrxKeluarFailed] = useState([]) 
-    const [dataTrxKeluarSuccess, setDataTrxKeluarSuccess] = useState([]) 
-    const [dataTrxMasukPending, setDataTrxMasukPending] = useState([]) 
-    const [dataTrxMasukFailed, setDataTrxMasukFailed] = useState([]) 
-    const [dataTrxMasukSuccess, setDataTrxMasukSuccess] = useState([]) 
     // Data Transaksi Masuk atau Keluar
     const showDataFiltered = (datas) => {
         // Filter Status transaksi
@@ -154,10 +155,9 @@ export const AsetProvider = props => {
         .catch((err) => alert(err))
     }
     
-    const [ mangga, setMangga ] = useState([])
-    const getManggaById = async (idAset) => {
+    const getManggaDetailById = async (idAset) => {
         const role = Cookies.get('role').toLowerCase()
-        await axios({
+        axios({
             method : 'get',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
             headers : header,
@@ -170,8 +170,8 @@ export const AsetProvider = props => {
             const data = res.data.result
             console.log(data)
             //history.push('/aset')
-           mangga.push(data)
-            console.log(mangga)
+            setDetail(data)
+            console.log(detail)
         }).catch((err) => console.log(err))
     }
     // Transaksi Keluar
@@ -304,9 +304,30 @@ export const AsetProvider = props => {
         })
         .catch((err) => console.log(err))
     }
+    
+    const [dataTrxKeluarCh2, setDataTrxKeluarCh2] = useState([])
+    const trxKeluarCh2 = async() => {
+        const username = Cookies.get('username')
+        const role = Cookies.get('role').toLowerCase()
+        axios.get(`http://localhost:4000/channels/channel2/chaincodes/manggach2_cc`,{
+            headers : header,
+            params : {
+                peer : "peer0." + role + ".example.com",
+                fcn  : "GetManggaForQuery",
+                args : '["' + 
+                            '{\\"selector\\":{\\"namaPengirim\\":\\"' + username + '\\"' + "}}" + 
+                        '"]'
+            }
+        })
+        .then((res)=>{
+            let response = res.data.result
+            setDataTrxKeluarCh2(response)
+        })
+        .catch((err) => alert(err))
+    }
     const functionGet = {
-        getAset, getManggaById, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
-        trxMasukPending, trxMasukFailed, trxMasukSuccess
+        getAset, getManggaDetailById, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
+        trxMasukPending, trxMasukFailed, trxMasukSuccess, trxKeluarCh2, dataTrxKeluarCh2
     }
     //======================== END GET DATA ========================//
 
@@ -314,11 +335,13 @@ export const AsetProvider = props => {
     //======================== START TRANSAKSI PENANGKAR ========================//
     const [checked, setChecked] = useState([])
     
-    const createTrxPenangkar = async () => {
+    const createTrxPenangkar = async (chaincodeName, channelName) => {
+        const chaincode = chaincodeName
+        const channel = channelName
         const username = Cookies.get('username')
         await axios({
             method : 'post',
-            url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
+            url : `http://localhost:4000/channels/${channel}/chaincodes/${chaincode}`,
             headers : header,
             data : {
                 fcn : "CreateTrxManggaByPenangkar",
@@ -328,8 +351,8 @@ export const AsetProvider = props => {
                     "peer0.org3.example.com",
                     "peer0.org4.example.com",
                 ],
-                chaincodeName: chaincodeName,
-                channelName: channelName,
+                chaincodeName: chaincode,
+                channelName: channel,
                 args: [
                     '{\"namaPenerima\":\"' + inputTrx.namaPenerima + 
                     '\",\"kuantitasBenih\":' + parseInt(inputTrx.kuantitasBenih) + 
@@ -342,11 +365,7 @@ export const AsetProvider = props => {
             }
         })
         .then((res)=>{
-            console.log(res.data)
-            let idTrx = res.data.result.result.txid
-            console.log(res.data)
-            console.log(idTrx)
-            Cookies.remove('idTrx')
+            console.log(res.data.result)
             history.push('/transaksi/keluar')
             //history.push(`/detail-transaksi/${idTrx}`)
         })
@@ -357,7 +376,6 @@ export const AsetProvider = props => {
             varietasBenih : '',
             umurBenih : '',
             hargaBenihPerBuah : '', 
-            isAsset : false, 
             namaPengirim : '', 
             namaPenerima : '', 
             caraPembayaran : []
@@ -656,7 +674,7 @@ export const AsetProvider = props => {
     return(
        <AsetContext.Provider value={{ 
         numberFormat, formatDate, sortData, inputTrx, setInputTrx, checked, setChecked, showDataFiltered,
-        selectedValue, setSelectedValue, dataByRole, statusTrx, mangga, setMangga,
+        selectedValue, setSelectedValue, dataByRole, statusTrx, detail, setDetail,
         createTrxPenangkar, createTrxPetani, createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, 
         tanamBenihPetani, panenPetani, dataAset,         
         functionGet, dataTrxKeluarPending, setDataTrxKeluarPending, dataTrxKeluarFailed, setDataTrxKeluarFailed, 

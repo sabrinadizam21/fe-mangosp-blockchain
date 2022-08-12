@@ -10,16 +10,16 @@ import { AsetContext } from '../../context/AsetContext'
 
 function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { profile, functionUser, error } = useContext(UserContext)
-  const { validateInput, getUserLogin } = functionUser
-  const { 
-    createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagang,
+  const { profile, functionUser, error, allUser } = useContext(UserContext)
+  const { validateInput, getUserLogin, getAllUser } = functionUser
+  const { createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagang,
     checked, setChecked, inputTrx, setInputTrx
   } = useContext(AsetContext)
   const username = Cookies.get('username')
 
   useEffect(()=>{
     getUserLogin(username)
+    getAllUser()
   }, [username]) 
 
   const checkList = ["Bayar Langsung", "Transfer", "E-money", "Lainnya"]
@@ -45,10 +45,18 @@ function TransaksiForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const id = Cookies.get('idTrx')
-    if(profile.role === 'Org1') createTrxPenangkar()
-    else if(profile.role === 'Org2') createTrxPetani(id)
-    else if(profile.role === 'Org3') createTrxPengumpul(id)
-    else if(profile.role === 'Org4') createTrxPedagang(id)
+    let indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(inputTrx.namaPenerima)
+    if(indexOfUserPenerima !== -1){
+      let jalurUserPenerima = allUser[indexOfUserPenerima].jalur
+      if(profile.role === 'Org1') {
+        if(jalurUserPenerima === 1) createTrxPenangkar('manggach1_cc', 'channel1')
+        else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
+      }
+      else if(profile.role === 'Org2') createTrxPetani(id)
+      else if(profile.role === 'Org3') createTrxPengumpul(id)
+      else if(profile.role === 'Org4') createTrxPedagang(id)
+    }
+    else alert('username penerima tidak ditemukan')
     setChecked([])
     setModalOpen(false)
   }  
