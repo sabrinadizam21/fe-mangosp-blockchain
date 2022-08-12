@@ -29,7 +29,7 @@ export const UserProvider = props => {
       password : '',
       confirmPassword : '',
       role: '',
-      jalur: 0
+      jalur: ''
   })
 
   const [error, setError] = useState({
@@ -37,6 +37,8 @@ export const UserProvider = props => {
       password: '',
       confirmPassword: ''
   })
+
+  const [ allUser, setAllUser ] = useState([])
 
   const validateInput = e => {
     let { name, value, placeholder, type } = e.target
@@ -87,55 +89,95 @@ export const UserProvider = props => {
     })
   }
 
-  const functionRegisSubmit = () => {
-    //axios.post(`https://mango-bm.herokuapp.com/api/registrasi`, {
-    axios.post(`http://localhost:4000/register`, {
+  const functionRegisSubmit = async() => {
+    await axios({
+      method : 'post',
+      url : `http://localhost:4000/register`,
+      data : {
+        username: inputData.userName,
+        password: inputData.password,
+        email : inputData.email,
         namaLengkap : inputData.namaLengkap,
-        alamat : inputData.alamat,
         noTelp : inputData.noTelp,
         tglLahir : inputData.tglLahir,
         nik : inputData.nik,
-        email : inputData.email,
-        username : inputData.userName,
-        password : inputData.password,
-        role : inputData.role,
-        jalur : parseInt(inputData.jalur)
-    }).then((e)=>{
-        console.log(e.data)
-        history.push('/login')
+        role :  inputData.role,
+        alamat : inputData.alamat,
+        jalur: inputData.jalur
+      }
+    }).then((res)=>{
+      let response = res.data
+      Cookies.set('token', response.token, {expires : 1})
+      if(response.message.jalur === 1){
+        Cookies.set('chaincodeName', 'manggach1_cc', {expires : 1})
+        Cookies.set('channelName', 'channel1', {expires : 1})
+      }
+      else if(response.message.jalur === 2){
+        Cookies.set('chaincodeName', 'manggach2_cc', {expires : 1})
+        Cookies.set('channelName', 'channel2', {expires : 1})
+      }
+      else if(response.message.jalur === 0){
+        Cookies.set('chaincodeName', 'manggach1_cc', {expires : 1})
+        Cookies.set('channelName', 'channel1', {expires : 1})
+      }
     }).catch((err)=> {
-      let message = err.response.data
-      alert(message.error)
+      console.log(err)
     })
-    
-    const body = {
-      fcn: "CreateUser",
-      peers: [
-          "peer0.penangkar.example.com",
-          "peer0.petani.example.com",
-          "peer0.pengumpul.example.com",
-          "peer0.pedagang.example.com"
-      ],
-      chaincodeName: "manggach1_cc",
-      channelName: "channel1",
-      args: [{
-        namaLengkap : inputData.namaLengkap,
-        alamat : inputData.alamat,
-        noTelp : inputData.noTelp,
-        tglLahir : inputData.tglLahir,
-        nik : inputData.nik,
-        email : inputData.email,
-        username : inputData.userName,
-        password : inputData.password,
-        role : inputData.role,
-        jalur : parseInt(inputData.jalur)
-      }]
-    }
 
-    // axios.post(`http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`, {
-    //   body
-    // })
-    console.log(body)
+    const chaincodeName = await Cookies.get('chaincodeName')
+    const channelName = await Cookies.get('channelName')
+    const token = await 'Bearer ' + Cookies.get('token')
+    await axios({
+      method : 'post',
+      url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
+      headers : {
+        Authorization: token
+      },
+      data : {
+        fcn: "CreateUser",
+        peers: [
+            "peer0.org1.example.com",
+            "peer0.org2.example.com",
+            "peer0.org3.example.com",
+            "peer0.org4.example.com"
+        ],
+        chaincodeName:chaincodeName,
+        channelName: channelName,
+        args: [
+          '{\"noHP\":\"' + inputData.noTelp + 
+          '\",\"email\":\"' + inputData.email + 
+          '\",\"namaLengkap\": \"' + inputData.namaLengkap + 
+          '\",\"username\":\"' + inputData.userName + 
+          '\",\"password\":\"' + inputData.password + 
+          '\",\"tanggalLahir\":\"' + inputData.tglLahir + 
+          '\",\"nik\":' + inputData.nik + 
+          ',\"role\":\"' + inputData.role + 
+          '\",\"alamat\":\"' + inputData.alamat + 
+          '\",\"jalur\":' + parseInt(inputData.jalur) + '}'
+        ]
+      }
+    }).then(async(res) => {
+      console.log(res.data)
+      Cookies.remove('chaincodeName')
+      Cookies.remove('channelName')
+      await Cookies.remove('token')
+      history.push('/login')
+    }).catch((err) => console.log(err))
+
+    
+    setInputData({
+      namaLengkap : '',
+      alamat : '',
+      noTelp : '',
+      tglLahir : '',
+      nik : '',
+      userName : '',
+      email : '',
+      password : '',
+      confirmPassword : '',
+      role: '',
+      jalur: ''
+    })
   }
 
   const getUserLogin = async(username) => {
@@ -150,12 +192,12 @@ export const UserProvider = props => {
           setProfile(profile) 
           Cookies.set('role', profile.role)
           if(profile.jalur === 1) {
-            Cookies.set('chaincodeName', 'manggach1_cc')
-            Cookies.set('channelName', 'channel1')
+            Cookies.set('chaincodeName', 'manggach1_cc', {expires: 1})
+            Cookies.set('channelName', 'channel1', {expires: 1})
           }
           else if (profile.jalur === 2) {
-            Cookies.set('chaincodeName', 'manggach2_cc')
-            Cookies.set('channelName', 'channel2')
+            Cookies.set('chaincodeName', 'manggach2_cc', {expires: 1})
+            Cookies.set('channelName', 'channel2', {expires: 1})
           }
       }).catch((res)=>{
           alert("Terjadi kesalahan silahkan login kembali")
@@ -164,6 +206,9 @@ export const UserProvider = props => {
           Cookies.remove('username')
           Cookies.remove('role')
           Cookies.remove('idTrx')
+          Cookies.remove('username')
+          Cookies.remove('chaincodeName')
+          Cookies.remove('channelName')
           Cookies.set('loginStatus', false)
           window.location.href ='/login'
       })
@@ -191,12 +236,23 @@ export const UserProvider = props => {
   }
 
   const logoutFunction = async() => {
+    Cookies.remove('chaincodeName')
+    Cookies.remove('channelName')
     Cookies.remove('token')
     Cookies.remove('username')
     Cookies.remove('role')
-    Cookies.remove('chaincodeName')
-    Cookies.remove('channelName')
     Cookies.set('loginStatus', false)
+  }
+
+  const getAllUser = async() => {
+    await axios.get(`http://localhost:4000/all`, {
+      headers : {
+        Authorization : 'Bearer ' + Cookies.get('token')
+      }
+    }).then((res) => {
+      let data = res.data.data
+      setAllUser(data)
+    }).catch(err => console.log(err))
   }
     
   const functionUser = {
@@ -204,12 +260,13 @@ export const UserProvider = props => {
       getUserLogin,
       validateInput,
       functionLoginSubmit,
-      logoutFunction
+      logoutFunction,
+      getAllUser
   }
 
   return(
       <UserContext.Provider value={{ 
-          input, setInput, functionUser, inputData, setInputData, 
+          input, setInput, functionUser, inputData, setInputData, allUser, setAllUser,
           profile, setProfile, error, setError, errorMessage, setErrorMessage, changeBtnText,
           buttonText, setButtonText
       }}>

@@ -17,7 +17,6 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault()
     functionRegisSubmit()
-    console.log(inputData)
   }
   return (
     <>
@@ -33,10 +32,10 @@ function Register() {
                 <div className="register__dropdown">
                   <select className='register__role' name="role" id="role" onChange={handleChange} required onBlur={validateInput}>
                     <option value="" selected disabled hidden>Pilih role</option>
-                    <option id="penangkar" value={1}>Penangkar</option>
-                    <option id="petani" value={2}>Petani</option>
-                    <option id="pengumpul" value={3}>Pengumpul</option>
-                    <option id="pedagang" value={4}>Pedagang</option>
+                    <option id="penangkar" value={'Org1'}>Penangkar</option>
+                    <option id="petani" value={'Org2'}>Petani</option>
+                    <option id="pengumpul" value={'Org3'}>Pengumpul</option>
+                    <option id="pedagang" value={'Org4'}>Pedagang</option>
                   </select>
                   {error.role && <span className='err'>Pilih salah satu role</span>}
                 </div>
@@ -78,24 +77,22 @@ function Register() {
                 onChange={handleChange} label='Konfirmasi Password' minLength={6} onBlur={validateInput} 
                 errorMsg={error.confirmPassword} />
                 
-                {inputData.role != 1 && inputData.role !='' ? 
+                {inputData.role !== 'Org1' && inputData.role !== '' ? 
                   <div>
                     <p>Skala Transaksi Anda<span style={{color: 'red'}}>*</span> </p>
                     <div>
                       <label>
-                        <input type="radio" name="jalur" id="pedagangBesar" value={1} onChange={handleChange} required/> Lintas Provinsi
+                        <input type="radio" name="jalur" id="skalaBesar" value={1} onChange={handleChange} required/> Lintas Provinsi
                       </label>
                     </div>
                     <div>
                       <label>
-                        <input type="radio" name="jalur" id="pedagangKecil" value={2} onChange={handleChange} /> Lintas daerah
+                        <input type="radio" name="jalur" id="skalaKecil" value={2} onChange={handleChange} /> Lintas Kab/Kota
                       </label>
                     </div>
                   </div>
                 : 
-                <>
-                  <input type="number" name='jalur' id='Semua' onChange={handleChange} value={0} required hidden /> 
-                </>
+                  <input className='jalur' type="radio" name='jalur' id='semua' onChange={handleChange} value={inputData.jalur = '0'}  hidden /> 
                 }
                 <input type="submit" value={'REGISTER'} className="btn-link" 
                 disabled={!inputData.namaLengkap || !inputData.alamat || !inputData.noTelp || !inputData.tglLahir || 
