@@ -58,22 +58,29 @@ function ListAsetTransaksi() {
                                                 </div>
                                                 <div className='card-name-and-status' style={{width : '100%'}}>
                                                     <b>{data.Record.varietasBenih}</b>
-                                                    {Cookies.get('role') === 'Org1' ? 
-                                                    <p className="status">{numberFormat(data.Record.kuantitasBenih)}</p>
-                                                    :
-                                                    <p className="status">{numberFormat(data.Record.kuantitasManggaKg)} Kg</p>
-                                                    }
                                                 </div>
                                             </div>
                                             <div className="card__body">
                                                 <div className="quantity-value">
                                                     <div className="quantity">
-                                                        <span>Umur Benih</span>
-                                                        <p>{numberFormat(data.Record.umurBenih)}</p>
+                                                        <span>Kuantitas</span>
+                                                        {Cookies.get('role') === 'Org1' ? 
+                                                            <p>{numberFormat(data.Record.kuantitasBenih)}</p>
+                                                            :
+                                                            <p>{numberFormat(data.Record.kuantitasManggaKg)} Kg</p>
+                                                        }
                                                     </div>
                                                     <div className="value">
-                                                        <span>Tanggal Panen</span>
-                                                        <p>{formatDate(data.Record.tanggalPanen)}</p>
+                                                    { Cookies.get('role') === 'Org2' ?
+                                                        <>
+                                                            <span>Tanggal Panen</span>
+                                                            <p>{formatDate(data.Record.tanggalPanen)}</p> 
+                                                        </>: 
+                                                        <>
+                                                            <span>Tanggal Masuk</span>
+                                                            <p>{formatDate(data.Record.tanggalMasuk)}</p> 
+                                                        </>
+                                                    }
                                                     </div>
                                                 </div>
                                             </div>
