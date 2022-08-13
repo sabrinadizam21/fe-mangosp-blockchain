@@ -54,8 +54,7 @@ function TransaksiForm() {
       }
       else if(profile.role === 'Org2') createTrxPetani(id)
       else if(profile.role === 'Org3') createTrxPengumpul(id)
-      else if(profile.role === 'Org4') createTrxPedagang(id)
-    }
+    }else if(profile.role === 'Org4') createTrxPedagang(id)
     else alert('username penerima tidak ditemukan')
     setChecked([])
     setModalOpen(false)

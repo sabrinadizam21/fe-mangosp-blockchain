@@ -13,29 +13,29 @@ export const UserProvider = props => {
   
   // Input login
   const [input, setInput] = useState({
-      userName :'', 
-      password : ''
+    userName :'', 
+    password : ''
   })
 
   // Input for registration
   const [ inputData, setInputData ] = useState({
-      namaLengkap : '',
-      alamat : '',
-      noTelp : '',
-      tglLahir : '',
-      nik : '',
-      userName : '',
-      email : '',
-      password : '',
-      confirmPassword : '',
-      role: '',
-      jalur: ''
+    namaLengkap : '',
+    alamat : '',
+    noTelp : '',
+    tglLahir : '',
+    nik : '',
+    userName : '',
+    email : '',
+    password : '',
+    confirmPassword : '',
+    role: '',
+    jalur: ''
   })
 
   const [error, setError] = useState({
-      username: '',
-      password: '',
-      confirmPassword: ''
+    username: '',
+    password: '',
+    confirmPassword: ''
   })
 
   const [ allUser, setAllUser ] = useState([])
@@ -43,16 +43,16 @@ export const UserProvider = props => {
   const validateInput = e => {
     let { name, value, placeholder, type } = e.target
     setError(prev => {
-    const stateObj = { ...prev, [name]: "" }
-    if (!value) {
-        stateObj[name] = `${placeholder} tidak boleh kosong.`
-    }
-
-    if(type === 'number'){
-      if(!/[^a-z]/i.test(value)){
-        stateObj[name] = `${placeholder} harus berisi angka.`
+      const stateObj = { ...prev, [name]: "" }
+      if (!value) {
+          stateObj[name] = `${placeholder} tidak boleh kosong.`
       }
-    }
+
+      if(type === 'number'){
+        if(!/[^a-z]/i.test(value)){
+          stateObj[name] = `${placeholder} harus berisi angka.`
+        }
+      }
       switch (name) {
               
         case "password":
@@ -76,11 +76,15 @@ export const UserProvider = props => {
           break
 
         case "nik":
-            if(value.length !== 16) {
-                stateObj[name] = "Panjang NIK harus 16 karakter."
-            }
-            break
-    
+          if(value.length !== 16) {
+              stateObj[name] = "Panjang NIK harus 16 karakter."
+          }
+          break
+        
+        case "namaPenerima":
+          if(value === Cookies.get('username')) stateObj[name] = "Tidak bisa mengirim ke akun sendiri"
+          break
+
         default:
           break
       }

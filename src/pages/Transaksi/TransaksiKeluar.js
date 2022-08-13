@@ -66,7 +66,7 @@ function TransaksiKeluar() {
                                                     <p>{data.Record.namaPenerima}</p>
                                                 }
                                             </div>
-                                            {Cookies.get('role') === 'Org1' || Cookies.get('role') === 'Org2' ? 
+                                            {Cookies.get('role') === 'Org1' ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
