@@ -14,7 +14,7 @@ function TransaksiKeluar() {
     trxKeluarPending()
     trxKeluarFailed()
     trxKeluarSuccess()
-    trxKeluarCh2()
+    if(Cookies.get('role') === 'Org1') trxKeluarCh2()
   },[])
 
   const handleFilterInput = (event) => {

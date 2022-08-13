@@ -315,7 +315,7 @@ export const AsetProvider = props => {
                 peer : "peer0." + role + ".example.com",
                 fcn  : "GetManggaForQuery",
                 args : '["' + 
-                            '{\\"selector\\":{\\"namaPengirim\\":\\"' + username + '\\"' + "}}" + 
+                            '{\\"selector\\":{\\"namaPengirim\\":\\"' + username + '\\",\\"isAsset\\":false' + "}}" + 
                         '"]'
             }
         })

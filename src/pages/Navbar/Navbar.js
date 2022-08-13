@@ -1,7 +1,6 @@
 import { React, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { FaBars, FaTimes } from 'react-icons/fa'
-import { MdFingerprint } from 'react-icons/md'
 import { Button } from '../../components/Button'
 import './Navbar.css'
 import { UserContext } from '../../context/UserContext'
@@ -10,6 +9,8 @@ import Cookies from 'js-cookie';
 function Navbar() {
   const [click, setClick] = useState(false)
   const [button, setButton] = useState(true)
+  const { functionUser } = useContext(UserContext)
+  const { logoutFunction } = functionUser
   const handleClick = () => setClick(!click)
   const closeMobileMenu = () => setClick(false)
   const showButton = () => {
@@ -22,14 +23,9 @@ function Navbar() {
   }
   window.addEventListener('resize', showButton);
   
-  const { setLoginStatus } = useContext(UserContext)
 
   const handleLogout = async () => {
-    Cookies.remove('token')
-    Cookies.remove('username')
-    Cookies.remove('role')
-    //await setLoginStatus(false)
-    Cookies.set('loginStatus', false)
+    logoutFunction()
     window.location.href ='/login'
   }
   
@@ -39,7 +35,7 @@ function Navbar() {
         <div className='navbar'>
           <div className='navbar-container container'>
             <Link to='/' className="navbar-logo" onClick={closeMobileMenu}>
-              <MdFingerprint className='navbar-icon' /> MangoSP
+              BMango
             </Link>
             <div className="menu-icon" onClick={handleClick}>
               {click ? <FaTimes/> : <FaBars />}
@@ -50,9 +46,11 @@ function Navbar() {
               </li>
               { Cookies.get('token') !== undefined && (
               <>
-                <li className="nav-item">
-                  <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
-                </li>
+                {Cookies.get('role') !== 'Org1' && 
+                  <li className="nav-item">
+                    <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
+                  </li>
+                }
                 <li className="nav-item">
                 <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
                 {/* <div class="dropdown">
