@@ -33,7 +33,7 @@ function ListAsetTransaksi() {
   },[username])
   
   var dataAsetPetani = dataByRole(dataAset).filter(data => data.Record.isPanen === true)
-  var data = (role === 'Org2' ? dataAsetPetani : role === 'Org1' ? dataByRole(dataAset) : dataTrxMasukSuccess)
+  var data = (role === 'Org2' ? dataAsetPetani : dataByRole(dataTrxMasukSuccess))
 
   return (
     <>
