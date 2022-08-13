@@ -631,10 +631,8 @@ export const AsetProvider = props => {
             headers : header,
             data : body
         }).then((res) => {
-            let data = res.data.result
-            const idTrx =  Cookies.get('idTrx')
-            Cookies.remove("idTrx")
-            history.push(`/detail-transaksi/${idTrx}`)
+            let idTrx = res.data.result.result.txid
+            window.location.href =  `/detail-transaksi/${idTrx}`
         }).catch((err) => console.log(err))
         
         setInputTrx({
@@ -653,9 +651,7 @@ export const AsetProvider = props => {
             ],
             chaincodeName: chaincodeName,
             channelName: channelName,
-            args: [
-                trxID
-            ]
+            args: [ trxID ]
         }
         axios({
             method : 'post',
@@ -663,10 +659,8 @@ export const AsetProvider = props => {
             headers : header,
             data : body
         }).then((res) => {
-            let data = res.data.result
-            const idTrx =  Cookies.get('idTrx')
-            Cookies.remove("idTrx")
-            history.push(`/detail-transaksi/${idTrx}`)
+            let idTrx = res.data.result.result.txid
+            window.location.href =  `/detail-transaksi/${idTrx}`
         }).catch((err) => console.log(err))
     }
     //======================== END CONFIRM/REJECT TRANSAKSI ========================//
