@@ -249,6 +249,11 @@ export const UserProvider = props => {
     Cookies.remove('token')
     Cookies.remove('username')
     Cookies.remove('role')
+    Cookies.remove('idBenih')
+    Cookies.remove('idTx1')
+    Cookies.remove('idMangga')
+    Cookies.remove('idTx2')
+    Cookies.remove('idTx3')
     Cookies.set('loginStatus', false)
   }
 

@@ -67,19 +67,22 @@ export const AsetProvider = props => {
     }
 
     const formatDate = (x) => {
-        if (x.toString().length < 12) { x = x*1000 }
-        const date = new Date(x)
-        const day = date.toLocaleString('default', {day: 'numeric'})
-        const month = date.toLocaleString('default', {month: 'long'})
-        const year = date.toLocaleString('default', {year: 'numeric'})
-        const hour = date.toLocaleString('default', {hour : 'numeric', minute : 'numeric', hour12 : false})
-        return day + ' ' + month + ' ' + year + ' - ' + hour
+        if(x !== undefined){
+            if (x.toString().length < 12) { x = x*1000 }
+            const date = new Date(x)
+            const day = date.toLocaleString('default', {day: 'numeric'})
+            const month = date.toLocaleString('default', {month: 'long'})
+            const year = date.toLocaleString('default', {year: 'numeric'})
+            const hour = date.toLocaleString('default', {hour : 'numeric', minute : 'numeric', hour12 : false})
+            return day + ' ' + month + ' ' + year + ' - ' + hour
+        }
     }
 
     const sortData = (data) => data.sort((a,b) => (a.tanggalTransaksi < b.tanggalTransaksi) ? 1 : -1)
     
     function numberFormat(number){
-        return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+        if(number !== undefined)
+            return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
     }
     
     // Cari index di array pada data aset

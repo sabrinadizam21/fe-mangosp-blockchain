@@ -14,35 +14,76 @@ import { UserContext } from '../../context/UserContext'
 import { Input } from '../../components/Input'
 import Cookies from 'js-cookie'
 import SpeechBubble from '../../components/SpeechBubble'
+import axios from 'axios'
 
 function DetailTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
   const [bubbleOpen, setBubbleOpen] = useState(true)
   const [modalRejectOpen, setModalRejectOpen] = useState(false)
-  const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
-  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet, mangga,
-    } = useContext(AsetContext)
-  const { getManggaById } = functionGet
+
+  const [ data, setData ] = useState([])
+  const [ petaniTrx, setPetaniTrx ] = useState([])
+  const [ tanamBenih, setTanamBenih ] = useState([])
+  const [ penangkarTrx, setPenangkarTrx ] = useState([])
+  const [ pengumpulTrx, setPengumpulTrx ] = useState([])
+  const [ text, setText ] = useState('')
+
+  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx } = useContext(AsetContext)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
+
   const role = Cookies.get('role')
+  const chaincodeName = Cookies.get('chaincodeName')
+  const channelName = Cookies.get('channelName')
+  
   const { idTrx } = useParams()
 
-//   useEffect(()=>{
-
-// },[])
-  const test = async() => {
-    await getManggaById(idTrx)
-    //console.log(mangga)
+  const getManggaDetailById = async (idAset, order) => {
+    const role = Cookies.get('role').toLowerCase()
+    await axios({
+      method : 'get',
+      url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
+      headers : {
+        Authorization : 'Bearer ' + Cookies.get('token')
+      } ,
+      params : {
+          peer : "peer0." + role + ".example.com",
+          fcn  : "GetManggaByID",
+          args : '["' + idAset + '"]'
+      }
+    }).then(async(res)=>{ 
+      const response = res.data.result
+      if(order === 0) {
+        await setData(response)
+        Cookies.set('idMangga', response.manggaID)
+        Cookies.set('idTx2', response.txID2)
+        Cookies.set('idTx1', response.txID1)
+        Cookies.set('idTx3', response.txID3)
+        Cookies.set('idBenih', response.benihID)
+      }
+      else if(order === 1) setPenangkarTrx(response)
+      else if(order === 2) setTanamBenih(response)
+      else if(order === 3) setPetaniTrx(response)
+      else if(order === 4) setPengumpulTrx(response)
+    }).catch((err) => console.log(err))
   }
 
-  test()
+  const idBenih = Cookies.get('idBenih')
+  const idMangga = Cookies.get('idMangga')
+  const idTx2 = Cookies.get('idTx2')
+  const idTx1 = Cookies.get('idTx1')
+  const idTx3 = Cookies.get('idTx3')
 
-  const data = mangga[0]
-  console.log(data)
-  const idBenih = data.benihID
-  const idMangga = data.manggaID
-  const idTx2 = data.txID2
+  useEffect(()=>{    
+    const getDetail = async() => {
+      await getManggaDetailById(idTrx, 0)
+      await getManggaDetailById(idTx1, 1)
+      await getManggaDetailById(idMangga, 2)
+      await getManggaDetailById(idTx2, 3)
+      await getManggaDetailById(idTx3, 4)
+    }
+    getDetail()
+  },[])
   
   const handleChange = (event) => {
     const id_QR = event.target.value
@@ -66,7 +107,6 @@ function DetailTransaksi() {
     else if (role === 'Org4') rejectTrx(idTrx, idTx2, data.kuantitasManggaKg)
     setModalRejectOpen(false)
     validateInput(e)
-    console.log(aset)
   }
 
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
@@ -103,7 +143,7 @@ function DetailTransaksi() {
                     } 
                     cancelBtn ={'TUTUP'}
                     processBtn={
-                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} download>Unduh QR Code</a>
+                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} download target={'_blank'} rel="noreferrer">Unduh QR Code</a>
                     }
                   />
                 }
@@ -140,7 +180,14 @@ function DetailTransaksi() {
                   </div>
                   <div className="status-trx">
                     {statusTrx(data.isConfirmed, data.isRejected)}
-                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp">
+                      {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                        formatDate(data.tanggalTanam) : 
+                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                        formatDate(data.tanggalPanen) :
+                        formatDate(data.tanggalTransaksi)
+                      }
+                    </p>
                   </div>
                 </div>
                 {pendingCondition && <>
@@ -172,25 +219,22 @@ function DetailTransaksi() {
                   <div className="timeline-title">Timeline</div>
                   <div className="timeline-content">
                     { data.txID4 !== '' &&
-                      <Timeline title={'Pedagang menjual mangga'} data={aset[elementPos(data.txID4)]} />
+                      <Timeline title={'Pedagang menjual mangga'} data={data} />
                     }
                     { data.txID3 !== '' &&
-                      <Timeline title={'Pengumpul menjual mangga'} data={aset[elementPos(data.txID3)]} />
+                      <Timeline title={'Pengumpul menjual mangga'} data={pengumpulTrx} />
                     }
                     { data.txID2 !== '' &&
-                      <Timeline title={'Petani menjual mangga'} data={aset[elementPos(data.txID2)]} />
+                      <Timeline title={'Petani menjual mangga'} data={petaniTrx} />
                     } 
                     { data.kuantitasManggaKg !== 0 && data.manggaID !== '' &&
-                      <Timeline title={'Petani memanen mangga'} data={aset[elementPos(data.manggaID)]} />
+                      <Timeline title={'Petani memanen mangga'} data={tanamBenih} />
                     }
                     { data.pupuk !== '' && data.manggaID !== '' &&
-                      <Timeline title={'Petani menanam benih'} data={aset[elementPos(data.manggaID)]} />
-                    } 
+                      <Timeline title={'Petani menanam benih'} data={tanamBenih} />
+                    }                      
                     { data.txID1 !== '' &&
-                      <Timeline title={'Penangkar menjual benih'} data={aset[elementPos(data.txID1)]} />
-                    }
-                    { data.benihID !== '' &&
-                      <Timeline title={'Penangkar mendaftarkan benih'} data={aset[elementPos(data.benihID)]} />
+                      <Timeline title={'Penangkar menjual benih'} data={penangkarTrx} />
                     }
                   </div>
                 </div>

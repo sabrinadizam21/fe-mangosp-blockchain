@@ -5,7 +5,7 @@ import { AsetContext } from '../context/AsetContext'
 
 function Timeline({
     title,
-    data
+    data,
 }) {
   const [modalDetTrxOpen, setModalDetTrxOpen] = useState(false)
   const { formatDate } = useContext(AsetContext)
@@ -20,7 +20,12 @@ function Timeline({
                     <b>{title}</b>              
                 </div>
                 <div className="timeline-card__body">
-                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp"> 
+                    { data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                        formatDate(data.tanggalTanam) : 
+                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                        formatDate(data.tanggalPanen) :
+                        formatDate(data.tanggalTransaksi)}</p>
                 </div>
                 <div className="timeline-card__bottom">
                     <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true) }}>Lihat Detail</button>

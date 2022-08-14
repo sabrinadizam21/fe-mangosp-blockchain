@@ -11,16 +11,18 @@ function ModalDetTrx({
   const { formatDate, numberFormat } = useContext(AsetContext)
   const createBenih = [
     {atribute : "Varietas", value : data.varietasBenih},
-    {atribute : "Umur Benih", value : data.umurBenih + ' Bulan'},
+    {atribute : "Umur Benih", value : data.umurBenih},
     {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih) + ' Kg'},
     {atribute : "Penangkar", value : data.namaPengirim},
   ]
   const trxByPenangkar = [
+    {atribute : "Varietas", value : data.varietasBenih},
+    {atribute : "Umur Benih", value : data.umurBenih},
     {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih) + ' Kg'},
     {atribute : "Harga Benih Kg", value : 'Rp' + numberFormat(data.hargaBenihPerBuah)},
     {atribute : "Cara Pembayaran", value : data.caraPembayaran},
-    {atribute : "Pengirim", value : data.namaPengirim},
-    {atribute : "Penerima", value : data.namaPenerima},
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Pembeli", value : data.namaPenerima},
   ]
   const tanamBenih = [
     {atribute : "Petani", value : data.namaPengirim},
@@ -31,7 +33,7 @@ function ModalDetTrx({
   ]
   const panenMangga = [
     {atribute : "Petani", value : data.namaPengirim},
-    {atribute : "Kuantitas Mangga", value : data.kuantitasManggaKg + ' Kg'},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
     {atribute : "Ukuran", value : data.ukuran},
     {atribute : "Pestisida", value : data.pestisida},
     {atribute : "Kadar Air", value : data.kadarAir + '%'},
@@ -39,16 +41,16 @@ function ModalDetTrx({
     {atribute : "Produktivitas", value : data.produktivitas},
   ]
   const trxByPetani = [
-    {atribute : "Pengirim", value : data.namaPengirim},
-    {atribute : "Penerima", value : data.namaPenerima},
-    {atribute : "Kuantitas Mangga", value : data.kuantitasManggaKg + ' Kg'},
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Pembeli", value : data.namaPenerima},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
     {atribute : "Harga Mangga /Kg", value : 'Rp' + numberFormat(data.hargaManggaPerKg)},
     {atribute : "Cara Pembayaran", value : data.caraPembayaran},
   ]
   const trxByPengumpul = [
-    {atribute : "Pengirim", value : data.namaPengirim},
-    {atribute : "Penerima", value : data.namaPenerima},
-    {atribute : "Kuantitas Mangga", value : data.kuantitasManggaKg + ' Kg'},
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Pembeli", value : data.namaPenerima},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
     {atribute : "Harga Mangga /Kg", value : 'Rp' + numberFormat(data.hargaManggaPerKg)},
     {atribute : "Teknik Sorting", value : data.teknikSorting},
     {atribute : "Metode Pengemasan", value : data.metodePengemasan},
@@ -56,23 +58,20 @@ function ModalDetTrx({
     {atribute : "Cara Pembayaran", value : data.caraPembayaran},
   ]
   const trxByPedagang = [
-    {atribute : "Pengirim", value : data.namaPengirim},
-    {atribute : "Penerima", value : data.namaPenerima},
-    {atribute : "Kuantitas Mangga", value : data.kuantitasManggaKg + ' Kg'},
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
     {atribute : "Harga Mangga /Kg", value : 'Rp' + numberFormat(data.hargaManggaPerKg)},
     {atribute : "Teknik Sorting", value : data.teknikSorting},
     {atribute : "Metode Pengemasan", value : data.metodePengemasan},
     {atribute : "Pengangkutan", value : data.pengangkutan},
-    {atribute : "Cara Pembayaran", value : data.caraPembayaran},
   ]
 
-  const detailData = data.txID4 !== '' ? trxByPedagang :
-                    data.txID3 !== '' ? trxByPengumpul :
-                    data.txID2 !== '' ? trxByPetani :
-                    data.manggaID !== '' && data.pupuk !== '' ? tanamBenih : 
-                    data.manggaID !== '' && data.kuantitasManggaKg !== 0 ? panenMangga :
-                    data.txID1 !== '' ? trxByPenangkar :
-                    data.benihID !== '' ? createBenih : ''
+  const detailData = modalDetTrxTitle === 'Pedagang menjual mangga' ? trxByPedagang :
+                    modalDetTrxTitle === 'Pengumpul menjual mangga' ? trxByPengumpul :
+                    modalDetTrxTitle === 'Petani menjual mangga' ? trxByPetani :
+                    modalDetTrxTitle === 'Petani memanen mangga' ? panenMangga  : 
+                    modalDetTrxTitle === 'Petani menanam benih' ? tanamBenih :
+                    modalDetTrxTitle === 'Penangkar menjual benih' ? trxByPenangkar : ''
   return (
     <div className="modal__background">
       <div className="modal__container">

@@ -35,9 +35,8 @@ function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let idTrx = dataQR.text
-    console.log(idTrx)
-    history.push(`/detail-transaksi/${idTrx}`)
+    let idTrx = dataQR
+    window.location.href = `/detail-transaksi/${idTrx}`
   }
 
   const handleError = (error) => {
