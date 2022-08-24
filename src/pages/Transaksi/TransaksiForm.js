@@ -22,7 +22,7 @@ function TransaksiForm() {
     getAllUser()
   }, [username]) 
 
-  const checkList = ["Bayar Langsung", "Transfer", "E-money", "Lainnya"]
+  const checkList = ["Tunai", "Transfer", "E-money", "Lainnya"]
 
   const handleCheck = (event) => {
     var updatedList = [...checked]
@@ -48,13 +48,24 @@ function TransaksiForm() {
     let indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(inputTrx.namaPenerima)
     if(indexOfUserPenerima !== -1){
       let jalurUserPenerima = allUser[indexOfUserPenerima].jalur
+      let rolePenerima = allUser[indexOfUserPenerima].role
       if(profile.role === 'Org1') {
-        if(jalurUserPenerima === 1) createTrxPenangkar('manggach1_cc', 'channel1')
-        else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
+        if(rolePenerima === 'Org2'){
+          if(jalurUserPenerima === 1)createTrxPenangkar('manggach1_cc', 'channel1')
+          else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
+        }
+        else alert('Penerima harus petani')
       }
-      else if(profile.role === 'Org2') createTrxPetani(id)
-      else if(profile.role === 'Org3') createTrxPengumpul(id)
-    }else if(profile.role === 'Org4') createTrxPedagang(id)
+      else if(profile.role === 'Org2'){
+        if(rolePenerima === 'Org3') createTrxPetani(id)
+        else alert('Penerima harus pengumpul')
+      }
+      else if(profile.role === 'Org3') {
+        if(rolePenerima === 'Org4') createTrxPengumpul(id)
+        else alert('Penerima harus pedagang')
+      }
+    }
+    else if(profile.role === 'Org4') createTrxPedagang(id)
     else alert('username penerima tidak ditemukan')
     setChecked([])
     setModalOpen(false)
@@ -97,7 +108,7 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden required/>
                   </div>
                 </>
               </UnlockAccess>
@@ -121,7 +132,7 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden required/>
                   </div>
                 </>
               </UnlockAccess>
@@ -154,7 +165,7 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden required/>
                   </div>
                 </>
               </UnlockAccess>
@@ -184,7 +195,7 @@ function TransaksiForm() {
                         <span className={isChecked(item)}>{item}</span>
                       </div>
                     ))}
-                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden />
+                    <input type="text" name='caraPembayaran' value={inputTrx.caraPembayaran = checked} onChange={handleChange} hidden required/>
                   </div>
                 </>
               </UnlockAccess>             

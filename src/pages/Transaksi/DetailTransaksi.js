@@ -1,14 +1,14 @@
 import React, {useContext, useState, useEffect} from 'react'
-import { MdQrCodeScanner } from "react-icons/md"
-import { GiSeedling, GiFarmer, GiShop } from "react-icons/gi"
-import { HiOutlineArrowNarrowRight } from "react-icons/hi"
-import { FaWarehouse } from "react-icons/fa"
-import { MdContentCopy } from "react-icons/md"
+import { MdQrCodeScanner } from 'react-icons/md'
+import { GiSeedling, GiFarmer, GiShop } from 'react-icons/gi'
+import { HiOutlineArrowNarrowRight } from 'react-icons/hi'
+import { FaWarehouse } from 'react-icons/fa'
+import { MdContentCopy } from 'react-icons/md'
 import './DetailTransaksi.css'
 import Modal from '../../components/Modal'
 import Timeline from '../../components/Timeline'
 import { AsetContext } from '../../context/AsetContext'
-import { useParams } from "react-router"
+import { useParams, useHistory } from 'react-router'
 import { Button } from '../../components/Button'
 import { UserContext } from '../../context/UserContext'
 import { Input } from '../../components/Input'
@@ -28,7 +28,8 @@ function DetailTransaksi() {
   const [ pengumpulTrx, setPengumpulTrx ] = useState([])
   const [ text, setText ] = useState('')
 
-  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx } = useContext(AsetContext)
+  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet } = useContext(AsetContext)
+  const { getDetailForCommon } = functionGet
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
 
@@ -37,53 +38,96 @@ function DetailTransaksi() {
   const channelName = Cookies.get('channelName')
   
   const { idTrx } = useParams()
+  let history = useHistory()
 
-  const getManggaDetailById = async (idAset, order) => {
-    const role = Cookies.get('role').toLowerCase()
-    await axios({
-      method : 'get',
-      url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
-      headers : {
-        Authorization : 'Bearer ' + Cookies.get('token')
-      } ,
-      params : {
-          peer : "peer0." + role + ".example.com",
-          fcn  : "GetManggaByID",
-          args : '["' + idAset + '"]'
-      }
-    }).then(async(res)=>{ 
-      const response = res.data.result
-      if(order === 0) {
-        await setData(response)
-        Cookies.set('idMangga', response.manggaID)
-        Cookies.set('idTx2', response.txID2)
-        Cookies.set('idTx1', response.txID1)
-        Cookies.set('idTx3', response.txID3)
-        Cookies.set('idBenih', response.benihID)
-      }
-      else if(order === 1) setPenangkarTrx(response)
-      else if(order === 2) setTanamBenih(response)
-      else if(order === 3) setPetaniTrx(response)
-      else if(order === 4) setPengumpulTrx(response)
-    }).catch((err) => console.log(err))
+  const getManggaDetailById = async (idAset) => {
+    if(Cookies.get('role') !== undefined) var role = Cookies.get('role')
+    else var role = 'org1'
+    try {
+      const response = await axios({
+        method : 'get',
+        url : `http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,
+        params : {
+            peer : "peer0." + role + ".example.com",
+            fcn  : "GetManggaByID",
+            args : '["' + idAset + '"]'
+        }
+      })
+      return response.data.result
+    } catch (error) {
+      console.log(error.response.data.result)
+      alert("ID transaksi tidak ditemukan")
+      history.goBack()
+    }
   }
 
-  const idBenih = Cookies.get('idBenih')
-  const idMangga = Cookies.get('idMangga')
-  const idTx2 = Cookies.get('idTx2')
-  const idTx1 = Cookies.get('idTx1')
-  const idTx3 = Cookies.get('idTx3')
-
-  useEffect(()=>{    
-    const getDetail = async() => {
-      await getManggaDetailById(idTrx, 0)
-      await getManggaDetailById(idTx1, 1)
-      await getManggaDetailById(idMangga, 2)
-      await getManggaDetailById(idTx2, 3)
-      await getManggaDetailById(idTx3, 4)
+  useEffect(()=>{
+    if(Cookies.get('username') === undefined ){
+      getDetailForCommon(idTrx).then((res) => {
+        console.log(res)
+        setData(res)
+        if(data.txID1 !== '') {
+          getDetailForCommon(idTrx).then((res)=>{
+            setPenangkarTrx(res)
+          })
+        }
+        if(data.manggaID !== '') {
+          getDetailForCommon(idTrx).then((res)=>{
+            setTanamBenih(res)
+          })
+        }
+        if(data.txID2 !== '') {
+          getDetailForCommon(idTrx).then((res)=>{
+            setPetaniTrx(res)
+          })
+        }
+        if(data.txID3 !== '') {
+          getDetailForCommon(idTrx).then((res)=>{
+            setPengumpulTrx(res)
+          })
+        }
+      })
     }
-    getDetail()
+    else{
+      getManggaDetailById(idTrx).then((res) => {
+        console.log(res)
+        setData(res)
+        if(data.txID1 !== '') {
+          getManggaDetailById(idTrx).then((res)=>{
+            setPenangkarTrx(res)
+          })
+        }
+        if(data.manggaID !== '') {
+          getManggaDetailById(idTrx).then((res)=>{
+            setTanamBenih(res)
+          })
+        }
+        if(data.txID2 !== '') {
+          getManggaDetailById(idTrx).then((res)=>{
+            setPetaniTrx(res)
+          })
+        }
+        if(data.txID3 !== '') {
+          getManggaDetailById(idTrx).then((res)=>{
+            setPengumpulTrx(res)
+          })
+        }
+      })
+    }
   },[])
+
+  const idBenih =  data.benihID//Cookies.get('idBenih')
+  const idMangga =  data.manggaID//Cookies.get('idMangga')
+  const idTx2 =  data.txID2//Cookies.get('idTx2')
+  const idTx1 =  data.txID1//Cookies.get('idTx1')
+  const idTx3 =  data.txID3//Cookies.get('idTx3')
+
+  // const getDetail = async() => {
+  //   if(idTx1 !== "") await getManggaDetailById(idTx1, 1)
+  //   if(idMangga !== "") await getManggaDetailById(idMangga, 2)
+  //   if(idTx2 !== "") await getManggaDetailById(idTx2, 3)
+  //   if(idTx3 !== "") await getManggaDetailById(idTx3, 4)
+  // }
   
   const handleChange = (event) => {
     const id_QR = event.target.value

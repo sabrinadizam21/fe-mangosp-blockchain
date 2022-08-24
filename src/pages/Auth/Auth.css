@@ -65,3 +65,8 @@ select:invalid, select option[value=""] {
   margin-top: 15px;
   text-align: center;
 }
+
+#tglLahir {
+  padding: 0 10px !important;
+  height: 40px !important;
+}

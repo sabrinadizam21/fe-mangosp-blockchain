@@ -48,15 +48,15 @@ function Register() {
                 value={inputData.alamat} onChange={handleChange} label='Alamat' onBlur={validateInput}
                 errorMsg={error.alamat} />
                 
-                <Input className='number' type="number" name="noTelp" id="noTelp" placeholder='Nomor Telepon' 
+                <Input className='noTelp' type="number" name="noTelp" id="noTelp" placeholder='Nomor Telepon' 
                 value={inputData.noTelp} onChange={handleChange} label='Nomor Telepon' minLength={10} onBlur={validateInput}
                 errorMsg={error.noTelp} />
 
-                <Input className='date' type="date" name="tglLahir" id="tglLahir" placeholder="Tanggal Lahir" 
+                <Input className='tglLahir' type="date" name="tglLahir" id="tglLahir" placeholder="Tanggal Lahir" 
                 value={inputData.tglLahir} onChange={handleChange} label='Tanggal Lahir' onBlur={validateInput}
                 errorMsg={error.tglLahir} />
 
-                <Input className='number' type="number" name="nik" id="nik" placeholder='NIK' 
+                <Input className='nik' type="number" name="nik" id="nik" placeholder='NIK' 
                 value={inputData.nik} onChange={handleChange} label='NIK' maxLength={16} minLength={16} onBlur={validateInput}
                 errorMsg={error.nik} />
                 
@@ -64,7 +64,7 @@ function Register() {
                 value={inputData.email} onChange={handleChange} label='Email' onBlur={validateInput}
                 errorMsg={error.email} />
 
-                <Input className='text' type="text" name="userName" id="userName" placeholder='Username' 
+                <Input className='username' type="text" name="userName" id="userName" placeholder='Username' 
                 value={inputData.userName} onChange={handleChange} label='Username' onBlur={validateInput}
                 errorMsg={error.userName} />
 

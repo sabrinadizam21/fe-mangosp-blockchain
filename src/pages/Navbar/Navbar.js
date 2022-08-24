@@ -46,11 +46,11 @@ function Navbar() {
               </li>
               { Cookies.get('token') !== undefined && (
               <>
-                {Cookies.get('role') !== 'Org1' && 
+                {Cookies.get('role') !== 'Org1' ?
                   <li className="nav-item">
                     <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
                   </li>
-                }
+                : null}
                 <li className="nav-item">
                 <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
                 {/* <div class="dropdown">

@@ -138,7 +138,7 @@ export const AsetProvider = props => {
     const getAset = () => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -158,30 +158,55 @@ export const AsetProvider = props => {
         .catch((err) => alert(err))
     }
     
-    const getManggaDetailById = async (idAset) => {
-        const role = Cookies.get('role').toLowerCase()
-        axios({
-            method : 'get',
-            url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
-            headers : header,
-            params : {
-                peer : "peer0." + role + ".example.com",
-                fcn  : "GetManggaByID",
-                args : '["' + idAset + '"]'
+    const getDetailForCommon = async (idAset) => {
+        try {
+            const res = await axios({
+                method : 'get',
+                url : `http://localhost:4000/get/channels/channel1/chaincodes/manggach1_cc`,
+                params : {
+                    peer : "peer0.org1.example.com",
+                    fcn  : "GetManggaByID",
+                    args : '["' + idAset + '"]'
+                }
+            })
+            return res.data.result
+        } catch (error) {
+            const msg = error.response.data.result
+            if(msg !== `${idAset} does not exist`) {
+                alert(msg)
+                window.location.href = '/'
             }
-        }).then((res)=>{
-            const data = res.data.result
-            console.log(data)
-            //history.push('/aset')
-            setDetail(data)
-            console.log(detail)
-        }).catch((err) => console.log(err))
+            else{
+                try {
+                    const res = await axios({
+                        method : 'get',
+                        url : `http://localhost:4000/get/channels/channel2/chaincodes/manggach2_cc`,
+                        params : {
+                            peer : "peer0.org1.example.com",
+                            fcn  : "GetManggaByID",
+                            args : '["' + idAset + '"]'
+                        }
+                    })
+                    return res.data.result
+                } catch (error) {
+                    const msg = error.response.data.result
+                    if(msg !== `${idAset} does not exist`) {
+                        alert(msg)
+                        window.location.href = '/'
+                    }
+                    else {
+                        alert("ID transaksi tidak ditemukan")
+                        window.location.href = '/'
+                    }
+                }
+            }
+        }
     }
     // Transaksi Keluar
     const trxKeluarPending = async() => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -202,7 +227,7 @@ export const AsetProvider = props => {
     const trxKeluarFailed = async() => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -223,7 +248,7 @@ export const AsetProvider = props => {
     const trxKeluarSuccess = async() => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -246,7 +271,7 @@ export const AsetProvider = props => {
     const trxMasukPending = () => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -268,7 +293,7 @@ export const AsetProvider = props => {
     const trxMasukFailed = () => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -289,7 +314,7 @@ export const AsetProvider = props => {
     const trxMasukSuccess = () => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,{
+        axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -305,14 +330,14 @@ export const AsetProvider = props => {
             let data = res.data.result
             setDataTrxMasukSuccess(data)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => alert(err.response.data.result))
     }
     
     const [dataTrxKeluarCh2, setDataTrxKeluarCh2] = useState([])
     const trxKeluarCh2 = async() => {
         const username = Cookies.get('username')
         const role = Cookies.get('role').toLowerCase()
-        axios.get(`http://localhost:4000/channels/channel2/chaincodes/manggach2_cc`,{
+        axios.get(`http://localhost:4000/get/channels/channel2/chaincodes/manggach2_cc`,{
             headers : header,
             params : {
                 peer : "peer0." + role + ".example.com",
@@ -329,7 +354,7 @@ export const AsetProvider = props => {
         .catch((err) => alert(err))
     }
     const functionGet = {
-        getAset, getManggaDetailById, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
+        getAset, getDetailForCommon, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
         trxMasukPending, trxMasukFailed, trxMasukSuccess, trxKeluarCh2, dataTrxKeluarCh2
     }
     //======================== END GET DATA ========================//
@@ -372,7 +397,7 @@ export const AsetProvider = props => {
             history.push('/transaksi/keluar')
             //history.push(`/detail-transaksi/${idTrx}`)
         })
-        .catch((err)=>console.log(err))
+        .catch((err)=>alert(err.response.data.result))
        
         setInputTrx({
             kuantitasBenih : '', 
@@ -417,7 +442,7 @@ export const AsetProvider = props => {
             Cookies.remove("idTrx")
             // history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err)=>console.log(err))
+        }).catch((err)=> alert(err.response.data.result))
     
         setInputTrx({
             kuantitasManggaKg : '',
@@ -458,7 +483,7 @@ export const AsetProvider = props => {
             //const idTrx = data.idTrx
             // history.push(`/detail-transaksi/${idTrx}`)
         }).catch((err)=> {
-            console.log(err)
+            alert(err.response.data.result)
         })
         setInputTrx({
             pupuk : '', 
@@ -500,7 +525,7 @@ export const AsetProvider = props => {
             history.push('/aset')
             // const idTrx = data.idtrx
             // history.push(`/detail-transaksi/${idTrx}`)
-        }).catch((err)=>console.log(err))
+        }).catch((err)=>alert(err.response.data.result))
         setInputTrx({
             ukuran : '', 
             pestisida : '', 
@@ -549,7 +574,7 @@ export const AsetProvider = props => {
             Cookies.remove("idTrx")
             //history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err) => console.log(err))
+        }).catch((err) => alert(err.response.data.result))
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -595,7 +620,7 @@ export const AsetProvider = props => {
             Cookies.remove("idTrx")
             //history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err) => console.log(err))
+        }).catch((err) => alert(err.response.data.result))
        
         setInputTrx({
             kuantitasManggaKg : '',
@@ -636,7 +661,7 @@ export const AsetProvider = props => {
         }).then((res) => {
             let idTrx = res.data.result.result.txid
             window.location.href =  `/detail-transaksi/${idTrx}`
-        }).catch((err) => console.log(err))
+        }).catch((err) => alert(err.response.data.result))
         
         setInputTrx({
             rejectReason : ''
@@ -664,7 +689,7 @@ export const AsetProvider = props => {
         }).then((res) => {
             let idTrx = res.data.result.result.txid
             window.location.href =  `/detail-transaksi/${idTrx}`
-        }).catch((err) => console.log(err))
+        }).catch((err) => alert(err.response.data.result))
     }
     //======================== END CONFIRM/REJECT TRANSAKSI ========================//
 
