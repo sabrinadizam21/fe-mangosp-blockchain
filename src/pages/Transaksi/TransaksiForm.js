@@ -12,10 +12,12 @@ function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
   const { profile, functionUser, error, allUser } = useContext(UserContext)
   const { validateInput, getUserLogin, getAllUser } = functionUser
-  const { createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagang,
+  const { createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagangCh1, createTrxPedagangCh2,
     checked, setChecked, inputTrx, setInputTrx
   } = useContext(AsetContext)
   const username = Cookies.get('username')
+  const role = Cookies.get('role')
+  const jalur = Cookies.get('jalur')
 
   useEffect(()=>{
     getUserLogin(username)
@@ -43,29 +45,39 @@ function TransaksiForm() {
   }
 
   const handleSubmit = (e) => {
+    console.log('test')
     e.preventDefault()
     const id = Cookies.get('idTrx')
-    let indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(inputTrx.namaPenerima)
+    const indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(inputTrx.namaPenerima)
     if(indexOfUserPenerima !== -1){
-      let jalurUserPenerima = allUser[indexOfUserPenerima].jalur
-      let rolePenerima = allUser[indexOfUserPenerima].role
-      if(profile.role === 'Org1') {
+      const jalurUserPenerima = allUser[indexOfUserPenerima].jalur
+      const rolePenerima = allUser[indexOfUserPenerima].role
+      if(role === 'Org1') {
         if(rolePenerima === 'Org2'){
-          if(jalurUserPenerima === 1)createTrxPenangkar('manggach1_cc', 'channel1')
+          if(jalurUserPenerima === 1) createTrxPenangkar('manggach1_cc', 'channel1')
           else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
         }
         else alert('Penerima harus petani')
       }
-      else if(profile.role === 'Org2'){
-        if(rolePenerima === 'Org3') createTrxPetani(id)
+      else if(role === 'Org2'){ 
+        if(rolePenerima === 'Org3') { 
+          if(jalurUserPenerima == jalur) createTrxPetani(id)
+          else alert('Penerima harus terdaftar pada skala transaksi yang sama')
+        }
         else alert('Penerima harus pengumpul')
       }
-      else if(profile.role === 'Org3') {
-        if(rolePenerima === 'Org4') createTrxPengumpul(id)
+      else if(role === 'Org3') {
+        if(rolePenerima === 'Org4'){
+          if(jalurUserPenerima == jalur) createTrxPengumpul(id)
+          else alert('Penerima harus terdaftar pada skala transaksi yang sama')
+        }
         else alert('Penerima harus pedagang')
       }
     }
-    else if(profile.role === 'Org4') createTrxPedagang(id)
+    else if(role === 'Org4') {
+      if(Cookies.get('jalur') === '1') createTrxPedagangCh1(id)
+      else if(Cookies.get('jalur') === '2') createTrxPedagangCh2(id)
+    }
     else alert('username penerima tidak ditemukan')
     setChecked([])
     setModalOpen(false)
@@ -118,10 +130,10 @@ function TransaksiForm() {
                   <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
                     placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Harga Mangga (Rp)'} type='number' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg} 
+                  <Input  label={'Harga Mangga per Kg (Rp)'} type='number' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg} 
                     placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                  <Input label={'Username Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
 
                   <div>
@@ -141,20 +153,23 @@ function TransaksiForm() {
                 <>
                   <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
                     placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
-                        
-                  <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
-                    placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
                   
-                  <Input label={'Harga Mangga (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
+                  <Input label={'Harga Mangga per Kg (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
                     placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
-                        
-                  <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
-                    placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
+                  {jalur === '1' ?
+                  <>
+                    <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
+                      placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
+                    
+                    <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
+                      placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
+
+                    <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
                     placeholder='Pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
+                  </>: null }
 
-                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
+                  <Input label={'Username Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
                       
                   <div>
@@ -174,19 +189,21 @@ function TransaksiForm() {
                 <>
                   <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
                     placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
-                        
-                  <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
-                    placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
-                  
-                  <Input label={'Harga Mangga (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
+                 
+                  <Input label={'Harga Mangga per Kg (Rp)'} type='text' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg}
                     placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
-                        
-                  <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
-                    placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
+                  
+                  {jalur === '1' ?
+                  <>
+                    <Input label={'Teknik Sorting'} type='text' name='teknikSorting' id='teknikSorting' errorMsg={error.teknikSorting}
+                      placeholder='Teknik Sorting' value ={inputTrx.teknikSorting}  onChange={handleChange} onBlur={validateInput} />
+                          
+                    <Input  label={'Metode Pengemasan'} type='text' name='metodePengemasan' id='metodePengemasan' errorMsg={error.metodePengemasan}
+                      placeholder='Metode Pengemasan' value ={inputTrx.metodePengemasan}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
+                    <Input label={'Pengangkutan'} type='text' name='pengangkutan' id='pengangkutan' errorMsg={error.pengangkutan}
                     placeholder='Pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
-
+                  </>: null }
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
                     {checkList.map((item, index) => (
@@ -207,6 +224,14 @@ function TransaksiForm() {
                     onClick={()=>{
                       setModalOpen(true);
                     }}
+                    disabled = { 
+                      role === 'Org1' ? !inputTrx.varietasBenih ||!inputTrx.kuantitasBenih ||!inputTrx.umurBenih ||!inputTrx.hargaBenihPerBuah || !inputTrx.namaPenerima :
+                      role === 'Org2' ? !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima :
+                      role === 'Org3' &&  jalur === '1'? !inputTrx.kuantitasManggaKg || !inputTrx.teknikSorting || !inputTrx.hargaManggaPerKg || !inputTrx.metodePengemasan || !inputTrx.pengangkutan || !inputTrx.namaPenerima :
+                      role === 'Org3' && jalur === '2'? !inputTrx.kuantitasManggaKg  || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima:
+                      role === 'Org4' && jalur === '1' ?!inputTrx.kuantitasManggaKg ||!inputTrx.teknikSorting ||!inputTrx.hargaManggaPerKg ||!inputTrx.metodePengemasan ||!inputTrx.pengangkutan :
+                      !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg
+                  }
                   >
                   SIMPAN
                   </Button>

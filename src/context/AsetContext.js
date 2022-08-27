@@ -353,9 +353,29 @@ export const AsetProvider = props => {
         })
         .catch((err) => alert(err))
     }
+    const [dataTrxKeluarCh1, setDataTrxKeluarCh1] = useState([])
+    const trxKeluarCh1 = async() => {
+        const username = Cookies.get('username')
+        const role = Cookies.get('role').toLowerCase()
+        axios.get(`http://localhost:4000/get/channels/channel1/chaincodes/manggach1_cc`,{
+            headers : header,
+            params : {
+                peer : "peer0." + role + ".example.com",
+                fcn  : "GetManggaForQuery",
+                args : '["' + 
+                            '{\\"selector\\":{\\"namaPengirim\\":\\"' + username + '\\",\\"isAsset\\":false' + "}}" + 
+                        '"]'
+            }
+        })
+        .then((res)=>{
+            let response = res.data.result
+            setDataTrxKeluarCh1(response)
+        })
+        .catch((err) => alert(err))
+    }
     const functionGet = {
         getAset, getDetailForCommon, trxKeluarPending, trxKeluarFailed, trxKeluarSuccess,
-        trxMasukPending, trxMasukFailed, trxMasukSuccess, trxKeluarCh2, dataTrxKeluarCh2
+        trxMasukPending, trxMasukFailed, trxMasukSuccess, trxKeluarCh2, dataTrxKeluarCh2, trxKeluarCh1, dataTrxKeluarCh1
     }
     //======================== END GET DATA ========================//
 
@@ -589,10 +609,10 @@ export const AsetProvider = props => {
 
 
     //======================== START TRANSAKSI PEDAGANG ========================//
-    const createTrxPedagang = (txID3) => {
+    const createTrxPedagangCh1 = (txID3) => {
         axios({
             method : 'post',
-            url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
+            url : `http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,
             headers : header,
             data : {
                 fcn : "CreateTrxManggaByPedagang",
@@ -631,11 +651,53 @@ export const AsetProvider = props => {
             caraPembayaran : []
         })
     }
+
+    const createTrxPedagangCh2 = (txID3) => {
+        axios({
+            method : 'post',
+            url : `http://localhost:4000/channels/channel2/chaincodes/manggach2_cc`,
+            headers : header,
+            data : {
+                fcn : "CreateTrxManggaByPedagang",
+                peers: [
+                    "peer0.org1.example.com",
+                    "peer0.org2.example.com",
+                    "peer0.org3.example.com",
+                    "peer0.org4.example.com"
+                ],
+                chaincodeName: chaincodeName,
+                channelName: channelName,
+                args: [
+                    '{\"kuantitasManggaKg\":' +  inputTrx.kuantitasManggaKg + 
+                    ',\"hargaManggaPerKg\":' + inputTrx.hargaManggaPerKg + 
+                    ',\"caraPembayaran\":\"' + inputTrx.caraPembayaran + '\"}', 
+                    txID3
+                ]
+            }
+        }).then((res) => {
+            let data = res.data.result
+            const idTrx = Cookies.get('idTrx')
+            Cookies.remove("idTrx")
+            //history.push(`/detail-transaksi/${idTrx}`)
+            history.push('/transaksi/keluar')
+        }).catch((err) => alert(err.response.data.result))
+       
+        setInputTrx({
+            kuantitasManggaKg : '',
+            teknikSorting : '',
+            hargaManggaPerKg : '',
+            metodePengemasan : '',
+            pengangkutan : '',
+            caraPembayaran : []
+        })
+    }
     //======================== END TRANSAKSI PEDAGANG ========================//
 
 
     //======================== START CONFIRM/REJECT TRANSAKSI ========================//
     const rejectTrx = (trxID, idAset, qty) => {
+        const channelName = Cookies.get('channelName')
+        const chaincodeName = Cookies.get('chaincodeName')
         const body = {
             fcn: "RejectTrxByID",
             peers: [
@@ -668,7 +730,9 @@ export const AsetProvider = props => {
         })
     }        
 
-    const confirmTrx = (trxID) => {
+    const confirmTrx = async(trxID) => {
+        const channelName = Cookies.get('channelName')
+        const chaincodeName = Cookies.get('chaincodeName')
         const body ={
             fcn: "ConfirmTrxByID",
             peers: [
@@ -681,10 +745,12 @@ export const AsetProvider = props => {
             channelName: channelName,
             args: [ trxID ]
         }
-        axios({
+        await axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
-            headers : header,
+            headers : {
+                Authorization : 'Bearer ' + Cookies.get('token')
+            },
             data : body
         }).then((res) => {
             let idTrx = res.data.result.result.txid
@@ -697,7 +763,7 @@ export const AsetProvider = props => {
        <AsetContext.Provider value={{ 
         numberFormat, formatDate, sortData, inputTrx, setInputTrx, checked, setChecked, showDataFiltered,
         selectedValue, setSelectedValue, dataByRole, statusTrx, detail, setDetail,
-        createTrxPenangkar, createTrxPetani, createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, 
+        createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagangCh1, createTrxPedagangCh2, rejectTrx, confirmTrx, 
         tanamBenihPetani, panenPetani, dataAset,         
         functionGet, dataTrxKeluarPending, setDataTrxKeluarPending, dataTrxKeluarFailed, setDataTrxKeluarFailed, 
         dataTrxKeluarSuccess, setDataTrxKeluarSuccess, dataTrxMasukPending, setDataTrxMasukPending, dataTrxMasukFailed, 

@@ -9,6 +9,7 @@ function ModalDetTrx({
     data
    }) {
   const { formatDate, numberFormat } = useContext(AsetContext)
+  
   const createBenih = [
     {atribute : "Varietas", value : data.varietasBenih},
     {atribute : "Umur Benih", value : data.umurBenih},
@@ -66,11 +67,26 @@ function ModalDetTrx({
     {atribute : "Pengangkutan", value : data.pengangkutan},
   ]
 
-  const detailData = modalDetTrxTitle === 'Pedagang menjual mangga' ? trxByPedagang :
-                    modalDetTrxTitle === 'Pengumpul menjual mangga' ? trxByPengumpul :
+  const trxByPengumpulCh2 = [
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Pembeli", value : data.namaPenerima},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
+    {atribute : "Harga Mangga /Kg", value : 'Rp' + numberFormat(data.hargaManggaPerKg)},
+    {atribute : "Cara Pembayaran", value : data.caraPembayaran},
+  ]
+  const trxByPedagangCh2 = [
+    {atribute : "Penjual", value : data.namaPengirim},
+    {atribute : "Kuantitas Mangga", value : numberFormat(data.kuantitasManggaKg) + ' Kg'},
+    {atribute : "Harga Mangga /Kg", value : 'Rp' + numberFormat(data.hargaManggaPerKg)},
+  ]
+
+  const detailData = modalDetTrxTitle === 'Pedagang menjual mangga' && !data.teknikSorting  ? trxByPedagangCh2 :
+                    modalDetTrxTitle === 'Pedagang menjual mangga' && data.teknikSorting   ? trxByPedagang :        
+                    modalDetTrxTitle === 'Pengumpul menjual mangga' && !data.teknikSorting ? trxByPengumpulCh2 :
+                    modalDetTrxTitle === 'Pengumpul menjual mangga' && data.teknikSorting ? trxByPengumpul :
                     modalDetTrxTitle === 'Petani menjual mangga' ? trxByPetani :
                     modalDetTrxTitle === 'Petani memanen mangga' ? panenMangga  : 
-                    modalDetTrxTitle === 'Petani menanam benih' ? tanamBenih :
+                    modalDetTrxTitle === 'Petani menanam benih' ? tanamBenih : 
                     modalDetTrxTitle === 'Penangkar menjual benih' ? trxByPenangkar : ''
   return (
     <div className="modal__background">

@@ -195,6 +195,7 @@ export const UserProvider = props => {
           let profile = res.data[0]
           setProfile(profile) 
           Cookies.set('role', profile.role)
+          Cookies.set('jalur', profile.jalur)
           if(profile.jalur === 1) {
             Cookies.set('chaincodeName', 'manggach1_cc', {expires: 1})
             Cookies.set('channelName', 'channel1', {expires: 1})
@@ -213,6 +214,7 @@ export const UserProvider = props => {
           Cookies.remove('token')
           Cookies.remove('username')
           Cookies.remove('role')
+          Cookies.remove('jalur')
           Cookies.remove('idTrx')
           Cookies.remove('username')
           Cookies.remove('chaincodeName')
@@ -249,6 +251,7 @@ export const UserProvider = props => {
     Cookies.remove('token')
     Cookies.remove('username')
     Cookies.remove('role')
+    Cookies.remove('jalur')
     Cookies.set('loginStatus', false)
   }
 
