@@ -40,59 +40,6 @@ export const UserProvider = props => {
 
   const [ allUser, setAllUser ] = useState([])
 
-  const validateInput = e => {
-    let { name, value, placeholder, type } = e.target
-    setError(prev => {
-      const stateObj = { ...prev, [name]: "" }
-      if (!value) {
-          stateObj[name] = `${placeholder} tidak boleh kosong.`
-      }
-
-      if(type === 'number'){
-        if(!/[^a-z]/i.test(value)){
-          stateObj[name] = `${placeholder} harus berisi angka.`
-        }
-      }
-      switch (name) {
-              
-        case "password":
-          if (!value) {
-            stateObj[name] = "Password tidak boleh kosong."
-          } else if (inputData.confirmPassword && value !== inputData.confirmPassword) {
-            stateObj["confirmPassword"] = "Password dan Konfirmasi Password tidak sama."
-          } else if (value.length < 8) {
-            stateObj[name] = "Panjang password minimal 8 karakter."
-          } else {
-            stateObj["confirmPassword"] = inputData.confirmPassword ? "" : error.confirmPassword;
-          }
-          break
-    
-        case "confirmPassword":
-          if (!value) {
-            stateObj[name] = "Konfirmasi password tidak boleh kosong."
-          } else if (inputData.password && value !== inputData.password) {
-            stateObj[name] = "Password dan Konfirmasi Password tidak sama."
-          }
-          break
-
-        case "nik":
-          if(value.length !== 16) {
-              stateObj[name] = "Panjang NIK harus 16 karakter."
-          }
-          break
-        
-        case "namaPenerima":
-          if(value === Cookies.get('username')) stateObj[name] = "Tidak bisa mengirim ke akun sendiri"
-          break
-
-        default:
-          break
-      }
-    
-      return stateObj
-    })
-  }
-
   const functionRegisSubmit = async() => {
     await axios({
       method : 'post',
@@ -264,6 +211,70 @@ export const UserProvider = props => {
       let data = res.data.data
       setAllUser(data)
     }).catch(err => console.log(err))
+  }
+
+  const validateInput = e => {
+    let { name, value, placeholder, type } = e.target
+    setError(prev => {
+      const stateObj = { ...prev, [name]: "" }
+      if (!value) {
+          stateObj[name] = `${placeholder} tidak boleh kosong.`
+      }
+
+      if(type === 'number'){
+        if(!/[^a-z]/i.test(value)) stateObj[name] = `${placeholder} harus berisi angka.`
+        else if(value <= 0) stateObj[name] = `${placeholder} tidak boleh kurang dari 0`
+      }
+      switch (name) {
+              
+        case "password":
+          if (!value) {
+            stateObj[name] = "Password tidak boleh kosong."
+          } else if (inputData.confirmPassword && value !== inputData.confirmPassword) {
+            stateObj["confirmPassword"] = "Password dan Konfirmasi Password tidak sama."
+          } else if (value.length < 8) {
+            stateObj[name] = "Panjang password minimal 8 karakter."
+          } else {
+            stateObj["confirmPassword"] = inputData.confirmPassword ? "" : error.confirmPassword;
+          }
+          break
+    
+        case "confirmPassword":
+          if (!value) {
+            stateObj[name] = "Konfirmasi password tidak boleh kosong."
+          } else if (inputData.password && value !== inputData.password) {
+            stateObj[name] = "Password dan Konfirmasi Password tidak sama."
+          }
+          break
+
+        case "nik":
+          if(value.length !== 16) {
+              stateObj[name] = "Panjang NIK harus 16 karakter."
+          }
+          break
+        
+        case "namaPenerima":
+          getAllUser()
+          const indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(value)
+          if(indexOfUserPenerima === -1) stateObj[name] = 'username penerima tidak ditemukan'
+          else {
+            const jalurUserPenerima = allUser[indexOfUserPenerima].jalur
+            const rolePenerima = allUser[indexOfUserPenerima].role
+            if(Cookies.get('role') === 'Org1' && rolePenerima !== 'Org2') stateObj[name] = 'Penerima harus petani'
+            else if(Cookies.get('role') === 'Org2' && rolePenerima !== 'Org3') stateObj[name] = 'Penerima harus pengumpul'
+            else if(Cookies.get('role') === 'Org3' && rolePenerima !== 'Org4') stateObj[name] = 'Penerima harus pedagang'
+            else if(Cookies.get('jalur').toString() !== jalurUserPenerima.toString() && Cookies.get('role') !== 'Org1') {
+              stateObj[name] = 'Penerima harus terdaftar pada skala transaksi yang sama'
+            }
+          }
+          break
+
+        default:
+          break
+      }
+    
+      return stateObj
+    })
   }
     
   const functionUser = {
