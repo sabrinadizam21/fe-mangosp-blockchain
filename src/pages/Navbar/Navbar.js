@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 function Navbar() {
   const [click, setClick] = useState(false)
   const [button, setButton] = useState(true)
-  const { functionUser } = useContext(UserContext)
+  const { functionUser, profile } = useContext(UserContext)
   const { logoutFunction } = functionUser
   const handleClick = () => setClick(!click)
   const closeMobileMenu = () => setClick(false)
@@ -46,7 +46,7 @@ function Navbar() {
               </li>
               { Cookies.get('token') !== undefined && (
               <>
-                {Cookies.get('role') !== 'Org1' ?
+                {profile.role !== 'Org1' ?
                   <li className="nav-item">
                     <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
                   </li>
