@@ -67,6 +67,9 @@ function TransaksiForm() {
             <form id='buat-transaksi-baru' onSubmit={handleSubmit}>
               <UnlockAccess request={1}> 
                 <>
+                  <Input label={'Varietas Benih'} type='text' name='varietasBenih' id='varietasBenih' errorMsg={error.varietasBenih}
+                    placeholder='Varietas Benih' value={inputTrx.varietasBenih} onChange={handleChange} onBlur={validateInput} required />
+
                   <Input label={'Kuantitas (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
                     placeholder='Kuantitas' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
                   
@@ -176,7 +179,7 @@ function TransaksiForm() {
                     className="openModalBtn" buttonStyle='btn--primary' buttonSize='btn--medium' type={'button'} 
                     onClick={()=>{
                       setModalOpen(true);
-                    }}
+                    }} disabled
                   >
                   SIMPAN
                   </Button>
