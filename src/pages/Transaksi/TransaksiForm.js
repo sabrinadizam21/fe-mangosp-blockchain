@@ -225,13 +225,18 @@ function TransaksiForm() {
                       setModalOpen(true);
                     }}
                     disabled = { 
-                      role === 'Org1' ? !inputTrx.varietasBenih ||!inputTrx.kuantitasBenih ||!inputTrx.umurBenih ||!inputTrx.hargaBenihPerBuah || !inputTrx.namaPenerima :
-                      role === 'Org2' ? !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima :
-                      role === 'Org3' &&  jalur === '1'? !inputTrx.kuantitasManggaKg || !inputTrx.teknikSorting || !inputTrx.hargaManggaPerKg || !inputTrx.metodePengemasan || !inputTrx.pengangkutan || !inputTrx.namaPenerima :
-                      role === 'Org3' && jalur === '2'? !inputTrx.kuantitasManggaKg  || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima:
-                      role === 'Org4' && jalur === '1' ?!inputTrx.kuantitasManggaKg ||!inputTrx.teknikSorting ||!inputTrx.hargaManggaPerKg ||!inputTrx.metodePengemasan ||!inputTrx.pengangkutan :
-                      !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg
-                  }
+                      role === 'Org1' ? !inputTrx.varietasBenih ||!inputTrx.kuantitasBenih ||!inputTrx.umurBenih ||!inputTrx.hargaBenihPerBuah || !inputTrx.namaPenerima || 
+                        error.varietasBenih || error.kuantitasBenih || error.umurBenih || error.hargaBenihPerBuah || error.namaPenerima || checked.length===0 :
+                      role === 'Org2' ? !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima || 
+                        error.kuantitasManggaKg || error.hargaManggaPerKg || error.namaPenerima || checked.length === 0 :
+                      role === 'Org3' &&  jalur === '1'? !inputTrx.kuantitasManggaKg || !inputTrx.teknikSorting || !inputTrx.hargaManggaPerKg || !inputTrx.metodePengemasan || !inputTrx.pengangkutan || !inputTrx.namaPenerima ||
+                        error.kuantitasManggaKg || error.teknikSorting || error.hargaManggaPerKg || error.metodePengemasan || error.pengangkutan || error.namaPenerima || checked.length === 0 :
+                      role === 'Org3' && jalur === '2'? !inputTrx.kuantitasManggaKg  || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima ||
+                        error.kuantitasManggaKg || error.hargaManggaPerKg ||  error.namaPenerima || checked.length === 0 :
+                      role === 'Org4' && jalur === '1' ?!inputTrx.kuantitasManggaKg ||!inputTrx.teknikSorting ||!inputTrx.hargaManggaPerKg ||!inputTrx.metodePengemasan ||!inputTrx.pengangkutan ||
+                        error.kuantitasManggaKg || error.teknikSorting || error.hargaManggaPerKg || error.metodePengemasan || error.pengangkutan || checked.length === 0 :
+                      !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || error.kuantitasManggaKg || error.hargaManggaPerKg ||  checked.length === 0
+                    }
                   >
                   SIMPAN
                   </Button>

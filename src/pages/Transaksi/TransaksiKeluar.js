@@ -8,16 +8,13 @@ import Cookies from 'js-cookie'
 function TransaksiKeluar() {
   const { numberFormat, formatDate, sortData, showDataFiltered, selectedValue, setSelectedValue, statusTrx, functionGet, 
     dataTrxKeluarPending, dataTrxKeluarFailed, dataTrxKeluarSuccess } = useContext(AsetContext)
-  const { trxKeluarPending, trxKeluarFailed, trxKeluarSuccess, trxKeluarCh2, dataTrxKeluarCh2, trxKeluarCh1, dataTrxKeluarCh1 } = functionGet
+  const { trxKeluarPending, trxKeluarFailed, trxKeluarSuccess, trxKeluarCh2, dataTrxKeluarCh2, dataTrxKeluarCh1 } = functionGet
   
   useEffect(()=>{
     trxKeluarPending()
     trxKeluarFailed()
     trxKeluarSuccess()
-    if(Cookies.get('role') === 'Org1') {
-        if(Cookies.get('jalur') === '2') trxKeluarCh1()
-        else if(Cookies.get('jalur') === '1') trxKeluarCh2()
-    }
+    if(Cookies.get('role') === 'Org1') trxKeluarCh2()
   },[])
 
   const handleFilterInput = (event) => {

@@ -62,27 +62,26 @@ function DetailTransaksi() {
   }
 
   useEffect(()=>{
-    if(Cookies.get('username') === undefined ){
+    if(Cookies.get('loginStatus') === false || Cookies.get('role') === 'Org1' ){
       getDetailForCommon(idTrx).then((res) => {
-        console.log(res)
         setData(res)
         if(data.txID1 !== '') {
-          getDetailForCommon(idTrx).then((res)=>{
+          getDetailForCommon(data.txID1).then((res)=>{
             setPenangkarTrx(res)
           })
         }
         if(data.manggaID !== '') {
-          getDetailForCommon(idTrx).then((res)=>{
+          getDetailForCommon(data.manggaID).then((res)=>{
             setTanamBenih(res)
           })
         }
         if(data.txID2 !== '') {
-          getDetailForCommon(idTrx).then((res)=>{
+          getDetailForCommon(data.txID2).then((res)=>{
             setPetaniTrx(res)
           })
         }
         if(data.txID3 !== '') {
-          getDetailForCommon(idTrx).then((res)=>{
+          getDetailForCommon(data.txID3).then((res)=>{
             setPengumpulTrx(res)
           })
         }
@@ -90,25 +89,24 @@ function DetailTransaksi() {
     }
     else{
       getManggaDetailById(idTrx).then((res) => {
-        console.log(res)
         setData(res)
         if(data.txID1 !== '') {
-          getManggaDetailById(idTrx).then((res)=>{
+          getManggaDetailById(data.txID1).then((res)=>{
             setPenangkarTrx(res)
           })
         }
         if(data.manggaID !== '') {
-          getManggaDetailById(idTrx).then((res)=>{
+          getManggaDetailById(data.manggaID).then((res)=>{
             setTanamBenih(res)
           })
         }
         if(data.txID2 !== '') {
-          getManggaDetailById(idTrx).then((res)=>{
+          getManggaDetailById(data.txID2).then((res)=>{
             setPetaniTrx(res)
           })
         }
         if(data.txID3 !== '') {
-          getManggaDetailById(idTrx).then((res)=>{
+          getManggaDetailById(data.txID3).then((res)=>{
             setPengumpulTrx(res)
           })
         }
@@ -116,18 +114,11 @@ function DetailTransaksi() {
     }
   },[])
 
-  const idBenih =  data.benihID//Cookies.get('idBenih')
-  const idMangga =  data.manggaID//Cookies.get('idMangga')
-  const idTx2 =  data.txID2//Cookies.get('idTx2')
-  const idTx1 =  data.txID1//Cookies.get('idTx1')
-  const idTx3 =  data.txID3//Cookies.get('idTx3')
-
-  // const getDetail = async() => {
-  //   if(idTx1 !== "") await getManggaDetailById(idTx1, 1)
-  //   if(idMangga !== "") await getManggaDetailById(idMangga, 2)
-  //   if(idTx2 !== "") await getManggaDetailById(idTx2, 3)
-  //   if(idTx3 !== "") await getManggaDetailById(idTx3, 4)
-  // }
+  const idBenih =  data.benihID
+  const idMangga =  data.manggaID
+  const idTx2 =  data.txID2
+  const idTx1 =  data.txID1
+  const idTx3 =  data.txID3
   
   const handleChange = (event) => {
     const id_QR = event.target.value
@@ -254,6 +245,7 @@ function DetailTransaksi() {
                         cancelBtn ={'TUTUP'}
                         processBtn={'SIMPAN'}
                         form={'rejectReason'}
+                        disabled ={!inputTrx.rejectReason}
                       />
                     }
                   </div>
