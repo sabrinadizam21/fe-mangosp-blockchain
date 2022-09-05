@@ -10,7 +10,7 @@ import { AsetContext } from '../../context/AsetContext'
 
 function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
-  const { profile, functionUser, error, allUser } = useContext(UserContext)
+  const { functionUser, error, allUser } = useContext(UserContext)
   const { validateInput, getUserLogin, getAllUser } = functionUser
   const { createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagangCh1, createTrxPedagangCh2,
     checked, setChecked, inputTrx, setInputTrx
@@ -45,43 +45,25 @@ function TransaksiForm() {
   }
 
   const handleSubmit = (e) => {
-    console.log('test')
     e.preventDefault()
     const id = Cookies.get('idTrx')
     const indexOfUserPenerima = allUser.map(function (x) {return x.username}).indexOf(inputTrx.namaPenerima)
     if(indexOfUserPenerima !== -1){
       const jalurUserPenerima = allUser[indexOfUserPenerima].jalur
-      const rolePenerima = allUser[indexOfUserPenerima].role
       if(role === 'Org1') {
-        if(rolePenerima === 'Org2'){
-          if(jalurUserPenerima === 1) createTrxPenangkar('manggach1_cc', 'channel1')
-          else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
-        }
-        else alert('Penerima harus petani')
+        if(jalurUserPenerima === 1) createTrxPenangkar('manggach1_cc', 'channel1')
+        else if (jalurUserPenerima === 2) createTrxPenangkar('manggach2_cc', 'channel2')
       }
-      else if(role === 'Org2'){ 
-        if(rolePenerima === 'Org3') { 
-          if(jalurUserPenerima == jalur) createTrxPetani(id)
-          else alert('Penerima harus terdaftar pada skala transaksi yang sama')
-        }
-        else alert('Penerima harus pengumpul')
-      }
-      else if(role === 'Org3') {
-        if(rolePenerima === 'Org4'){
-          if(jalurUserPenerima == jalur) createTrxPengumpul(id)
-          else alert('Penerima harus terdaftar pada skala transaksi yang sama')
-        }
-        else alert('Penerima harus pedagang')
-      }
+      else if(role === 'Org2') createTrxPetani(id)
+      else if(role === 'Org3') createTrxPengumpul(id)
     }
     else if(role === 'Org4') {
       if(Cookies.get('jalur') === '1') createTrxPedagangCh1(id)
       else if(Cookies.get('jalur') === '2') createTrxPedagangCh2(id)
     }
-    else alert('username penerima tidak ditemukan')
     setChecked([])
     setModalOpen(false)
-  }  
+  } 
 
   return (
     <>

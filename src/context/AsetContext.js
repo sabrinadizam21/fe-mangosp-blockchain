@@ -12,6 +12,7 @@ export const AsetProvider = props => {
     const [ getIdBenih, setGetIdBenih ] = useState('')
     const [ getIdMangga, setGetIdMangga ] = useState('')
     const [ getIdTx2, setGetIdTx2 ] = useState('')
+    const [ loading, setLoading ] = useState(false)
     const [dataTrxKeluarPending, setDataTrxKeluarPending] = useState([]) 
     const [dataTrxKeluarFailed, setDataTrxKeluarFailed] = useState([]) 
     const [dataTrxKeluarSuccess, setDataTrxKeluarSuccess] = useState([]) 
@@ -387,6 +388,7 @@ export const AsetProvider = props => {
         const chaincode = chaincodeName
         const channel = channelName
         const username = Cookies.get('username')
+        setLoading(true)
         await axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channel}/chaincodes/${chaincode}`,
@@ -415,9 +417,12 @@ export const AsetProvider = props => {
         .then((res)=>{
             console.log(res.data.result)
             history.push('/transaksi/keluar')
-            //history.push(`/detail-transaksi/${idTrx}`)
+            setLoading(false)
         })
-        .catch((err)=>alert(err.response.data.result))
+        .catch((err)=>{
+            alert(err.response.data.result)
+            setLoading(false)
+        })
        
         setInputTrx({
             kuantitasBenih : '', 
@@ -745,6 +750,7 @@ export const AsetProvider = props => {
             channelName: channelName,
             args: [ trxID ]
         }
+        setLoading(true)
         await axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -755,7 +761,11 @@ export const AsetProvider = props => {
         }).then((res) => {
             let idTrx = res.data.result.result.txid
             window.location.href =  `/detail-transaksi/${idTrx}`
-        }).catch((err) => alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err) => {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
     }
     //======================== END CONFIRM/REJECT TRANSAKSI ========================//
 
@@ -769,7 +779,7 @@ export const AsetProvider = props => {
         dataTrxKeluarSuccess, setDataTrxKeluarSuccess, dataTrxMasukPending, setDataTrxMasukPending, dataTrxMasukFailed, 
         setDataTrxMasukFailed, dataTrxMasukSuccess, setDataTrxMasukSuccess,
         aset, setAset, currentIndex, setCurrentIndex, getId, setGetId, getIdBenih, setGetIdBenih, getIdMangga, 
-        setGetIdMangga, elementPos, getIdTx2, setGetIdTx2, 
+        setGetIdMangga, elementPos, getIdTx2, setGetIdTx2, loading, setLoading
         }}>
         {props.children}
        </AsetContext.Provider>

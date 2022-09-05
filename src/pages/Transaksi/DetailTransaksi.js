@@ -41,7 +41,7 @@ function DetailTransaksi() {
   let history = useHistory()
 
   const getManggaDetailById = async (idAset) => {
-    if(Cookies.get('role') !== undefined) var role = Cookies.get('role')
+    if(Cookies.get('role') !== undefined) var role = Cookies.get('role').toLowerCase()
     else var role = 'org1'
     try {
       const response = await axios({
@@ -55,7 +55,6 @@ function DetailTransaksi() {
       })
       return response.data.result
     } catch (error) {
-      console.log(error.response.data.result)
       alert("ID transaksi tidak ditemukan")
       history.goBack()
     }
@@ -144,6 +143,10 @@ function DetailTransaksi() {
     validateInput(e)
   }
 
+  const handleConfirm = () => {
+    confirmTrx(idTrx)
+  }
+
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
 
   return (
@@ -227,7 +230,7 @@ function DetailTransaksi() {
                 </div>
                 {pendingCondition && <>
                   <div className="btn-konfirmasi">
-                      <Button onClick={() => confirmTrx(idTrx)} buttonSize='btn--small'>TERIMA</Button>
+                      <Button onClick={handleConfirm} buttonSize='btn--small'>TERIMA</Button>
                   </div>
                   <div className="btn-konfirmasi">
                       <Button id='rejectButton' buttonStyle='btn--outline' buttonSize='btn--small' onClick={() => { setModalRejectOpen(true)}}>TOLAK</Button>
