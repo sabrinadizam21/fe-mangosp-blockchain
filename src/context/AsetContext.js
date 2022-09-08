@@ -2,6 +2,7 @@ import { useState, createContext } from 'react'
 import { useHistory } from 'react-router'
 import Cookies from 'js-cookie'
 import axios from 'axios'
+import Loading from '../components/Loading'
 export const AsetContext = createContext()
 export const AsetProvider = props => {
     
@@ -387,6 +388,7 @@ export const AsetProvider = props => {
         const chaincode = chaincodeName
         const channel = channelName
         const username = Cookies.get('username')
+        setLoading(true)
         await axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channel}/chaincodes/${chaincode}`,
@@ -415,9 +417,12 @@ export const AsetProvider = props => {
         .then((res)=>{
             console.log(res.data.result)
             history.push('/transaksi/keluar')
-            //history.push(`/detail-transaksi/${idTrx}`)
+            setLoading(false)
         })
-        .catch((err)=>alert(err.response.data.result))
+        .catch((err)=>{
+            alert(err.response.data.result)
+            setLoading(true)
+        })
        
         setInputTrx({
             kuantitasBenih : '', 
@@ -434,6 +439,7 @@ export const AsetProvider = props => {
 
     //======================== START TRANSAKSI PETANI ========================//
     const createTrxPetani = (manggaID) => {
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -458,11 +464,13 @@ export const AsetProvider = props => {
             }
         }).then((res)=>{
             let data = res.data.result
-            // const idTrx = aset[index].id
             Cookies.remove("idTrx")
-            // history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err)=> alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err)=> {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
     
         setInputTrx({
             kuantitasManggaKg : '',
@@ -476,6 +484,7 @@ export const AsetProvider = props => {
     
     //======================== START TANAM BENIH PETANI ========================//
     const tanamBenihPetani = (txID1) =>{
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -499,11 +508,11 @@ export const AsetProvider = props => {
             }           
         }).then((res)=>{
             let data = res.data.result
-            history.push('/aset')
-            //const idTrx = data.idTrx
-            // history.push(`/detail-transaksi/${idTrx}`)
+            history.push('/aset')            
+            setLoading(false)
         }).catch((err)=> {
             alert(err.response.data.result)
+            setLoading(false)
         })
         setInputTrx({
             pupuk : '', 
@@ -516,6 +525,7 @@ export const AsetProvider = props => {
 
     //======================== START PANEN PETANI ========================//
     const panenPetani = (manggaID) => {
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -543,9 +553,11 @@ export const AsetProvider = props => {
         }).then((res)=>{
             let data = res.data.result
             history.push('/aset')
-            // const idTrx = data.idtrx
-            // history.push(`/detail-transaksi/${idTrx}`)
-        }).catch((err)=>alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err)=>{
+            alert(err.response.data.result)
+            setLoading(false)
+        })
         setInputTrx({
             ukuran : '', 
             pestisida : '', 
@@ -555,7 +567,6 @@ export const AsetProvider = props => {
             kuantitasManggaKg : '',
             tanggalTanam : '' 
         })
-        console.log(aset)
     }
     //======================== END PANEN PETANI ========================//
 
@@ -583,6 +594,7 @@ export const AsetProvider = props => {
                 txID2
             ]
         }
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -592,9 +604,12 @@ export const AsetProvider = props => {
             let data = res.data.result
             const idTrx = Cookies.get('idTrx')
             Cookies.remove("idTrx")
-            //history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err) => alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err) => {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -610,6 +625,7 @@ export const AsetProvider = props => {
 
     //======================== START TRANSAKSI PEDAGANG ========================//
     const createTrxPedagangCh1 = (txID3) => {
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/channel1/chaincodes/manggach1_cc`,
@@ -638,9 +654,12 @@ export const AsetProvider = props => {
             let data = res.data.result
             const idTrx = Cookies.get('idTrx')
             Cookies.remove("idTrx")
-            //history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err) => alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err) => {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
        
         setInputTrx({
             kuantitasManggaKg : '',
@@ -653,6 +672,7 @@ export const AsetProvider = props => {
     }
 
     const createTrxPedagangCh2 = (txID3) => {
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/channel2/chaincodes/manggach2_cc`,
@@ -678,10 +698,12 @@ export const AsetProvider = props => {
             let data = res.data.result
             const idTrx = Cookies.get('idTrx')
             Cookies.remove("idTrx")
-            //history.push(`/detail-transaksi/${idTrx}`)
             history.push('/transaksi/keluar')
-        }).catch((err) => alert(err.response.data.result))
-       
+            setLoading(false)
+        }).catch((err) => {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
         setInputTrx({
             kuantitasManggaKg : '',
             teknikSorting : '',
@@ -715,6 +737,7 @@ export const AsetProvider = props => {
                 inputTrx.rejectReason
             ]
         }
+        setLoading(true)
         axios({
             method : 'post',
             url : `http://localhost:4000/channels/${channelName}/chaincodes/${chaincodeName}`,
@@ -723,7 +746,11 @@ export const AsetProvider = props => {
         }).then((res) => {
             let idTrx = res.data.result.result.txid
             window.location.href =  `/detail-transaksi/${idTrx}`
-        }).catch((err) => alert(err.response.data.result))
+            setLoading(false)
+        }).catch((err) => {
+            alert(err.response.data.result)
+            setLoading(false)
+        })
         
         setInputTrx({
             rejectReason : ''
