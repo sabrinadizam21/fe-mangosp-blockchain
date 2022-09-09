@@ -161,35 +161,19 @@
 }
 
 .dash-style {
-    margin-top : 0px !important;
-    margin-right: 10px;
-    position: sticky;
-}
-.dash-style::after{
-    content: '';
-    position: absolute;
-    width: 3px;
-    top: 0;
-    bottom: 0;
-    margin-left: -3px;
+    width: 0;
+    height: 60px;
+    margin-left: 6px;
     border-left: 2px dashed #a6a6a6;
 }
 
 .bullet-style {
-    position: relative;
-    background-color: inherit;
-}
-
-.bullet-style::after {
-    content: '';
-    position: absolute;
     width: 15px;
     height: 15px;
     right: -9px;
-    background-color: white;
-    border: 3px solid #FFBF34;
+    background-color: transparent;
+    border: 2px solid #FFBF34;
     border-radius: 50%;
-    z-index: 1;
 }
 
 .img-qr {

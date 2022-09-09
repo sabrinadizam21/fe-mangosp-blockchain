@@ -12,8 +12,9 @@ function Timeline({
   return (
     <>
         <div className='all-set-card'>
-            <div className='dash-style'>
+            <div style={{width: '17px', display: 'grid'}}>
                 <div className='bullet-style'></div>
+                {data.pupuk !=='' && <div className='dash-style'></div>}
             </div>
             <div className="timeline-card">
                 <div className="timeline-card__header">
