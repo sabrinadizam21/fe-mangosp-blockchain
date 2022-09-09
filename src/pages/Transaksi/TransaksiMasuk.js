@@ -43,7 +43,7 @@ function TransaksiMasuk() {
                     <select name="status" id="status"  onChange={handleFilterInput} value={selectedValue} >
                         <option value="ALL">Semua Status</option>
                         <option value="SUCCESS">Terima</option>
-                        <option value="PENDING">Tertunda</option>
+                        <option value="PENDING">Pending</option>
                         <option value="FAILED">Tolak</option>
                     </select>
                     {showDataFiltered(data).length === 0 ? <p>Tidak ada transaksi masuk</p> : (<>
