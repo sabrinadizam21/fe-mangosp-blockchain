@@ -132,10 +132,6 @@ function Aset() {
                               <span>Umur Benih</span> 
                               <p>{data.Record.umurBenih}</p>
                             </div>
-                            {/* <div className="harvest-age">
-                              <span>Umur Panen</span>
-                              <p>{data.UmurPanen} hari</p>
-                            </div> */}
                           </div>
                           <div className="card__bottom">
                             {data.Record.isPanen === false ? 
