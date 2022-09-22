@@ -7,13 +7,14 @@ import { UserContext } from '../../context/UserContext'
 import './TransaksiForm.css'
 import Cookies from 'js-cookie'
 import { AsetContext } from '../../context/AsetContext'
+import { Loading } from '../../components/Loading'
 
 function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
   const { functionUser, error, allUser } = useContext(UserContext)
   const { validateInput, getUserLogin, getAllUser } = functionUser
   const { createTrxPenangkar, createTrxPetani, createTrxPengumpul, createTrxPedagangCh1, createTrxPedagangCh2,
-    checked, setChecked, inputTrx, setInputTrx
+    checked, setChecked, inputTrx, setInputTrx, loading
   } = useContext(AsetContext)
   const username = Cookies.get('username')
   const role = Cookies.get('role')
@@ -67,6 +68,7 @@ function TransaksiForm() {
 
   return (
     <>
+    { loading ? <Loading /> : 
       <div className="wrapper">
         <div className="section">
           <div className="header">
@@ -243,6 +245,7 @@ function TransaksiForm() {
           </div>
         </div>
       </div>
+    }
     </>
   )
 }

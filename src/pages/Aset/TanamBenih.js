@@ -1,18 +1,44 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import Modal from '../../components/Modal'
 import { UserContext } from '../../context/UserContext'
 import { AsetContext } from '../../context/AsetContext'
 import { useParams } from 'react-router-dom'
+import { Loading } from '../../components/Loading'
 
 function TanamBenih() {
   const [ modalOpen, setModalOpen ] = useState(false)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
-  const { inputTrx, setInputTrx, tanamBenihPetani, elementPos, aset, formatDate} = useContext(AsetContext)
+  const { inputTrx, setInputTrx, tanamBenihPetani, elementPos, aset, formatDate, loading } = useContext(AsetContext)
   const { id } = useParams()
-  const dataBenih = aset[elementPos(id)]
+  const [dataBenih, setDataBenih] = useState('')
+
+  const getAset = async(idAset) => {
+    const role = Cookies.get('role').toLowerCase()
+    const channelName = Cookies.get('channelName')
+    const chaincodeName = Cookies.get('chaincodeName')
+    try {
+        const res = await axios.get(`http://localhost:4000/get/channels/${channelName}/chaincodes/${chaincodeName}`,{
+          headers : {
+            Authorization : 'Bearer ' + Cookies.get('token')
+          },
+        params : {
+            peer : "peer0." + role + ".example.com",
+            fcn  : "GetManggaByID",
+            args : '["' + idAset + '"]'
+        }
+    })
+    return res.data.result
+    } catch (err) { alert(err) }
+}
+
+  useEffect(()=> {
+    getAset(id).then((res)=>setDataBenih(res))
+  }, [])
 
   const handleChange = (event) => {
     let {value, name} = event.target
@@ -27,6 +53,7 @@ function TanamBenih() {
   
   return (
     <>
+    { loading ? <Loading /> :
         <div className="wrapper">
             <div className="section">
               <div className="header">
@@ -36,7 +63,7 @@ function TanamBenih() {
                 </div>
               </div>
               <div className="content">
-                {/* <div className="information">
+                <div className="information">
                   <div className="last-note">
                     <span>Varietas</span>
                     <p>{dataBenih.varietasBenih}</p>
@@ -45,7 +72,7 @@ function TanamBenih() {
                     <p className='status'>{dataBenih.kuantitasBenih} Kg</p>
                     <p className="timestamp">{formatDate(dataBenih.tanggalTransaksi)}</p>
                   </div>
-                </div> */}
+                </div>
                 <div>
                     <form id='tanam-benih' onSubmit={handleSubmit}>
                         <Input label={'Jenis Pupuk'} type='text' name='pupuk' id='pupuk' errorMsg={error.pupuk}
@@ -87,6 +114,7 @@ function TanamBenih() {
               </div>
             </div>
         </div>
+    }
     </>
   )
 }

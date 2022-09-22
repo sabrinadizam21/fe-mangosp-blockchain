@@ -2,7 +2,6 @@ import { useState, createContext } from 'react'
 import { useHistory } from 'react-router'
 import Cookies from 'js-cookie'
 import axios from 'axios'
-import Loading from '../components/Loading'
 export const AsetContext = createContext()
 export const AsetProvider = props => {
     
@@ -288,7 +287,6 @@ export const AsetProvider = props => {
         .then((res)=>{
             let data = res.data.result
             setDataTrxMasukPending(data)
-            console.log(dataTrxMasukPending)
         })
         .catch((err) => alert(err))
     }
@@ -416,7 +414,6 @@ export const AsetProvider = props => {
             }
         })
         .then((res)=>{
-            console.log(res.data.result)
             history.push('/transaksi/keluar')
             setLoading(false)
         })

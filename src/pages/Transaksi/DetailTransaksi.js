@@ -15,6 +15,7 @@ import { Input } from '../../components/Input'
 import Cookies from 'js-cookie'
 import SpeechBubble from '../../components/SpeechBubble'
 import axios from 'axios'
+import { Loading } from '../../components/Loading'
 
 function DetailTransaksi() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -24,11 +25,12 @@ function DetailTransaksi() {
   const [ data, setData ] = useState([])
   const [ petaniTrx, setPetaniTrx ] = useState([])
   const [ tanamBenih, setTanamBenih ] = useState([])
+  const [ panen, setPanen ] = useState([])
   const [ penangkarTrx, setPenangkarTrx ] = useState([])
   const [ pengumpulTrx, setPengumpulTrx ] = useState([])
   const [ text, setText ] = useState('')
 
-  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet } = useContext(AsetContext)
+  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet, loading } = useContext(AsetContext)
   const { getDetailForCommon } = functionGet
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
@@ -64,23 +66,28 @@ function DetailTransaksi() {
     if(Cookies.get('loginStatus') === false || Cookies.get('role') === 'Org1' ){
       getDetailForCommon(idTrx).then((res) => {
         setData(res)
-        if(data.txID1 !== '') {
-          getDetailForCommon(data.txID1).then((res)=>{
+        if(res.txID1 !== '') {
+          getDetailForCommon(res.txID1).then((res)=>{
             setPenangkarTrx(res)
           })
         }
-        if(data.manggaID !== '') {
-          getDetailForCommon(data.manggaID).then((res)=>{
+        if(res.manggaID !== '' && res.pestisida !== '' ) {
+          getDetailForCommon(res.manggaID).then((res)=>{
+            setPanen(res)
+          })
+        }
+        if(res.manggaID !== '' && res.isPanen === false) {
+          getDetailForCommon(res.manggaID).then((res)=>{
             setTanamBenih(res)
           })
         }
-        if(data.txID2 !== '') {
-          getDetailForCommon(data.txID2).then((res)=>{
+        if(res.txID2 !== '') {
+          getDetailForCommon(res.txID2).then((res)=>{
             setPetaniTrx(res)
           })
         }
-        if(data.txID3 !== '') {
-          getDetailForCommon(data.txID3).then((res)=>{
+        if(res.txID3 !== '') {
+          getDetailForCommon(res.txID3).then((res)=>{
             setPengumpulTrx(res)
           })
         }
@@ -89,23 +96,28 @@ function DetailTransaksi() {
     else{
       getManggaDetailById(idTrx).then((res) => {
         setData(res)
-        if(data.txID1 !== '') {
-          getManggaDetailById(data.txID1).then((res)=>{
+        if(res.txID1 !== '') {
+          getManggaDetailById(res.txID1).then((res)=>{
             setPenangkarTrx(res)
           })
         }
-        if(data.manggaID !== '') {
-          getManggaDetailById(data.manggaID).then((res)=>{
+        if(res.pestisida !== '' && res.manggaID !== '') {
+          getManggaDetailById(res.manggaID).then((res)=>{
+            setPanen(res)
+          })
+        }
+        if(res.isPanen === false && res.manggaID !== '') {
+          getManggaDetailById(res.manggaID).then((res)=>{
             setTanamBenih(res)
           })
         }
-        if(data.txID2 !== '') {
-          getManggaDetailById(data.txID2).then((res)=>{
+        if(res.txID2 !== '') {
+          getManggaDetailById(res.txID2).then((res)=>{
             setPetaniTrx(res)
           })
         }
-        if(data.txID3 !== '') {
-          getManggaDetailById(data.txID3).then((res)=>{
+        if(res.txID3 !== '') {
+          getManggaDetailById(res.txID3).then((res)=>{
             setPengumpulTrx(res)
           })
         }
@@ -116,8 +128,6 @@ function DetailTransaksi() {
   const idBenih =  data.benihID
   const idMangga =  data.manggaID
   const idTx2 =  data.txID2
-  const idTx1 =  data.txID1
-  const idTx3 =  data.txID3
   
   const handleChange = (event) => {
     const id_QR = event.target.value
@@ -151,6 +161,7 @@ function DetailTransaksi() {
 
   return (
     <>
+      { loading ? < Loading /> :
         <div className="wrapper">
             <div className="section">           
               <div className="detailTrx__header">
@@ -266,10 +277,10 @@ function DetailTransaksi() {
                     { data.txID2 !== '' &&
                       <Timeline title={'Petani menjual mangga'} data={petaniTrx} />
                     } 
-                    { data.kuantitasManggaKg !== 0 && data.manggaID !== '' &&
-                      <Timeline title={'Petani memanen mangga'} data={tanamBenih} />
+                    { data.pestisida !== '' && data.manggaID !== '' &&
+                      <Timeline title={'Petani memanen mangga'} data={panen} />
                     }
-                    { data.pupuk !== '' && data.manggaID !== '' &&
+                    { data.isPanen === false && data.manggaID !== '' &&
                       <Timeline title={'Petani menanam benih'} data={tanamBenih} />
                     }                      
                     { data.txID1 !== '' &&
@@ -280,6 +291,7 @@ function DetailTransaksi() {
               </div>
             </div>
         </div>
+      }
     </>
   )
 }
