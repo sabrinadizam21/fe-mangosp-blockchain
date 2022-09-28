@@ -81,19 +81,19 @@ function Navbar() {
                 <li className="nav-btn">
                   {button ? (
                     <Link to='/register' className="btn-link">
-                      <Button buttonStyle='btn--outline'>REGISTER</Button>
+                      <Button buttonStyle='btn--outline' onClick={closeMobileMenu}>REGISTER</Button>
                     </Link>
-                  ) : <Link to='/register' className='btn-link' onClick={closeMobileMenu}>
-                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile'>REGISTER</Button>
+                  ) : <Link to='/register' className='btn-link'>
+                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile' onClick={closeMobileMenu}>REGISTER</Button>
                   </Link> }                
                 </li>
                 <li className="nav-btn">
                   {button ? (
                     <Link to='/login' className="btn-link">
-                      <Button buttonStyle='btn--outline' onClick={handleLogout}>LOGIN</Button>
+                      <Button buttonStyle='btn--outline' onClick={closeMobileMenu}>LOGIN</Button>
                     </Link>
-                  ) : <Link to='/login' className='btn-link' onClick={closeMobileMenu}>
-                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile' onClick={handleLogout}>LOG IN</Button>
+                  ) : <Link to='/login' className='btn-link'>
+                    <Button buttonStyle='btn--outline' buttonSize='btn--mobile' onClick={closeMobileMenu}>LOG IN</Button>
                   </Link> }                
                 </li>
               </>
