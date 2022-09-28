@@ -160,7 +160,7 @@
     margin-top : 15px;
 }
 
-.dash-style {
+/* .dash-style {
     margin-top : 0px !important;
     margin-right: 10px;
     position: sticky;
@@ -173,9 +173,9 @@
     bottom: 0;
     margin-left: -3px;
     border-left: 2px dashed #a6a6a6;
-}
+} */
 
-.bullet-style {
+/* .bullet-style {
     position: relative;
     background-color: inherit;
 }
@@ -190,6 +190,22 @@
     border: 3px solid #FFBF34;
     border-radius: 50%;
     z-index: 1;
+} */
+
+.bullet-style {
+    width: 15px;
+    height: 15px;
+    right: -9px;
+    background-color: transparent;
+    border: 2px solid #FFBF34;
+    border-radius: 50%;
+}
+
+.dash-style{
+    width: 0;
+    height: 60px;
+    margin-left: 6px;
+    border-left: 2px dashed #a6a6a6;
 }
 
 .img-qr {
