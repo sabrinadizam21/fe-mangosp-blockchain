@@ -165,7 +165,7 @@ function DetailTransaksi() {
         <div className="wrapper">
             <div className="section">           
               <div className="detailTrx__header">
-                <span className="title">Detail Transaksi</span>    
+                <h2 className="title">Detail Transaksi</h2>    
                 <div style={{position : 'relative'}}>           
                   {bubbleOpen && 
                   <SpeechBubble 

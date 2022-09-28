@@ -22,9 +22,9 @@ function Timeline({
                 </div>
                 <div className="timeline-card__body">
                     <p className="timestamp"> 
-                    { data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                    { title==='Petani menanam benih' ?//data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
                         formatDate(data.tanggalTanam) : 
-                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                        title==='Petani memanen mangga' ?//data.kuantitasManggaKg !== 0 && data.isPanen === true ?
                         formatDate(data.tanggalPanen) :
                         formatDate(data.tanggalTransaksi)}</p>
                 </div>

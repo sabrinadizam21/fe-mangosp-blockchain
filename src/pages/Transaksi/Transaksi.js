@@ -12,7 +12,7 @@ function Transaksi() {
             <div className="section">
                 <div className="header">
                     <div>
-                        <div className="title">Transaksi</div>
+                        <h2 className="title">Transaksi</h2>
                         <div className="subtitle">Daftar transaksi yang anda lakukan</div>
                     </div>
                     <div className="btn-header">

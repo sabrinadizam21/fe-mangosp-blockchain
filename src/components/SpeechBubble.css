@@ -8,7 +8,7 @@
     border-radius: 10px;
     width: 140px;
     right: -26px;
-    top: 58px;
+    top: 48px;
 }
 
 .speech::after {
@@ -26,7 +26,8 @@
 .top.speech::after {
     border-bottom-color: #212121;
     border-top: 0;
-    top: -15px; left: 68%;
+    top: -15px; 
+    left: 74%;
     margin-left: -20px;
 }
 

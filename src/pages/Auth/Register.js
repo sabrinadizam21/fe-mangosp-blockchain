@@ -22,7 +22,7 @@ function Register() {
     <>
         <div className="wrapper">
           <div className="section">
-            <span className="title">Register</span>
+            <h2 className="title">Register</h2>
             <div className="content">
               <form onSubmit={handleSubmit}>              
                 <div className="register__label-form">

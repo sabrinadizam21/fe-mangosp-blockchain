@@ -75,7 +75,7 @@ function Aset() {
               <div className="header">
                 {/* Header */}
                 <div>
-                  <div className="title">Aset</div>
+                  <h2 className="title">Aset</h2>
                   <div className="subtitle">Aset yang Anda miliki</div>
                 </div>
               </div>

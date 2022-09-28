@@ -9,7 +9,7 @@ const Unauthorized = () => {
             <div className="section">
                 <div className="header">
                     <div>
-                        <div className="title">Akses Ditolak</div>
+                        <h2 className="title">Akses Ditolak</h2>
                         <div className="subtitle">Anda tidak memiliki akses ke halaman ini</div>
                     </div>
                 </div>

@@ -30,7 +30,7 @@ function TransaksiKeluar() {
             <div className="section">
                 <div className="header">
                     <div>
-                        <div className="title">Transaksi Keluar</div>
+                        <h2 className="title">Transaksi Keluar</h2>
                         <div className="subtitle">Daftar transaksi yang Anda diterima</div>
                     </div>
                 </div>

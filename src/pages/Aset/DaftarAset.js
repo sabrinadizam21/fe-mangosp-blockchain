@@ -32,7 +32,7 @@ function DaftarAset() {
               <div className="header">
                 {/* Header */}
                 <div>
-                  <div className="title">Daftar Aset</div>
+                  <h2 className="title">Daftar Aset</h2>
                   <div className="subtitle">Isi formulir berikut untuk menambah aset</div>
                 </div>
               </div>

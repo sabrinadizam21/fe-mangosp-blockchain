@@ -41,7 +41,7 @@ function ListAsetTransaksi() {
             <div className="section">
                 <div className="header">
                     <div>
-                    <div className="title">Buat Transaksi</div>
+                    <h2 className="title">Buat Transaksi</h2>
                     <div className="subtitle">Pilih aset yang ingin dijual</div>
                     </div>
                 </div>

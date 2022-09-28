@@ -73,7 +73,7 @@ function TransaksiForm() {
         <div className="section">
           <div className="header">
             <div>
-              <div className="title">Buat Transaksi</div>
+              <h2 className="title">Buat Transaksi</h2>
               <div className="subtitle">Lakukan transaksi dengan mengisi form dibawah</div>
             </div>
           </div>

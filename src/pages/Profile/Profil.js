@@ -24,7 +24,7 @@ function Profil() {
       <div className="wrapper">
         <div className="section">
           <div className="header">
-            <div className="title">Profil</div>
+            <h2 className="title">Profil</h2>
           </div>
           <div className="content">
             <div className="head-profile">

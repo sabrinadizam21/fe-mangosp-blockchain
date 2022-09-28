@@ -72,7 +72,7 @@ export const AsetProvider = props => {
             if (x.toString().length < 12) { x = x*1000 }
             const date = new Date(x)
             const day = date.toLocaleString('default', {day: 'numeric'})
-            const month = date.toLocaleString('default', {month: 'long'})
+            const month = date.toLocaleString('default', {month: 'short'})
             const year = date.toLocaleString('default', {year: 'numeric'})
             const hour = date.toLocaleString('default', {hour : 'numeric', minute : 'numeric', hour12 : false})
             return day + ' ' + month + ' ' + year + ' - ' + hour
