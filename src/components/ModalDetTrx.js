@@ -13,21 +13,21 @@ function ModalDetTrx({
   const createBenih = [
     {atribute : "Varietas", value : data.varietasBenih},
     {atribute : "Umur Benih", value : data.umurBenih},
-    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih) + ' Kg'},
+    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih)},
     {atribute : "Penangkar", value : data.namaPengirim},
   ]
   const trxByPenangkar = [
     {atribute : "Varietas", value : data.varietasBenih},
     {atribute : "Umur Benih", value : data.umurBenih},
-    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih) + ' Kg'},
-    {atribute : "Harga Benih Kg", value : 'Rp' + numberFormat(data.hargaBenihPerBuah)},
+    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih)},
+    {atribute : "Harga Benih", value : 'Rp' + numberFormat(data.hargaBenihPerBuah)},
     {atribute : "Cara Pembayaran", value : data.caraPembayaran},
     {atribute : "Penjual", value : data.namaPengirim},
     {atribute : "Pembeli", value : data.namaPenerima},
   ]
   const tanamBenih = [
     {atribute : "Petani", value : data.namaPengirim},
-    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih) + ' Kg'},
+    {atribute : "Kuantitas Benih", value : numberFormat(data.kuantitasBenih)},
     {atribute : "Pupuk", value : data.pupuk},
     {atribute : "Lokasi lahan", value : data.lokasiLahan},
     {atribute : "Tanggal Tanam", value : formatDate(data.tanggalTanam)},
