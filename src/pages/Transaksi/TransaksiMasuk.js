@@ -73,10 +73,10 @@ function TransaksiMasuk() {
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.Record.kuantitasBenih)} Kg</p>
+                                                    <p>{numberFormat(data.Record.kuantitasBenih)}</p>
                                                 </div>
                                                 <div className="value">
-                                                    <span>Harga(/Kg)</span>
+                                                    <span>Harga</span>
                                                     <p>Rp{numberFormat(data.Record.hargaBenihPerBuah)}</p>
                                                 </div>
                                             </> : role === 'Org3' || role === 'Org4' ? 
