@@ -226,7 +226,7 @@ function TransaksiForm() {
                   </Button>
                   {modalOpen && 
                     <Modal setOpenModal={setModalOpen} 
-                      modalTitle={'Konfirmasi Daftar Aset'}  
+                      modalTitle={'Konfirmasi Transaksi'}  
                       modalBody={
                         <div style={{textAlign : 'center'}}>
                           <p>Data yang telah dikirim tidak bisa diubah kembali </p>
