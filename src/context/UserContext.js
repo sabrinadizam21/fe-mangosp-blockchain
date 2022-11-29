@@ -143,7 +143,8 @@ export const UserProvider = props => {
       .then((res)=>{
           let profile = res.data[0]
           setProfile(profile) 
-          Cookies.set('role', profile.role)
+          if(res.data[0].userName === 'penangkarAgus') Cookies.set('role', 1)
+          else if(res.data[0].userName === 'petani1') Cookies.set('role', 2)
       }).catch((res)=>{
           alert("Terjadi kesalahan silahkan login kembali")
           console.log(res)

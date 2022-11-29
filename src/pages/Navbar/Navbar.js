@@ -51,9 +51,9 @@ function Navbar() {
               </li>
               { Cookies.get('token') !== undefined && (
               <>
-                <li className="nav-item">
+                {Cookies.get('role') != 1 && <li className="nav-item">
                   <Link to='/aset' className="nav-links" onClick={closeMobileMenu}>Aset</Link>
-                </li>
+                </li>}
                 <li className="nav-item">
                 <Link to='/transaksi' className="nav-links" onClick={closeMobileMenu}>Transaksi</Link>
                 {/* <div class="dropdown">

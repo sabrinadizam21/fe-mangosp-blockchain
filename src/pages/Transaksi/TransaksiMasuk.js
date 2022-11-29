@@ -26,7 +26,7 @@ function TransaksiMasuk() {
             <div className="section">
                 <div className="header">
                     <div>    
-                        <div className="title">Transaksi Masuk</div>
+                        <h2 className="title">Transaksi Masuk</h2>
                         <div className="subtitle">Daftar transaksi yang Anda diterima</div>
                     </div>
                 </div>
@@ -60,11 +60,12 @@ function TransaksiMasuk() {
                                                 <span>Pengirim</span>
                                                 <p>{data.namaPengirim}</p>
                                             </div>
+                                            {console.log(data)}
                                             {role == 1 || role == 2 ? 
                                             <>
                                                 <div className="quantity">
                                                     <span>Kuantitas</span>
-                                                    <p>{numberFormat(data.kuantitasBenihKg)} Kg</p>
+                                                    <p>{data.kuantitasBenihKg} Kg</p>
                                                 </div>
                                                 <div className="value">
                                                     <span>Harga(/Kg)</span>

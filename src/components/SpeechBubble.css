@@ -8,7 +8,7 @@
     border-radius: 10px;
     width: 140px;
     right: -26px;
-    top: 58px;
+    top: 48px;
 }
 
 .speech::after {
@@ -20,14 +20,16 @@
 .right.speech::after {
     border-left-color: #212121;
     border-right: 0;
-    right: -14px; top: 50%;
+    right: -14px; 
+    top: 50%;
     margin-top: -20px;
 }
 .top.speech::after {
     border-bottom-color: #212121;
     border-top: 0;
-    top: -15px; left: 68%;
-    margin-left: -20px;
+    top: -15px; 
+    left: 64%;
+    margin-left: -6px;
 }
 
 .close-speech-bubble {

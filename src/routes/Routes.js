@@ -56,8 +56,8 @@ function Routes() {
               <PrivateRoute path='/transaksi/buat' exact component={TransaksiForm} />
               <PrivateRoute path='/aset/daftaraset' exact component={DaftarAset} />
               <Switch>
-                <RoleBasedRouting path='/tanam-benih/:id' exact component={TanamBenih} roles={2} />
-                <RoleBasedRouting path='/panen/:id' exact component={Panen} roles={2}/>
+                <RoleBasedRouting path='/tanam-benih/:id' exact component={TanamBenih} roles={'2'} />
+                <RoleBasedRouting path='/panen/:id' exact component={Panen} roles={'2'}/>
               </Switch>
             </AsetProvider>    
         </Switch>

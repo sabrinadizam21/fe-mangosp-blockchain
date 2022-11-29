@@ -66,12 +66,12 @@ function ModalDetTrx({
     {atribute : "Cara Pembayaran", value : data.caraPembayaran},
   ]
 
-  const detailData = data.txID4 !== '' ? trxByPedagang :
-                    data.txID3 !== '' ? trxByPengumpul :
-                    data.txID2 !== '' ? trxByPetani :
+  const detailData = modalDetTrxTitle === 'Pedagang menjual mangga' ? trxByPedagang :
+                    modalDetTrxTitle === 'Pengumpul menjual mangga'  ? trxByPengumpul :
+                    modalDetTrxTitle === 'Petani menjual mangga' ? trxByPetani :
                     data.manggaID !== '' && data.pupuk !== '' ? tanamBenih : 
-                    data.manggaID !== '' && data.kuantitasManggaKg !== 0 ? panenMangga :
-                    data.txID1 !== '' ? trxByPenangkar :
+                    modalDetTrxTitle === 'Petani memanen mangga' ? panenMangga :
+                    modalDetTrxTitle === 'Penangkar menjual benih' ? trxByPenangkar :
                     data.benihID !== '' ? createBenih : ''
   return (
     <div className="modal__background">

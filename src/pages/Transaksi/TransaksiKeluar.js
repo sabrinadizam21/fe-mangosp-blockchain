@@ -18,8 +18,8 @@ function TransaksiKeluar() {
             <div className="section">
                 <div className="header">
                     <div>
-                        <div className="title">Transaksi Keluar</div>
-                        <div className="subtitle">Daftar transaksi yang Anda diterima</div>
+                        <h2 className="title">Transaksi Keluar</h2>
+                        <div className="subtitle">Daftar transaksi yang Anda lakukan</div>
                     </div>
                 </div>
                 <div className="content">
@@ -75,7 +75,7 @@ function TransaksiKeluar() {
                                             </>
                                         }
                                         </div>
-                                        {data.rejectReason !== '' &&
+                                        {data.isRejected === true &&
                                         <div>
                                             <span>Alasan tolak : </span>
                                             <p>{data.rejectReason}</p>

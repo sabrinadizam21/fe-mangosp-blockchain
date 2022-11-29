@@ -64,7 +64,7 @@ function DetailTransaksi() {
         <div className="wrapper">
             <div className="section">           
               <div className="detailTrx__header">
-                <span className="title">Detail Transaksi</span>    
+                <h2 className="title">Detail Transaksi</h2>    
                 <div style={{position : 'relative'}}>           
                   {bubbleOpen && 
                   <SpeechBubble 
@@ -128,7 +128,14 @@ function DetailTransaksi() {
                   </div>
                   <div className="status-trx">
                     {statusTrx(data.isConfirmed, data.isRejected)}
-                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp">
+                      {/* {data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)} */}
+                      {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                        formatDate(data.tanggalTanam) : 
+                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                        formatDate(data.tanggalPanen) :
+                        formatDate(data.tanggalTransaksi)}
+                    </p>
                   </div>
                 </div>
                 {pendingCondition && <>
@@ -168,8 +175,8 @@ function DetailTransaksi() {
                     { data.txID2 !== '' &&
                       <Timeline title={'Petani menjual mangga'} data={aset[elementPos(data.txID2)]} />
                     } 
-                    { data.kuantitasManggaKg !== 0 && data.manggaID !== '' &&
-                      <Timeline title={'Petani memanen mangga'} data={aset[elementPos(data.manggaID)]} />
+                    { data.pestisida !== '' && data.manggaID !== '' &&
+                      <Timeline title={'Petani memanen mangga'} data={aset[elementPos('asetTanamBenih2')]} />
                     }
                     { data.pupuk !== '' && data.manggaID !== '' &&
                       <Timeline title={'Petani menanam benih'} data={aset[elementPos(data.manggaID)]} />
@@ -177,9 +184,9 @@ function DetailTransaksi() {
                     { data.txID1 !== '' &&
                       <Timeline title={'Penangkar menjual benih'} data={aset[elementPos(data.txID1)]} />
                     }
-                    { data.benihID !== '' &&
+                    {/* { data.benihID !== '' &&
                       <Timeline title={'Penangkar mendaftarkan benih'} data={aset[elementPos(data.benihID)]} />
-                    }
+                    } */}
                   </div>
                 </div>
               </div>

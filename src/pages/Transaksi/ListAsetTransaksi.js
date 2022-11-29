@@ -36,7 +36,7 @@ function ListAsetTransaksi() {
             <div className="section">
                 <div className="header">
                     <div>
-                    <div className="title">Buat Transaksi</div>
+                    <h2 className="title">Buat Transaksi</h2>
                     <div className="subtitle">Pilih aset yang ingin dijual</div>
                     </div>
                 </div>
@@ -67,8 +67,8 @@ function ListAsetTransaksi() {
                                                         <p>{numberFormat(data.umurBenih)} hari</p>
                                                     </div>
                                                     <div className="value">
-                                                        <span>Tanggal Daftar Aset</span>
-                                                        <p>{formatDate(data.tanggalTransaksi)}</p>
+                                                        <span>Tanggal Panen</span>
+                                                        <p>{formatDate(data.tanggalPanen)}</p>
                                                     </div>
                                                 </div>
                                             </div>

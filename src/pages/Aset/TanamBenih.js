@@ -31,7 +31,7 @@ function TanamBenih() {
             <div className="section">
               <div className="header">
                 <div>
-                  <div className="title">Tanam Benih</div>
+                  <h2 className="title">Tanam Benih</h2>
                   <div className="subtitle">Isi jenis pupuk yang digunakan</div>
                 </div>
               </div>

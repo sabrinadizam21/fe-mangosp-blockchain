@@ -34,7 +34,7 @@ function Login() {
     <>
         <div className="wrapper">
           <div className="section">            
-            <span className="title">Login</span> 
+            <h2 className="title">Login</h2> 
             <div className="content">          
               <form onSubmit={handleSubmit}> 
                 <Input type="text" name="userName" id="userName" placeholder='Username' errorMsg={error.userName}

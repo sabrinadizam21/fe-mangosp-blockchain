@@ -9,6 +9,7 @@ function Timeline({
 }) {
   const [modalDetTrxOpen, setModalDetTrxOpen] = useState(false)
   const { formatDate } = useContext(AsetContext)
+  console.log(data)
   return (
     <>
         <div className='all-set-card'>
@@ -22,7 +23,14 @@ function Timeline({
                     <b>{title}</b>              
                 </div>
                 <div className="timeline-card__body">
-                    <p className="timestamp">{data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)}</p>
+                    <p className="timestamp">
+                        {/* {data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)} */}
+                        { title==='Petani menanam benih' ?//data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                        formatDate(data.tanggalTanam) : 
+                        title==='Petani memanen mangga' ?//data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                        formatDate(data.tanggalPanen) :
+                        formatDate(data.tanggalTransaksi)}
+                    </p>
                 </div>
                 <div className="timeline-card__bottom">
                     <button className='detailBtn' onClick={() => { setModalDetTrxOpen(true) }}>Lihat Detail</button>

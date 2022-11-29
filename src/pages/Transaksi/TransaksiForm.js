@@ -17,12 +17,14 @@ function TransaksiForm() {
     checked, setChecked, inputTrx, setInputTrx
   } = useContext(AsetContext)
   const username = Cookies.get('username')
+  const role = Cookies.get('role')
+  const jalur = 1
 
   useEffect(()=>{
     getUserLogin(username)
   }, [username]) 
 
-  const checkList = ["Bayar Langsung", "Transfer", "E-money", "Lainnya"]
+  const checkList = ["Tunai", "Transfer", "E-money", "Lainnya"]
 
   const handleCheck = (event) => {
     var updatedList = [...checked]
@@ -45,10 +47,10 @@ function TransaksiForm() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const id = Cookies.get('idTrx')
-    if(profile.role === 1) createTrxPenangkar(id)
-    else if(profile.role === 2) createTrxPetani(id)
-    else if(profile.role === 3) createTrxPengumpul(id)
-    else if(profile.role === 4) createTrxPedagang(id)
+    if(role == 1) createTrxPenangkar()
+    else if(role == 2) createTrxPetani(id)
+    else if(role == 3) createTrxPengumpul(id)
+    else if(role == 4) createTrxPedagang(id)
     setChecked([])
     setModalOpen(false)
   }  
@@ -59,24 +61,24 @@ function TransaksiForm() {
         <div className="section">
           <div className="header">
             <div>
-              <div className="title">Buat Transaksi</div>
+              <h2 className="title">Buat Transaksi</h2>
               <div className="subtitle">Lakukan transaksi dengan mengisi form dibawah</div>
             </div>
           </div>
           <div className="content">
             <form id='buat-transaksi-baru' onSubmit={handleSubmit}>
-              <UnlockAccess request={1}> 
+              <UnlockAccess request={'1'}> 
                 <>
                   <Input label={'Varietas Benih'} type='text' name='varietasBenih' id='varietasBenih' errorMsg={error.varietasBenih}
                     placeholder='Varietas Benih' value={inputTrx.varietasBenih} onChange={handleChange} onBlur={validateInput} required />
 
-                  <Input label={'Kuantitas (Kg)'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
+                  <Input label={'Kuantitas'} type='number' name='kuantitasBenihKg' id='kuantitasBenihKg' errorMsg={error.kuantitasBenihKg}
                     placeholder='Kuantitas' value={inputTrx.kuantitasBenihKg} onChange={handleChange} onBlur={validateInput} />                    
                   
                   <Input label={'Umur Benih (bulan)'} type='number' name='umurBenih' id='umurBenih' errorMsg={error.umurBenih} 
                     placeholder='Umur Benih' value ={inputTrx.umurBenih}  onChange={handleChange} onBlur={validateInput} />
                         
-                  <Input  label={'Harga Benih (Rp)'} type='number' name='hargaBenihPerKg' id='hargaBenihPerKg' errorMsg={error.hargaBenihPerKg} 
+                  <Input  label={'Harga Benih per Satuan (Rp)'} type='number' name='hargaBenihPerKg' id='hargaBenihPerKg' errorMsg={error.hargaBenihPerKg} 
                     placeholder='Harga Benih' value ={inputTrx.hargaBenihPerKg}  onChange={handleChange} onBlur={validateInput} />
 
                   <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima} 
@@ -95,7 +97,7 @@ function TransaksiForm() {
                 </>
               </UnlockAccess>
               
-              <UnlockAccess request={2}>
+              <UnlockAccess request={'2'}>
                 <>
                   <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
                     placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
@@ -119,7 +121,7 @@ function TransaksiForm() {
                 </>
               </UnlockAccess>
 
-              <UnlockAccess request={3}>
+              <UnlockAccess request={'3'}>
                 <>
                   <Input label={'Kuantitas Mangga (Kg)'} type='number' name='kuantitasManggaKg' id='kuantitasManggaKg' errorMsg={error.kuantitasManggaKg}
                     placeholder='Kuantitas Mangga' value ={inputTrx.kuantitasManggaKg}  onChange={handleChange} onBlur={validateInput} />
@@ -179,7 +181,20 @@ function TransaksiForm() {
                     className="openModalBtn" buttonStyle='btn--primary' buttonSize='btn--medium' type={'button'} 
                     onClick={()=>{
                       setModalOpen(true);
-                    }} disabled
+                    }} 
+                    disabled = { 
+                      role == 1 ? !inputTrx.varietasBenih ||!inputTrx.kuantitasBenihKg ||!inputTrx.umurBenih ||!inputTrx.hargaBenihPerKg || !inputTrx.namaPenerima || 
+                        error.varietasBenih || error.kuantitasBenihKg || error.umurBenih || error.hargaBenihPerKg || error.namaPenerima || checked.length===0 :
+                      role == 2 ? !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima || 
+                        error.kuantitasManggaKg || error.hargaManggaPerKg || error.namaPenerima || checked.length === 0 :
+                      role == 3 &&  jalur === '1'? !inputTrx.kuantitasManggaKg || !inputTrx.teknikSorting || !inputTrx.hargaManggaPerKg || !inputTrx.metodePengemasan || !inputTrx.pengangkutan || !inputTrx.namaPenerima ||
+                        error.kuantitasManggaKg || error.teknikSorting || error.hargaManggaPerKg || error.metodePengemasan || error.pengangkutan || error.namaPenerima || checked.length === 0 :
+                      role == 3 && jalur === '2'? !inputTrx.kuantitasManggaKg  || !inputTrx.hargaManggaPerKg || !inputTrx.namaPenerima ||
+                        error.kuantitasManggaKg || error.hargaManggaPerKg ||  error.namaPenerima || checked.length === 0 :
+                      role == 4 && jalur === '1' ?!inputTrx.kuantitasManggaKg ||!inputTrx.teknikSorting ||!inputTrx.hargaManggaPerKg ||!inputTrx.metodePengemasan ||!inputTrx.pengangkutan ||
+                        error.kuantitasManggaKg || error.teknikSorting || error.hargaManggaPerKg || error.metodePengemasan || error.pengangkutan || checked.length === 0 :
+                      !inputTrx.kuantitasManggaKg || !inputTrx.hargaManggaPerKg || error.kuantitasManggaKg || error.hargaManggaPerKg ||  checked.length === 0
+                    }
                   >
                   SIMPAN
                   </Button>

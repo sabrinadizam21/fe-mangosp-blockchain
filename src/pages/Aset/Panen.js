@@ -31,7 +31,7 @@ return (
           <div className="section">
             <div className="header">
               <div>
-                <div className="title">Panen</div>
+                <h2 className="title">Panen</h2>
                 <div className="subtitle">Isi form berikut untuk mendaftarkan panen mangga</div>
               </div>
             </div>

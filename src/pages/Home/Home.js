@@ -35,7 +35,7 @@ function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    let idTrx = dataQR.text
+    let idTrx = dataQR
     console.log(idTrx)
     history.push(`/detail-transaksi/${idTrx}`)
   }
