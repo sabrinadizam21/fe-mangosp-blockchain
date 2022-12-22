@@ -134,7 +134,7 @@ function DetailTransaksi() {
     setText(id_QR)
   }
 
-  const copyClipboard = async () => {
+  const copyClipboard = async (text) => {
     await navigator.clipboard.writeText(text)
     alert("ID berhasil di salin")
   }
@@ -186,7 +186,7 @@ function DetailTransaksi() {
                         </div>
                         <div className='qrcode-input'>
                           <input type="text" value={idTrx} onChange={handleChange} disabled />
-                          <button onClick={copyClipboard} disabled={!idTrx}><MdContentCopy /></button>
+                          <button onClick={() => copyClipboard(idTrx)} disabled={!idTrx}><MdContentCopy /></button>
                         </div>
                       </>
                     } 
