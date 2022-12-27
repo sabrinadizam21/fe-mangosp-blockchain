@@ -122,15 +122,14 @@ function Home() {
           <div className='col'>
             <div className='home__hero-text-wrapper'>
             <div className="home__hero-tooltip">
-                <img src={'mango.png'} alt={'Mangga'} className='home__hero-img'/> 
-                <span className='home__hero-tooltiptext'>Background vector created by freepik - www.freepik.com</span>
+                <img src={'ketertelusuran.png'} alt={'trace'} className='home__hero-img' /> 
               </div>
             </div>
           </div>
           <div className='col'>
             <div className='home__hero-img-wrapper'>
               <div className='top-line'>Informasi Lengkap</div>
-              <h4 className={lightText ? 'heading' : 'heading dark'}>Ketertelusuran Produk</h4>
+              <h4 className={lightText ? 'heading' : 'heading dark'}>Informasi Mangga</h4>
               <p className={ lightTextDesc ? 'home__hero-subtitle' : 'home__hero-subtitle dark' } >
                 Cek detail informasi produk dari proses penyiapan benih hingga kegiatan perdagangan
               </p>
@@ -160,9 +159,8 @@ function Home() {
           </div>
           <div className='col'>
             <div className='home__hero-text-wrapper'>
-            <div className="home__hero-tooltip">
-                <img src={'mango.png'} alt={'Mangga'} className='home__hero-img'/> 
-                <span className='home__hero-tooltiptext'>Background vector created by freepik - www.freepik.com</span>
+              <div className="home__hero-tooltip">
+                <img src={'blockhain.png'} alt={'Blockchain'} className='home__hero-img'/>
               </div>
             </div>
           </div>
