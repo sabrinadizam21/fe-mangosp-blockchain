@@ -157,6 +157,24 @@ function DetailTransaksi() {
     confirmTrx(idTrx)
   }
 
+  const download = (id) => {
+    var url = `http://api.qrserver.com/v1/create-qr-code/?data=${id}&size=400x400&bgcolor=ffffff`
+    fetch(url, {method: "GET", headers: {}})
+    .then(response => {
+      response.arrayBuffer().then(function(buffer) {
+        const url = window.URL.createObjectURL(new Blob([buffer]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${id}` + ".png"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+    })
+    .catch(err => {
+      alert(err);
+    });
+  };
+
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
 
   return (
@@ -192,7 +210,8 @@ function DetailTransaksi() {
                     } 
                     cancelBtn ={'TUTUP'}
                     processBtn={
-                      <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} download target={'_blank'} rel="noreferrer">Unduh QR Code</a>
+                      // <a className='btn-download' href={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} download target={'_blank'} rel="noreferrer">Unduh QR Code</a>
+                      <a className='btn-download' onClick={() => download(idTrx)} rel="noreferrer">Unduh QR Code</a>
                     }
                   />
                 }
