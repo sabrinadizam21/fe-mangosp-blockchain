@@ -13,17 +13,5 @@
     border: #a6a6a6 0.5px solid;
     border-radius: 5px;
     margin-top: 15px;
-}
-
-.input-search input{
-    border-style: none;
-    width: 95%;
-    padding: 10px;
-}
-
-.input-search button{
-    border: none; 
-    background : none;
-    cursor: pointer;
     padding: 10px;
 }

@@ -43,12 +43,9 @@ const Glosarium = () => {
                 <div className="section">            
                     <h2 className="title">Glosarium</h2> 
                     <div className="content">
-                    <div className="input-search">
                         <form onSubmit={e => e.preventDefault()}>
-                            <input value={searchInput} placeholder="Masukan kata" id="search-glosarium" onChange={(e) => setSearchInput(e.target.value)} />
-                            <button><FiSearch color="#c3c3c3" /></button>
+                            <input className="input-search" value={searchInput} placeholder="Cari kata" id="search-glosarium" onChange={(e) => setSearchInput(e.target.value)} />
                         </form>
-                    </div>
                         {dataGlosarium.map((data, index) => {
                         return(
                             <div className="section-glosarium" key={index}>
