@@ -30,7 +30,7 @@ function DetailTransaksi() {
   const [ pengumpulTrx, setPengumpulTrx ] = useState([])
   const [ text, setText ] = useState('')
 
-  const { statusTrx, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet, loading } = useContext(AsetContext)
+  const { statusTrx, formatDate, formatDateNoHour, rejectTrx, inputTrx, setInputTrx, confirmTrx, functionGet, loading } = useContext(AsetContext)
   const { getDetailForCommon } = functionGet
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
@@ -160,8 +160,8 @@ function DetailTransaksi() {
   const download = (id) => {
     var url = `http://api.qrserver.com/v1/create-qr-code/?data=${id}&size=400x400&bgcolor=ffffff`
     fetch(url, {method: "GET", headers: {}})
-    .then(response => {
-      response.arrayBuffer().then(function(buffer) {
+    .then(async (response) => {
+      await response.arrayBuffer().then(function(buffer) {
         const url = window.URL.createObjectURL(new Blob([buffer]));
         const link = document.createElement("a");
         link.href = url;
@@ -169,6 +169,7 @@ function DetailTransaksi() {
         document.body.appendChild(link);
         link.click();
       });
+      setModalOpen(false)
     })
     .catch(err => {
       alert(err);
@@ -176,6 +177,10 @@ function DetailTransaksi() {
   };
 
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
+
+  const summaryCondition = (text) => {
+    return text === '' || text === '1 Jan 1970' ? <p className='timestamp'>Belum Tersedia</p> : text
+  }
 
   return (
     <>
@@ -241,23 +246,49 @@ function DetailTransaksi() {
                     <p>Pedagang</p>
                   </div>
                 </div>
+
                 <div className="information">
-                  <div className="last-note">
-                    <span>Pencatat Transaksi</span>
-                    <p>{data.namaPengirim}</p>
+                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div className="last-note">
+                      <span>Varietas</span>
+                      <p>{data.varietasBenih}</p>
+                    </div>
+                    <div className="status-trx">
+                      {statusTrx(data.isConfirmed, data.isRejected)}
+                      <p className="timestamp">
+                        {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                          formatDate(data.tanggalTanam) : 
+                        data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                          formatDate(data.tanggalPanen) :
+                          formatDate(data.tanggalTransaksi)
+                        }
+                      </p>
+                    </div>
                   </div>
-                  <div className="status-trx">
-                    {statusTrx(data.isConfirmed, data.isRejected)}
-                    <p className="timestamp">
-                      {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
-                        formatDate(data.tanggalTanam) : 
-                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
-                        formatDate(data.tanggalPanen) :
-                        formatDate(data.tanggalTransaksi)
-                      }
-                    </p>
-                  </div>
+                  <table className='summary-table'>
+                    <tr>
+                      <td>Pestisida</td>
+                      <td>{summaryCondition(data.pestisida)}</td>
+                    </tr>
+                    <tr>
+                      <td>Pupuk</td>
+                      <td>{summaryCondition(data.pupuk)}</td>
+                    </tr>
+                    <tr>
+                      <td>Tanggal Tanam</td>
+                      <td>{summaryCondition(formatDateNoHour(data.tanggalTanam))}</td>
+                    </tr>
+                    <tr>
+                      <td>Tanggal Panen</td>
+                      <td>{summaryCondition(formatDateNoHour(data.tanggalPanen))}</td>
+                    </tr>
+                    <tr>
+                      <td>Lokasi tanam</td>
+                      <td>{summaryCondition(data.lokasiLahan)}</td>
+                    </tr>
+                  </table>
                 </div>
+                
                 {pendingCondition && <>
                   <div className="btn-konfirmasi">
                       <Button onClick={handleConfirm} buttonSize='btn--small'>TERIMA</Button>
