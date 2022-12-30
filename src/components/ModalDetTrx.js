@@ -104,7 +104,7 @@ function ModalDetTrx({
           </button>
         </div>
         <div className="modal__body">
-            <table>
+            <table className='modal-table'>
               <thead>
               </thead>
               <tbody>
