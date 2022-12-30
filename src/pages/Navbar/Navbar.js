@@ -44,6 +44,9 @@ function Navbar() {
               <li className="nav-item">
                 <Link to='/' className="nav-links" onClick={closeMobileMenu}>Beranda</Link>
               </li>
+              <li className="nav-item">
+                <Link to='/glosarium' className="nav-links" onClick={closeMobileMenu}>Glosarium</Link>
+              </li>
               { Cookies.get('token') !== undefined && (
               <>
                 {profile.role !== 'Org1' ?

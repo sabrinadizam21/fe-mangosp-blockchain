@@ -20,6 +20,7 @@ import { UserProvider } from '../context/UserContext'
 import RoleBasedRouting from '../components/RoleBasedRouting'
 import Profil from '../pages/Profile/Profil'
 import ListAsetTransaksi from '../pages/Transaksi/ListAsetTransaksi'
+import Glosarium from '../pages/Glosarium/Glosarium'
 
 function Routes() {
   const LoginRoute = ({...props}) => {
@@ -47,6 +48,7 @@ function Routes() {
             <LoginRoute path='/login' exact component={Login} />            
             <PrivateRoute path='/profil' exact component={Profil} /> 
             <Route path='/detail-transaksi/:idTrx' exact component={DetailTransaksi} />
+            <Route path='/glosarium' exact component={Glosarium} />
             <AsetProvider>
               <PrivateRoute path='/transaksi' exact component={Transaksi} />
               <PrivateRoute path='/aset' exact component={Aset} />

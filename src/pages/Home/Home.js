@@ -68,24 +68,18 @@ function Home() {
                 <h1 className={lightText ? 'heading' : 'heading dark'}>
                   Rantai Pasok Mangga
                 </h1>
-                <p
-                  className={
-                    lightTextDesc
-                      ? 'home__hero-subtitle'
-                      : 'home__hero-subtitle dark'
-                  }
-                >
-                  { !loginStatus || username === undefined ? (`Selamat Datang!`) : (`Selamat Datang, ${profile.namaLengkap}!`)}
-                  
+                <p className={ lightTextDesc ? 'home__hero-subtitle' : 'home__hero-subtitle dark' } style={{marginBottom: '20px'}} >
+                  {/* { !loginStatus || username === undefined ? (`Selamat Datang!`) : (`Selamat Datang, ${profile.namaLengkap}!`)} */}
+                  Lihat informasi mangga dari benih hingga panen disini
                 </p>
-                  <Button onClick={() => scollToRef.current.scrollIntoView()} buttonSize='btn--wide' buttonColor='primary'>
-                    Scan QR Code
-                  </Button>
+                <Button onClick={() => scollToRef.current.scrollIntoView()} buttonSize='btn--wide' buttonColor='primary'>
+                  Scan QR Code
+                </Button>
               </div>
             </div>
             <div className='col'>
               <div className='home__hero-img-wrapper'>
-                 <div className="home__hero-tooltip">
+                <div className="home__hero-tooltip">
                   <img src={'mango.png'} alt={'Mangga'} className='home__hero-img'/> 
                   <span className='home__hero-tooltiptext'>Background vector created by freepik - www.freepik.com</span>
                 </div>
@@ -116,6 +110,65 @@ function Home() {
         </div>
       </div>
 
+      <div className={lightBg ? 'home__hero-section' : 'home__hero-section darkBg'} >
+        <div className='container'>
+          <div
+            className='row home__hero-row'
+            style={{
+              display: 'flex',
+              flexDirection: imgStart === 'start' ? 'row-reverse' : 'row'
+            }}
+          >
+          <div className='col'>
+            <div className='home__hero-text-wrapper'>
+            <div className="home__hero-tooltip">
+                <img src={'ketertelusuran.png'} alt={'trace'} className='home__hero-img' /> 
+              </div>
+            </div>
+          </div>
+          <div className='col'>
+            <div className='home__hero-img-wrapper'>
+              <div className='top-line'>Informasi Lengkap</div>
+              <h4 className={lightText ? 'heading' : 'heading dark'}>Informasi Mangga</h4>
+              <p className={ lightTextDesc ? 'home__hero-subtitle' : 'home__hero-subtitle dark' } >
+                Cek detail informasi produk dari proses penyiapan benih hingga kegiatan perdagangan
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={'home__hero-section'} >
+        <div className='container'>
+          <div
+            className='row home__hero-row'
+            style={{
+              display: 'flex',
+              flexDirection: imgStart === 'start' ? 'row-reverse' : 'row'
+            }}
+          >
+          <div className='col'>
+            <div className='home__hero-img-wrapper'>
+              <div className='top-line'>AMAN DAN TERPERCAYA</div>
+              <h4 className='heading'>Teknologi Blockchain</h4>
+              <p className='home__hero-subtitle'>
+                Sistem ini menggunakan teknologi Blockchain dimana data yang tersimpan tidak dapat diubah sehingga terhindar dari modifikasi data         
+              </p>
+            </div>
+          </div>
+          <div className='col'>
+            <div className='home__hero-text-wrapper'>
+              <div className="home__hero-tooltip">
+                <img src={'blockhain.png'} alt={'Blockchain'} className='home__hero-img'/>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      { Cookies.get('token') ? 
       <IconContext.Provider value={{ color: '#fff', size: 64 }}>
       <div className='feature__section'>
         <div className='feature__wrapper'>
@@ -145,7 +198,8 @@ function Home() {
           </div>
         </div>
       </div>
-    </IconContext.Provider>
+      </IconContext.Provider> 
+      : '' }
     </>
   )
 }
