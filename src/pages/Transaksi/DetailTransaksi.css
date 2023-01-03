@@ -94,9 +94,22 @@
     border: #DBDBDB 0.5px solid;
     border-radius: 5px;
     padding: 10px;
-    display: flex;
+    /* display: flex; */
     width: 100%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
+
+.summary-table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.summary-table td{
+    font-size: 14px;
+}
+
+.summary-table td:nth-child(2){
+    text-align: end;
 }
 
 .last-note span {
