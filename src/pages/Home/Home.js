@@ -5,15 +5,18 @@ import './Feature.css'
 import Cookies from 'js-cookie'
 import { QrReader } from 'react-qr-reader'
 import { Button } from '../../components/Button'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
 import { FaFire } from 'react-icons/fa'
 import { BsXDiamondFill } from 'react-icons/bs'
 import { GiCrystalize } from 'react-icons/gi'
 import { IconContext } from 'react-icons/lib'
+import { AsetContext } from '../../context/AsetContext'
+import { Loading } from '../../components/Loading'
 
 function Home() {
-  const { profile, functionUser } = useContext(UserContext)
+  const { functionUser } = useContext(UserContext)
+  const { loading, setLoading } = useContext(AsetContext)
   const { getUserLogin } = functionUser
   const [ lightBg ] = useState(false)
   const [ lightTextDesc ] = useState(true)
@@ -21,9 +24,7 @@ function Home() {
   const [ imgStart ] = useState('')
   
   const username = Cookies.get('username')
-  const loginStatus = Cookies.get('loginStatus')
   const [dataQR, setDataQR] = useState('')
-  let history = useHistory()
 
   useEffect(()=>{
     if(username !== undefined) getUserLogin(username)
@@ -45,13 +46,24 @@ function Home() {
 
   const handleResult = (result) => {
     if(result) {
-      setDataQR(result)
+      // var id = result.substr(102,64)
+      // setDataQR(id)
+      window.location.replace(result)
+      window.open()
+      setLoading(true)
+      return( 
+        <Route component={() => { 
+          window.location.href = result
+          return null
+        }}/>
+      )
     }
+    setLoading(false)
   }
-
   const scollToRef = useRef()
   return (
     <>
+    { loading ? < Loading /> : (<>
       <div
         className={lightBg ? 'home__hero-section' : 'home__hero-section darkBg'}
       >
@@ -105,7 +117,7 @@ function Home() {
               <input className='qrcode__input' type="text" placeholder='ID Transaksi' required value={dataQR} onChange={handleChange} />
               <br />
               <Button type={'submit'} buttonStyle='btn--primary' buttonColor='primary'>LIHAT TRANSAKSI</Button>
-            </form>       
+            </form>
           </div>
         </div>
       </div>
@@ -200,6 +212,7 @@ function Home() {
       </div>
       </IconContext.Provider> 
       : '' }
+    </>)}
     </>
   )
 }

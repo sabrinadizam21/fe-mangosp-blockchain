@@ -162,18 +162,20 @@ function DetailTransaksi() {
     fetch(url, {method: "GET", headers: {}})
     .then(response => {
       response.arrayBuffer().then(function(buffer) {
-        const url = window.URL.createObjectURL(new Blob([buffer]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${id}` + ".png"); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-      });
+        const url = window.URL.createObjectURL(new Blob([buffer]))
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute("download", `${id}` + ".png") //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      })
     })
     .catch(err => {
-      alert(err);
-    });
-  };
+      alert(err)
+    })
+  }
+
+  const urlQr = `https://api.qrserver.com/v1/create-qr-code/?data=https://mango-blockchain.vercel.app/detail-transaksi/${idTrx}&size=400x400&bgcolor=ffffff`
 
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
 
@@ -200,7 +202,7 @@ function DetailTransaksi() {
                     modalBody={
                       <>  
                         <div className="img-qr">
-                          <img width='150px' src={`http://api.qrserver.com/v1/create-qr-code/?data=${idTrx}&size=400x400&bgcolor=ffffff`} alt="qr-code" />
+                          <img width='150px' src={urlQr} alt="qr-code" />
                         </div>
                         <div className='qrcode-input'>
                           <input type="text" value={idTrx} onChange={handleChange} disabled />
