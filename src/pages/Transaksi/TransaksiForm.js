@@ -8,6 +8,7 @@ import './TransaksiForm.css'
 import Cookies from 'js-cookie'
 import { AsetContext } from '../../context/AsetContext'
 import { Loading } from '../../components/Loading'
+import Select from "react-select"
 
 function TransaksiForm() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -66,6 +67,25 @@ function TransaksiForm() {
     setModalOpen(false)
   } 
 
+  
+  const dataAktor = [
+    { username: 'user1', namaLengkap: 'Amazon', role: 'Org1' },
+    { username: 'user2', namaLengkap: 'Apple', role: 'Org2' },
+    { username: 'user3', namaLengkap: 'Facebook', role: 'Org3' },
+    { username: 'user4', namaLengkap: 'Google', role: 'Org4' },  
+    { username: 'user5', namaLengkap: 'Instagram', role: 'Org1' },  
+    { username: 'user6', namaLengkap: 'Microsoft', role: 'Org2' },
+    { username: 'user7', namaLengkap: 'Twitter', role: 'Org3' },
+    { username: 'user8', namaLengkap: 'YouTube', role: 'Org4' },
+  ];
+  
+  const roleCond = (role) => {
+    return role === 'Org1' ? 'Penangkar': role === 'Org2' ? 'Petani' : role === 'Org3' ? 'Pengumpul' : role === 'Org4' ? 'Pedagang' : ''
+  }
+  
+  const arrayAktor = dataAktor.map(data => ({label: data.username + ' - ' + data.namaLengkap + ' - ' + roleCond(data.role), value: data.username}))
+  const [text, setText] = useState('');
+
   return (
     <>
     { loading ? <Loading /> : 
@@ -95,6 +115,21 @@ function TransaksiForm() {
 
                   <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima} 
                     placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
+
+                  <div className="dropdown-container">
+                    <div className="label-form">
+                      <label>Penerima<span style={{color: 'red'}}>*</span></label>
+                    </div>
+                    <Select
+                      options={arrayAktor}
+                      placeholder="Penerima"
+                      value={text}
+                      onChange={x => setText(x.username)}
+                      isSearchable={true}
+                      className="select"
+                    />
+                    {/* {errorMsg && <span className='err'>{errorMsg}</span>} */}
+                  </div>
                         
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
