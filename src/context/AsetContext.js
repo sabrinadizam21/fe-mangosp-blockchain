@@ -270,6 +270,17 @@ export const AsetProvider = props => {
         return day + ' ' + month + ' ' + year + ' - ' + hour
     }
 
+    const formatDateNoHour = (x) => {
+        if(x !== undefined){
+            if (x.toString().length < 12) { x = x*1000 }
+            const date = new Date(x)
+            const day = date.toLocaleString('default', {day: 'numeric'})
+            const month = date.toLocaleString('default', {month: 'short'})
+            const year = date.toLocaleString('default', {year: 'numeric'})
+            return day + ' ' + month + ' ' + year
+        }
+    }
+
     const sortData = (data) => data.sort((a,b) => (a.tanggalTransaksi < b.tanggalTransaksi) ? 1 : -1)
     
     function numberFormat(number){
@@ -932,7 +943,7 @@ export const AsetProvider = props => {
 
     return(
        <AsetContext.Provider value={{ 
-           aset, setAset, numberFormat, formatDate, sortData, createBenih, addQtyBenih,
+           aset, setAset, numberFormat, formatDate, formatDateNoHour, sortData, createBenih, addQtyBenih,
            qty, setQty, currentIndex, setCurrentIndex, inputTrx, setInputTrx, 
            createTrxPenangkar, checked, setChecked, createTrxPetani,
            createTrxPengumpul,  createTrxPedagang, rejectTrx, confirmTrx, showData, tanamBenihPetani,

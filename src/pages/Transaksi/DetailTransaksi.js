@@ -20,7 +20,7 @@ function DetailTransaksi() {
   const [bubbleOpen, setBubbleOpen] = useState(true)
   const [modalRejectOpen, setModalRejectOpen] = useState(false)
   const [text, setText] = useState('adlaldfsaerwe10923123joawadlaldfsaerwe10923123joaw')
-  const { aset, statusTrx, elementPos, formatDate, rejectTrx, inputTrx, setInputTrx, confirmTrx, 
+  const { aset, statusTrx, elementPos, formatDate, formatDateNoHour, rejectTrx, inputTrx, setInputTrx, confirmTrx, 
     } = useContext(AsetContext)
   const { functionUser, error } = useContext(UserContext)
   const { validateInput } = functionUser
@@ -58,7 +58,10 @@ function DetailTransaksi() {
   }
 
   const pendingCondition = (data.isAsset === false && data.namaPenerima === Cookies.get('username') && data.isConfirmed === false && data.isRejected === false)
-
+  
+  const summaryCondition = (text) => {
+    return text === '' || text === '1 Jan 1970' ? <p className='timestamp'>Belum Tersedia</p> : text
+  }
   return (
     <>
         <div className="wrapper">
@@ -122,21 +125,45 @@ function DetailTransaksi() {
                   </div>
                 </div>
                 <div className="information">
-                  <div className="last-note">
-                    <span>Pencatat Transaksi</span>
-                    <p>{data.namaPengirim}</p>
+                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div className="last-note">
+                      <span>Varietas</span>
+                      <p>{data.varietasBenih}</p>
+                    </div>
+                    <div className="status-trx">
+                      {statusTrx(data.isConfirmed, data.isRejected)}
+                      <p className="timestamp">
+                        {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
+                          formatDate(data.tanggalTanam) : 
+                        data.kuantitasManggaKg !== 0 && data.isPanen === true ?
+                          formatDate(data.tanggalPanen) :
+                          formatDate(data.tanggalTransaksi)
+                        }
+                      </p>
+                    </div>
                   </div>
-                  <div className="status-trx">
-                    {statusTrx(data.isConfirmed, data.isRejected)}
-                    <p className="timestamp">
-                      {/* {data.txID1 === "" ? formatDate(data.tanggalTanam) : formatDate(data.tanggalTransaksi)} */}
-                      {data.pupuk !== "" && data.kuantitasManggaKg === 0 ? 
-                        formatDate(data.tanggalTanam) : 
-                      data.kuantitasManggaKg !== 0 && data.isPanen === true ?
-                        formatDate(data.tanggalPanen) :
-                        formatDate(data.tanggalTransaksi)}
-                    </p>
-                  </div>
+                  <table className='summary-table'>
+                    <tr>
+                      <td>Pestisida</td>
+                      <td>{summaryCondition(data.pestisida)}</td>
+                    </tr>
+                    <tr>
+                      <td>Pupuk</td>
+                      <td>{summaryCondition(data.pupuk)}</td>
+                    </tr>
+                    <tr>
+                      <td>Tanggal Tanam</td>
+                      <td>{summaryCondition(formatDateNoHour(data.tanggalTanam))}</td>
+                    </tr>
+                    <tr>
+                      <td>Tanggal Panen</td>
+                      <td>{summaryCondition(formatDateNoHour(data.tanggalPanen))}</td>
+                    </tr>
+                    <tr>
+                      <td>Lokasi tanam</td>
+                      <td>{summaryCondition(data.lokasiLahan)}</td>
+                    </tr>
+                  </table>
                 </div>
                 {pendingCondition && <>
                   <div className="btn-konfirmasi">

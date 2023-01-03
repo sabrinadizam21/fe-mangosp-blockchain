@@ -46,7 +46,7 @@ function Home() {
 
   const handleResult = (result) => {
     if(result) {
-      setDataQR(result)
+      // setDataQR(result)
     }
   }
 
