@@ -66,25 +66,26 @@ function TransaksiForm() {
     setChecked([])
     setModalOpen(false)
   } 
-
-  
-  const dataAktor = [
-    { username: 'user1', namaLengkap: 'Amazon', role: 'Org1' },
-    { username: 'user2', namaLengkap: 'Apple', role: 'Org2' },
-    { username: 'user3', namaLengkap: 'Facebook', role: 'Org3' },
-    { username: 'user4', namaLengkap: 'Google', role: 'Org4' },  
-    { username: 'user5', namaLengkap: 'Instagram', role: 'Org1' },  
-    { username: 'user6', namaLengkap: 'Microsoft', role: 'Org2' },
-    { username: 'user7', namaLengkap: 'Twitter', role: 'Org3' },
-    { username: 'user8', namaLengkap: 'YouTube', role: 'Org4' },
-  ];
   
   const roleCond = (role) => {
     return role === 'Org1' ? 'Penangkar': role === 'Org2' ? 'Petani' : role === 'Org3' ? 'Pengumpul' : role === 'Org4' ? 'Pedagang' : ''
   }
   
-  const arrayAktor = dataAktor.map(data => ({label: data.username + ' - ' + data.namaLengkap + ' - ' + roleCond(data.role), value: data.username}))
-  const [text, setText] = useState('');
+  const arrayAktor = allUser.filter((x) => 
+    role === 'Org1' ? x.role === 'Org2' :
+    role === 'Org2' ? x.role === 'Org3' && x.jalur == jalur :
+    role === 'Org3' ? x.role === 'Org4' && x.jalur == jalur : null
+    ).map(data => ({
+      label: data.username + ' - ' + data.namaLengkap + ' - ' + roleCond(data.role), value: data.username
+    }))
+
+  const [placeholder, setPlaceholder] = useState('')
+  const [selectedUser, setSelectedUser] = useState('')
+
+  const handleSelect = (data) => {
+    setPlaceholder(data)
+    setSelectedUser(data.value)
+  }
 
   return (
     <>
@@ -113,9 +114,6 @@ function TransaksiForm() {
                   <Input  label={'Harga Benih per Satuan (Rp)'} type='number' name='hargaBenihPerBuah' id='hargaBenihPerBuah' errorMsg={error.hargaBenihPerBuah} 
                     placeholder='Harga Benih' value ={inputTrx.hargaBenihPerBuah}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima} 
-                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
-
                   <div className="dropdown-container">
                     <div className="label-form">
                       <label>Penerima<span style={{color: 'red'}}>*</span></label>
@@ -123,14 +121,17 @@ function TransaksiForm() {
                     <Select
                       options={arrayAktor}
                       placeholder="Penerima"
-                      value={text}
-                      onChange={x => setText(x.username)}
+                      value={placeholder}
+                      onChange={handleSelect}
                       isSearchable={true}
                       className="select"
                     />
-                    {/* {errorMsg && <span className='err'>{errorMsg}</span>} */}
                   </div>
                         
+                  <input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' onBlur={validateInput} hidden
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima = selectedUser}  onChange={handleChange} />
+                  {error.namaPenerima && <span className='err'>{error.namaPenerima}</span>}
+
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
                     {checkList.map((item, index) => (
@@ -152,8 +153,23 @@ function TransaksiForm() {
                   <Input  label={'Harga Mangga per Kg (Rp)'} type='number' name='hargaManggaPerKg' id='hargaManggaPerKg' errorMsg={error.hargaManggaPerKg} 
                     placeholder='Harga Mangga' value ={inputTrx.hargaManggaPerKg}  onChange={handleChange} onBlur={validateInput} />
 
-                  <Input label={'Username Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
-                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
+                  <div className="dropdown-container">
+                    <div className="label-form">
+                      <label>Penerima<span style={{color: 'red'}}>*</span></label>
+                    </div>
+                    <Select
+                      options={arrayAktor}
+                      placeholder="Penerima"
+                      value={placeholder}
+                      onChange={handleSelect}
+                      isSearchable={true}
+                      className="select"
+                    />
+                  </div>
+                        
+                  <input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' onBlur={validateInput} hidden
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima = selectedUser}  onChange={handleChange} />
+                  {error.namaPenerima && <span className='err'>{error.namaPenerima}</span>}
 
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
@@ -188,9 +204,24 @@ function TransaksiForm() {
                     placeholder='Pengangkutan' value ={inputTrx.pengangkutan}  onChange={handleChange} onBlur={validateInput} />
                   </>: null }
 
-                  <Input label={'Username Penerima'} type='text' name='namaPenerima' id='namaPenerima' errorMsg={error.namaPenerima}
-                    placeholder='Username Penerima' value ={inputTrx.namaPenerima}  onChange={handleChange} onBlur={validateInput} />
-                      
+                  <div className="dropdown-container">
+                    <div className="label-form">
+                      <label>Penerima<span style={{color: 'red'}}>*</span></label>
+                    </div>
+                    <Select
+                      options={arrayAktor}
+                      placeholder="Penerima"
+                      value={placeholder}
+                      onChange={handleSelect}
+                      isSearchable={true}
+                      className="select"
+                    />
+                  </div>
+                        
+                  <input label={'Penerima'} type='text' name='namaPenerima' id='namaPenerima' onBlur={validateInput} hidden
+                    placeholder='Username Penerima' value ={inputTrx.namaPenerima = selectedUser}  onChange={handleChange} />
+                  {error.namaPenerima && <span className='err'>{error.namaPenerima}</span>}
+
                   <div>
                     <p>Metode Pembayaran : <span style={{color: 'red'}}>*</span> </p>
                     {checkList.map((item, index) => (
