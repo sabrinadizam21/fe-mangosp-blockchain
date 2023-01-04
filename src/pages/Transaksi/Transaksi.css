@@ -125,3 +125,20 @@ select {
     }
     
 }
+
+
+.css-13cymwt-control {
+    /* background: transparent; */
+    border: 1px solid var(--primary) !important;
+    /* box-sizing: border-box; */
+    /* border-radius: 4px; */
+    width: 100% !important;
+    height: 32px !important;
+    /* padding: 20px 10px !important; */
+    font-size: 14px;
+    color: black;
+}
+
+.dropdown-container{
+    margin-bottom: 20px;
+}
